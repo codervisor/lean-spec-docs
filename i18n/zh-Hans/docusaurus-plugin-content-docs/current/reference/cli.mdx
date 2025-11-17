@@ -509,6 +509,90 @@ lean-spec board
 
 ---
 
+### `lean-spec tokens`
+
+为 LLM 上下文管理统计规范的令牌数。
+
+```bash
+lean-spec tokens [spec] [options]
+```
+
+**参数：**
+- `[spec]` - 规范标识符（可选）。可以是：
+  - 规范编号：`42` 或 `042`
+  - 规范名称：`unified-dashboard`
+  - 完整文件夹：`045-unified-dashboard`
+  - 省略时显示所有规范的令牌统计
+
+**选项：**
+- `--detailed` - 显示内容拆分（正文、代码、表格、前置元数据）
+- `--include-sub-specs` - 在计数中包含子规范文件
+- `--all` - 显示所有规范（不仅限于活动状态）
+- `--sort-by <field>` - 排序字段：`tokens`、`lines`、`name`（默认：`tokens`）
+- `--json` - 以 JSON 输出
+
+**示例：**
+
+```bash
+# 统计特定规范
+lean-spec tokens 045
+lean-spec tokens unified-dashboard
+
+# 查看详细拆分
+lean-spec tokens 045 --detailed
+
+# 包含子规范文件
+lean-spec tokens 045 --include-sub-specs
+
+# 按令牌数查看所有规范
+lean-spec tokens
+lean-spec tokens --all
+
+# 用于脚本的 JSON 输出
+lean-spec tokens 045 --json
+```
+
+**输出：**
+```
+📊 令牌统计：045-unified-dashboard
+
+  总计：2,847 tokens ✅
+
+文件：
+
+  README.md                 1,923 tokens (287 行)
+  DESIGN.md                   654 tokens (98 行)
+  TESTING.md                  270 tokens (41 行)
+
+内容拆分：
+
+  正文        2,145 tokens  (75%)
+  代码          523 tokens  (18%)
+  表格          156 tokens  (5%)
+  前置元数据      23 tokens  (1%)
+```
+
+**性能指示：**
+- ✅ 优秀 (&lt;2,000 tokens) - 基线 AI 表现（100% 有效）
+- 👍 良好 (2,000-3,500 tokens) - 轻微退化，可接受（95% 有效）
+- ⚠️ 警告 (3,500-5,000 tokens) - 考虑拆分或精简（85% 有效）
+- 🔴 问题 (&gt;5,000 tokens) - 应拆分（70% 有效）
+
+**使用场景：**
+- 检查规范是否适合 AI 上下文窗口
+- 识别需要拆分的规范
+- 在加载到 AI 工具前了解令牌成本
+- 监控规范复杂度随时间的变化
+- 验证规范是否符合上下文经济阈值
+
+**为什么关心令牌数：**
+- 令牌是 LLM 上下文衡量的行业标准
+- 研究表明质量在达到上下文极限之前就会下降
+- 代码更密集（≈3 字符/令牌）而正文更稀疏（≈4 字符/令牌）
+- 高低令牌规范之间存在 6 倍的成本差异
+
+---
+
 ### `lean-spec deps`
 
 显示规范的依赖关系（即将推出）。
