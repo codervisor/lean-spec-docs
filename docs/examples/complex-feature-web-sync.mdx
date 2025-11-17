@@ -5,10 +5,20 @@ title: Complex Feature - Web Realtime Sync
 
 # Complex Feature: Web Realtime Sync Architecture
 
-**Spec**: [082-web-realtime-sync-architecture](https://github.com/codervisor/lean-spec/tree/main/specs/082-web-realtime-sync-architecture)  
-**Status**: ⏳ In Progress  
-**Complexity**: High  
-**Duration**: Multi-phase (3+ weeks)
+:::info Example Profile
+- **Spec**: [082-web-realtime-sync-architecture](https://web.lean-spec.dev/specs/082-web-realtime-sync-architecture)
+- **Type**: Architecture / Complex Feature
+- **Complexity**: High (requires sub-specs)
+- **Time to complete**: Multi-phase (~3+ weeks)
+- **Filters**: `Complex` `Architecture` `Sub-specs` `AI Pairing`
+- **Best for**: Teams planning realtime sync, caching, or hybrid data pipelines.
+:::
+
+## Learning Objectives
+
+- Structure a dual-mode architecture spec that stays readable by splitting DESIGN details.
+- Capture long-running work in phased milestones that AI agents can execute in parallel.
+- Understand how to document rate limits, caching strategies, and service abstractions for future contributors.
 
 ## Context
 
@@ -80,7 +90,7 @@ This was a **critical architectural decision** for the v0.3.0 release. Getting i
 **Main spec**: 3,847 tokens (within acceptable range)
 **With DESIGN.md**: 6,200+ tokens (needs splitting)
 
-[View full spec →](https://github.com/codervisor/lean-spec/blob/main/specs/082-web-realtime-sync-architecture/README.md)
+[View full spec →](https://web.lean-spec.dev/specs/082-web-realtime-sync-architecture)
 
 ## Implementation
 
@@ -370,6 +380,6 @@ Want to tackle a complex architectural decision?
 4. **Defer complexity** - Ship Phase 1, learn, then build Phase 2
 5. **Monitor token counts** - Run `lean-spec tokens <spec>` frequently
 
-**Template**: Use [spec 082](https://github.com/codervisor/lean-spec/tree/main/specs/082-web-realtime-sync-architecture) as a template for architectural decisions that need phased implementation.
+**Template**: Use [spec 082](https://web.lean-spec.dev/specs/082-web-realtime-sync-architecture) as a template for architectural decisions that need phased implementation.
 
 **Key Question**: Can you ship a simpler version that validates the architecture? Start there.

@@ -1,0 +1,31 @@
+---
+title: Spec
+sidebar_position: 1
+---
+# Spec
+
+A **spec** is a lightweight document that captures intent, constraints, and success criteria for a unit of work. It is written so that both humans and AI agents can understand what needs to happen next.
+
+## Why It Matters
+- Acts as persistent memory across handoffs and AI sessions
+- Forces clarity on the problem before implementation begins
+- Enables autonomous work by outlining success criteria and guardrails
+
+## Anatomy of a LeanSpec
+1. **Frontmatter** — machine-readable metadata (status, priority, tags)
+2. **Overview** — the problem, why it matters, and desired outcome
+3. **Plan** — phases, implementation notes, or acceptance criteria
+4. **Test / Validation** — how to confirm the work is done
+
+Keep the main README under ~300 lines (≈2,000 tokens) and push details into sub-spec files when needed.
+
+## Quick Example
+```markdown
+# 042-api-rate-limiting
+Implement token bucket rate limiting (100 req/min per API key)
+to protect the API from abuse by 2% of heavy users.
+```
+
+## See Also
+- [What Is LeanSpec?](/docs/guide/what-is-leanspec)
+- [Spec Structure](/docs/guide/usage/essential-usage/spec-structure)

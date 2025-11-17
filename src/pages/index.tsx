@@ -36,7 +36,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/tutorials/your-first-spec">
+            to="/docs/tutorials/writing-first-spec-with-ai">
             <Translate
               id="homepage.quickStart"
               description="Quick Start button on homepage">
@@ -82,14 +82,14 @@ export default function Home(): ReactNode {
                 <Heading as="h2" className="margin-bottom--md">
                   <Translate
                     id="homepage.caseStudies.title"
-                    description="Case Studies section title">
+                    description="Real-World Examples section title">
                     See SDD in Action
                   </Translate>
                 </Heading>
                 <p className="margin-bottom--lg" style={{fontSize: '1.1rem'}}>
                   <Translate
                     id="homepage.caseStudies.description"
-                    description="Case Studies section description">
+                    description="Real-World Examples section description">
                     Learn from real-world examples of how LeanSpec itself uses SDD. 
                     From simple features to complex refactors, see how specs guide implementation.
                   </Translate>
@@ -97,11 +97,11 @@ export default function Home(): ReactNode {
                 <div className={styles.buttons}>
                   <Link
                     className="button button--primary button--lg"
-                    to="/docs/case-studies">
+                    to="/docs/examples">
                     <Translate
                       id="homepage.caseStudies.button"
-                      description="View Case Studies button">
-                      View Case Studies →
+                      description="View Examples button">
+                      View Real-World Examples →
                     </Translate>
                   </Link>
                 </div>

@@ -5,10 +5,20 @@ title: Refactoring - Monorepo Core Extraction
 
 # Refactoring: Monorepo Core Extraction
 
-**Spec**: [067-monorepo-core-extraction](https://github.com/codervisor/lean-spec/tree/main/specs/067-monorepo-core-extraction)  
-**Status**: ✅ Complete  
-**Complexity**: High  
-**Duration**: 1 week
+:::info Example Profile
+- **Spec**: [067-monorepo-core-extraction](https://web.lean-spec.dev/specs/067-monorepo-core-extraction)
+- **Type**: Refactor / Platform Extraction
+- **Complexity**: High (breaking change)
+- **Time to complete**: ~1 week
+- **Filters**: `Complex` `Refactor` `Breaking Change`
+- **Best for**: Teams splitting shared logic into packages without halting feature work.
+:::
+
+## Learning Objectives
+
+- Plan a breaking change with clear dependency sequencing and rollback plans.
+- Capture adapter abstractions so AI agents can implement new storage backends safely.
+- Coordinate CLI, core, and web packages without letting work-in-progress regressions leak.
 
 ## Context
 
@@ -137,7 +147,7 @@ export default defineConfig({
 
 **Why this matters**: Published CLI package is self-contained, no `workspace:*` dependencies.
 
-[View full spec →](https://github.com/codervisor/lean-spec/blob/main/specs/067-monorepo-core-extraction/README.md)
+[View full spec →](https://web.lean-spec.dev/specs/067-monorepo-core-extraction)
 
 ## Implementation
 
@@ -570,7 +580,7 @@ Want to refactor with confidence?
 4. **Document build configuration** - Non-obvious decisions need explanation
 5. **Have rollback plan** - Spec should include how to undo changes
 
-**Template**: Use [spec 067](https://github.com/codervisor/lean-spec/tree/main/specs/067-monorepo-core-extraction) as a template for breaking refactors that need careful coordination.
+**Template**: Use [spec 067](https://web.lean-spec.dev/specs/067-monorepo-core-extraction) as a template for breaking refactors that need careful coordination.
 
 **Key Questions**:
 - What breaks if this goes wrong?

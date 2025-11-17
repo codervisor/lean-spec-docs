@@ -1,0 +1,30 @@
+---
+title: Sub-Specs
+sidebar_position: 4
+---
+# Sub-Specs
+
+Sub-specs are additional Markdown files inside a spec directory (for example `DESIGN.md`, `TESTING.md`, `IMPLEMENTATION.md`). They let you keep the main README concise while still capturing depth.
+
+## When to Create One
+- README exceeds ~300 lines or 2,000 tokens.
+- Detailed content (design diagrams, migration steps) would distract from the overview.
+- Different audiences need different depths (exec summary vs. implementation detail).
+
+## Common Patterns
+```
+specs/082-web-sync/
+  README.md          # Overview + decision context
+  DESIGN.md          # Architecture diagrams and flows
+  IMPLEMENTATION.md  # Phases or task list
+  TESTING.md         # Test plan, coverage strategy
+```
+
+## Benefits
+- Preserves Context Economy by partitioning detail.
+- Lets AI agents retrieve only the file they need.
+- Encourages progressive disclosure—add structure when pain is felt.
+
+## See Also
+- [Spec Structure](/docs/guide/usage/essential-usage/spec-structure)
+- [Context Engineering](/docs/advanced/context-engineering)

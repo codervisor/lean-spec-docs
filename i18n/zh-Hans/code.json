@@ -395,15 +395,15 @@
     "description": "Rich Tooling feature description"
   },
   "homepage.caseStudies.title": {
-    "message": "实战案例",
-    "description": "Case Studies section title"
+    "message": "SDD 实战示例",
+    "description": "Real-World Examples section title"
   },
   "homepage.caseStudies.description": {
-    "message": "从真实案例中学习 LeanSpec 如何使用 SDD。从简单功能到复杂重构,了解规范如何指导实现。",
-    "description": "Case Studies section description"
+    "message": "通过真实示例了解 LeanSpec 如何实践 SDD。从轻量功能到复杂重构,理解规范如何驱动实现。",
+    "description": "Real-World Examples section description"
   },
   "homepage.caseStudies.button": {
-    "message": "查看案例研究 →",
-    "description": "View Case Studies button"
+    "message": "查看真实案例 →",
+    "description": "View Real-World Examples button"
   }
 }
