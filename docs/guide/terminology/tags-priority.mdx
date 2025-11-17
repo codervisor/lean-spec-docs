@@ -1,0 +1,32 @@
+---
+title: Tags & Priority
+sidebar_position: 6
+---
+# Tags & Priority
+
+Tags and priority values make specs filterable and help teams focus.
+
+## Tags
+Add descriptive labels that help you slice work quickly.
+```yaml
+tags: [api, backend, security]
+```
+- Use consistent vocabulary (`frontend`, `backend`, `docs`).
+- Keep to 2-4 tags per spec for clarity.
+- Combine with `lean-spec list --tag <tag>` to spotlight relevant specs.
+
+## Priority
+Express urgency or business impact.
+```yaml
+priority: high
+```
+Typical levels: `low`, `medium`, `high`, `critical`. Update priority when reality changes—old values cause planning debt.
+
+## Why They Matter
+- Drive board views, dashboards, and AI triage prompts.
+- Help AI agents pick the next most valuable spec.
+- Provide lightweight alignment without separate spreadsheets.
+
+## See Also
+- [Project Management → Board & Stats](/docs/guide/usage/project-management/board-stats)
+- [Custom Fields](/docs/guide/usage/advanced-features/custom-fields)

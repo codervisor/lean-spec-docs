@@ -1,0 +1,112 @@
+---
+title: Writing Your First Spec with AI
+sidebar_position: 1
+description: Partner with GitHub Copilot Agent Mode to turn intent into a LeanSpec in under 10 minutes
+---
+
+# Writing Your First Spec with AI
+
+**Time**: 10-15 minutes  
+**Goal**: Provide intent, let Copilot Agent Mode draft the spec, and land with a reviewed LeanSpec ready for implementation.
+
+> 🎥 Video walkthrough (Loom) — coming soon. Each step below references the timestamp we cover in the demo.
+
+## Prerequisites
+- VS Code with [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code) enabled
+- LeanSpec CLI installed globally (`npm install -g lean-spec`) or locally (`npx lean-spec`)
+- A workspace containing a `specs/` directory (run `lean-spec init` if you are starting fresh)
+
+## Step 1: Share Intent with the Agent (00:30)
+Open VS Code, focus the agent panel, and paste your intent. Example prompt:
+
+```
+I want to add passwordless login (magic links) to our SaaS dashboard.
+Help me draft a LeanSpec that states the problem, why it matters,
+constraints (must keep current MFA), and success criteria for both backend
+and UX. Keep it under 2,000 tokens.
+```
+
+The agent will request the AGENTS.md instructions if it has not seen them. Approve the file share so it understands project conventions.
+
+## Step 2: Let the Agent Outline the Spec (02:10)
+Ask the agent to produce an outline before writing full text:
+
+```
+Summarize the spec outline first: Overview, Why Now, Requirements,
+Risks, Validation, and Plan. Wait for my approval before expanding sections.
+```
+
+Review the outline. If something is missing (for example, "Email service limits"), ask the agent to add it before continuing.
+
+## Step 3: Generate the Draft (04:00)
+Give the go-ahead:
+
+```
+Looks good. Fill in each section with actionable content and include checklists
+for implementation and validation.
+```
+
+The agent writes the spec inline. Copy the content into `specs/###-feature/README.md` (use `lean-spec create passwordless-login` if the spec directory does not exist yet).
+
+## Step 4: Review with Lean Principles (06:30)
+Walk through the draft and check:
+
+- **Context Economy** — Is the spec under ~300 lines? If not, ask the agent which sections should move to a sub-spec.
+- **Signal-to-Noise** — Remove repetition and marketing fluff.
+- **Intent Over Implementation** — Ensure "why" is clear before "how".
+
+Helpful prompts:
+
+```
+Rewrite the Goals section so each bullet explains the user impact in one sentence.
+
+Suggest a DESIGN.md extraction if we wanted to include sequence diagrams.
+```
+
+## Step 5: Validate and Set Status (08:45)
+Once the content looks good:
+
+```bash
+lean-spec validate passwordless-login
+lean-spec update passwordless-login --status planned
+```
+
+Share the validation output with the agent if there are warnings. Example prompt:
+
+```
+Validation warns that the spec is 2,450 tokens. Reduce the Plan section by
+merging related tasks.
+```
+
+## Step 6: Capture AI/Human Responsibilities (10:00)
+Close the loop by documenting who does what:
+
+- Add a `## Implementation Plan` with checkboxes for human-owned steps.
+- Add an `## AI Handoff` section summarizing the files the agent should modify later.
+
+Prompt idea:
+
+```
+Add an "AI Handoff" section that lists the repo paths the Copilot agent
+should touch when it implements this spec.
+```
+
+## Final Checklist
+- ☐ Frontmatter set with status `planned`, tags, and priority
+- ☐ Spec < 2,000 tokens or split into sub-specs
+- ☐ Success criteria and validation steps are explicit
+- ☐ AI Handoff section lists next commands/files
+- ☐ `lean-spec validate` passes
+
+## What You Learned
+✅ How to use Copilot Agent Mode as a spec co-author  
+✅ How to keep AI output aligned with LeanSpec first principles  
+✅ How to ground the agent with AGENTS.md and validation feedback  
+✅ How to hand the finished spec back to humans/AI for implementation
+
+## Next Tutorials
+1. [AI-Assisted Feature Development →](./ai-assisted-feature-development)
+2. [Managing Multiple Specs with AI →](./managing-multiple-specs-with-ai)
+3. [Team Collaboration with AI Agents →](./team-collaboration-ai-agents)
+
+Need more context? Revisit [What Is LeanSpec?](/docs/guide/what-is-leanspec) or [SDD Workflow](/docs/guide/terminology/sdd-workflow).

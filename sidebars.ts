@@ -21,14 +21,33 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Tutorials',
+      items: [
+        'tutorials/writing-first-spec-with-ai',
+        'tutorials/ai-assisted-feature-development',
+        'tutorials/managing-multiple-specs-with-ai',
+        'tutorials/team-collaboration-ai-agents',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Core Concepts',
       items: [
-        'guide/understanding',
-        'guide/first-principles',
-        'guide/context-engineering',
-        'guide/ai-agent-memory',
-        'guide/philosophy',
-        'guide/limits-and-tradeoffs',
+        'guide/what-is-leanspec',
+        'guide/understanding-specs',
+        {
+          type: 'category',
+          label: 'Terminology',
+          items: [
+            'guide/terminology/index',
+            'guide/terminology/spec',
+            'guide/terminology/status',
+            'guide/terminology/sdd-workflow',
+            'guide/terminology/sub-specs',
+            'guide/terminology/dependencies',
+            'guide/terminology/tags-priority',
+          ],
+        },
       ],
     },
     {
@@ -75,8 +94,32 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'Advanced Topics',
+      items: [
+        'advanced/first-principles',
+        'advanced/context-engineering',
+        'advanced/ai-agent-memory',
+        'advanced/philosophy',
+        'advanced/limits-and-tradeoffs',
+      ],
+    },
     'roadmap',
     'faq',
+  ],
+  examplesSidebar: [
+    {
+      type: 'category',
+      label: 'Real-World Examples',
+      items: [
+        'examples/index',
+        'examples/simple-feature-token-validation',
+        'examples/complex-feature-web-sync',
+        'examples/refactoring-monorepo-core',
+        'examples/cross-team-official-launch',
+      ],
+    },
   ],
   referenceSidebar: [
     'reference/cli',

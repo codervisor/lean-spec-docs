@@ -1,0 +1,155 @@
+---
+title: Managing Multiple Specs with AI
+sidebar_position: 3
+description: Coordinate dependencies, priorities, and AI agents across several specs at once.
+---
+
+# Managing Multiple Specs with AI
+
+**Time**: 20-25 minutes  
+**Goal**: Use LeanSpec metadata + Copilot Agent Mode to keep four interdependent specs moving without losing track of blockers.
+
+## Scenario
+Roadmap items:
+1. `user-authentication` — login/signup
+2. `shopping-cart` — depends on authentication
+3. `product-catalog-api` — backend feed
+4. `product-search` — depends on catalog, related to cart
+
+## Step 1: Let AI Build the Relationship Graph (02:00)
+
+```bash
+lean-spec list --json > .lean-spec/cache/specs.json
+```
+
+Prompt:
+
+```
+Load .lean-spec/cache/specs.json and propose dependencies/relationships for the four specs we just created.
+Return commands I can run with `lean-spec link`.
+```
+
+Paste the suggested commands (review before running):
+
+```bash
+lean-spec link shopping-cart --depends-on user-authentication
+lean-spec link product-search --depends-on product-catalog-api
+lean-spec link product-search --related shopping-cart
+```
+
+## Step 2: Capture Priority + Tags via Agent (05:00)
+Ask the agent:
+
+```
+Set priority/tags based on dependency criticality. Output `lean-spec update` commands only.
+```
+
+Example output:
+
+```bash
+lean-spec update user-authentication --priority high --tags "auth,backend"
+lean-spec update product-catalog-api --priority high --tags "catalog,backend"
+lean-spec update shopping-cart --priority medium --tags "cart,frontend"
+lean-spec update product-search --priority low --tags "search,frontend"
+```
+
+Run the commands, then confirm with `lean-spec list`.
+
+## Step 3: Use AI to Summarize the Board (08:00)
+
+```bash
+lean-spec board --json > .lean-spec/cache/board.json
+```
+
+Prompt:
+
+```
+Given board.json, summarize blockers and recommend next actions.
+Highlight any high-priority specs that are still planned.
+```
+
+Example summary:
+- `user-authentication` — high priority, planned → should start now
+- `product-catalog-api` — high priority, planned → run in parallel
+- `shopping-cart` — blocked (depends on auth)
+- `product-search` — lower priority, but related to cart for shared components
+
+Update statuses accordingly:
+
+```bash
+lean-spec update user-authentication --status in-progress
+lean-spec update product-catalog-api --status in-progress
+```
+
+## Step 4: Ask AI to Monitor Dependencies (12:00)
+Whenever a spec status changes, run:
+
+```bash
+lean-spec deps shopping-cart --json > .lean-spec/cache/cart-deps.json
+```
+
+Prompt idea:
+
+```
+Analyze cart-deps.json. Are all blocking specs complete? If yes, craft the command to mark shopping-cart as in-progress and draft a kickoff checklist I can paste into the spec.
+```
+
+Result:
+- Command: `lean-spec update shopping-cart --status in-progress`
+- Checklist snippet to add under `## Plan`
+
+## Step 5: Multi-Spec Status Review Ritual (15:00)
+Create a reusable agent macro/text snippet:
+
+```
+Run:
+1. lean-spec board --json
+2. lean-spec stats --json
+3. lean-spec search "priority:high status:planned" --json
+
+Combine the results and tell me:
+- Which specs are ready but unstarted
+- Which in-progress specs have no recent updates
+- Any dependencies that remain unresolved
+```
+
+Use this check at stand-ups or before starting a new coding session.
+
+## Step 6: Close Specs with AI Assistance (20:00)
+After a spec is implemented:
+
+```bash
+lean-spec update user-authentication --status complete
+lean-spec view user-authentication --json > .lean-spec/cache/auth.json
+```
+
+Prompt:
+
+```
+Using auth.json, write a short Outcome section summarizing what changed, metrics, and follow-ups. Keep it under 120 words.
+```
+
+Append the summary to the spec so future readers (and AI) see how the work ended.
+
+## Toolkit Recap
+
+| Need | Command | Agent Prompt |
+| --- | --- | --- |
+| Discover relationships | `lean-spec list --json` | "Suggest dependencies/relationships as commands." |
+| Prioritize | `lean-spec update --priority ...` | "Assign priorities based on blockers." |
+| Spot blockers | `lean-spec deps <spec> --json` | "Explain what keeps this spec from moving." |
+| Focus stand-up | `lean-spec board --json` | "Summarize statuses + next actions." |
+| Close loop | `lean-spec view <spec> --json` | "Draft outcome summary + follow-ups." |
+
+## Checklist
+- ☐ Every dependency recorded with `lean-spec link --depends-on`
+- ☐ Related work mapped with `--related`
+- ☐ Priorities/tags reflect reality (AI can suggest updates)
+- ☐ Board reviewed in JSON + summarized by AI
+- ☐ Blocked specs note their blockers inside the README
+- ☐ Completed specs include outcome notes
+
+## What’s Next
+1. [Team Collaboration with AI Agents →](./team-collaboration-ai-agents)
+2. Automate your ritual with a VS Code task that runs the JSON exports before each session
+3. Revisit [Dependencies Guide](/docs/guide/usage/project-management/dependencies) for deeper automation ideas

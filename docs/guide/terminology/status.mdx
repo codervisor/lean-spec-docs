@@ -1,0 +1,35 @@
+---
+title: Status
+sidebar_position: 2
+---
+# Status
+
+A spec's **status** communicates where the work stands in the Spec-Driven Development (SDD) workflow.
+
+## Default Lifecycle
+1. **planned** — intent captured, implementation not started.
+2. **in-progress** — work is actively happening.
+3. **blocked** — external dependency is preventing progress.
+4. **complete** — implementation finished and validated.
+5. **archived** — historical reference only.
+
+Keep status accurate. Update it the moment implementation starts (not when the spec is written) and again when the work finishes.
+
+## Why Status Matters
+- Enables board and timeline views to reflect reality.
+- Helps AI agents decide which specs are safe to modify.
+- Gives teams instant visibility without meetings.
+
+## Example Frontmatter
+```yaml
+---
+status: in-progress
+created: 2025-11-16
+priority: high
+tags: [api, backend]
+---
+```
+
+## See Also
+- [SDD Workflow](/docs/guide/terminology/sdd-workflow)
+- [Project Management → Board & Stats](/docs/guide/usage/project-management/board-stats)
