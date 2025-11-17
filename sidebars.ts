@@ -86,6 +86,17 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'Case Studies',
+      items: [
+        'case-studies/index',
+        'case-studies/simple-feature-token-validation',
+        'case-studies/complex-feature-web-sync',
+        'case-studies/refactoring-monorepo-core',
+        'case-studies/cross-team-official-launch',
+      ],
+    },
     'roadmap',
     'faq',
   ],
