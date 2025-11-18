@@ -32,19 +32,19 @@
     "description": "The label for category 'AI-Assisted Workflows' in sidebar 'guideSidebar'"
   },
   "sidebar.guideSidebar.category.Tutorials": {
-    "message": "Tutorials",
+    "message": "教程",
     "description": "The label for category 'Tutorials' in sidebar 'guideSidebar'"
   },
   "sidebar.guideSidebar.category.Terminology": {
-    "message": "Terminology",
+    "message": "术语",
     "description": "The label for category 'Terminology' in sidebar 'guideSidebar'"
   },
   "sidebar.guideSidebar.category.Advanced Topics": {
-    "message": "Advanced Topics",
+    "message": "高级主题",
     "description": "The label for category 'Advanced Topics' in sidebar 'guideSidebar'"
   },
   "sidebar.examplesSidebar.category.Real-World Examples": {
-    "message": "Real-World Examples",
+    "message": "实战案例",
     "description": "The label for category 'Real-World Examples' in sidebar 'examplesSidebar'"
   }
 }
