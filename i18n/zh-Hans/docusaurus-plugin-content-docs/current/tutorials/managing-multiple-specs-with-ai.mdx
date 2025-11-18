@@ -1,0 +1,155 @@
+---
+title: 使用 AI 管理多个规范
+sidebar_position: 3
+description: 在多个规范中协调依赖关系、优先级和 AI 代理。
+---
+
+# 使用 AI 管理多个规范
+
+**时间**：20-25 分钟  
+**目标**：使用 LeanSpec 元数据 + Copilot Agent 模式，在四个相互依赖的规范中保持跟踪，而不会丢失阻碍因素的轨迹。
+
+## 场景
+路线图项目：
+1. `user-authentication` — 登录/注册
+2. `shopping-cart` — 依赖于身份验证
+3. `product-catalog-api` — 后端数据源
+4. `product-search` — 依赖于目录，与购物车相关
+
+## 步骤 1：让 AI 构建关系图（02:00）
+
+```bash
+lean-spec list --json > .lean-spec/cache/specs.json
+```
+
+提示：
+
+```
+加载 .lean-spec/cache/specs.json 并为我们刚创建的四个规范提议依赖关系/关系。
+返回我可以使用 `lean-spec link` 运行的命令。
+```
+
+粘贴建议的命令（运行前审查）：
+
+```bash
+lean-spec link shopping-cart --depends-on user-authentication
+lean-spec link product-search --depends-on product-catalog-api
+lean-spec link product-search --related shopping-cart
+```
+
+## 步骤 2：通过代理捕获优先级 + 标签（05:00）
+询问代理：
+
+```
+根据依赖关键性设置优先级/标签。仅输出 `lean-spec update` 命令。
+```
+
+示例输出：
+
+```bash
+lean-spec update user-authentication --priority high --tags "auth,backend"
+lean-spec update product-catalog-api --priority high --tags "catalog,backend"
+lean-spec update shopping-cart --priority medium --tags "cart,frontend"
+lean-spec update product-search --priority low --tags "search,frontend"
+```
+
+运行命令，然后使用 `lean-spec list` 确认。
+
+## 步骤 3：使用 AI 总结看板（08:00）
+
+```bash
+lean-spec board --json > .lean-spec/cache/board.json
+```
+
+提示：
+
+```
+给定 board.json，总结阻碍因素并推荐下一步行动。
+突出显示仍处于计划状态的任何高优先级规范。
+```
+
+示例摘要：
+- `user-authentication` — 高优先级，已计划 → 应该现在开始
+- `product-catalog-api` — 高优先级，已计划 → 并行运行
+- `shopping-cart` — 已阻塞（依赖于身份验证）
+- `product-search` — 较低优先级，但与购物车相关，用于共享组件
+
+相应更新状态：
+
+```bash
+lean-spec update user-authentication --status in-progress
+lean-spec update product-catalog-api --status in-progress
+```
+
+## 步骤 4：要求 AI 监控依赖关系（12:00）
+每当规范状态更改时，运行：
+
+```bash
+lean-spec deps shopping-cart --json > .lean-spec/cache/cart-deps.json
+```
+
+提示想法：
+
+```
+分析 cart-deps.json。所有阻塞规范都完成了吗？如果是，制作命令将 shopping-cart 标记为进行中，并起草我可以粘贴到规范中的启动检查清单。
+```
+
+结果：
+- 命令：`lean-spec update shopping-cart --status in-progress`
+- 要添加到 `## 计划` 下的检查清单片段
+
+## 步骤 5：多规范状态审查仪式（15:00）
+创建可重用的代理宏/文本片段：
+
+```
+运行：
+1. lean-spec board --json
+2. lean-spec stats --json
+3. lean-spec search "priority:high status:planned" --json
+
+组合结果并告诉我：
+- 哪些规范已准备好但未启动
+- 哪些进行中的规范最近没有更新
+- 任何未解决的依赖关系
+```
+
+在站会或开始新编码会话之前使用此检查。
+
+## 步骤 6：使用 AI 协助关闭规范（20:00）
+规范实现后：
+
+```bash
+lean-spec update user-authentication --status complete
+lean-spec view user-authentication --json > .lean-spec/cache/auth.json
+```
+
+提示：
+
+```
+使用 auth.json，编写一个简短的结果部分，总结发生了什么变化、指标和后续工作。保持在 120 字以下。
+```
+
+将摘要附加到规范，以便未来读者（和 AI）看到工作如何结束。
+
+## 工具包回顾
+
+| 需求 | 命令 | 代理提示 |
+| --- | --- | --- |
+| 发现关系 | `lean-spec list --json` | "建议依赖关系/关系作为命令。" |
+| 优先排序 | `lean-spec update --priority ...` | "根据阻碍因素分配优先级。" |
+| 发现阻碍因素 | `lean-spec deps <spec> --json` | "解释什么阻止了此规范移动。" |
+| 聚焦站会 | `lean-spec board --json` | "总结状态 + 下一步行动。" |
+| 关闭循环 | `lean-spec view <spec> --json` | "起草结果摘要 + 后续工作。" |
+
+## 检查清单
+- ☐ 每个依赖关系都用 `lean-spec link --depends-on` 记录
+- ☐ 相关工作用 `--related` 映射
+- ☐ 优先级/标签反映现实（AI 可以建议更新）
+- ☐ 在 JSON 中审查看板 + 由 AI 总结
+- ☐ 被阻塞的规范在 README 中注明其阻碍因素
+- ☐ 已完成的规范包括结果说明
+
+## 接下来
+1. [与 AI 代理的团队协作 →](./team-collaboration-ai-agents)
+2. 使用 VS Code 任务自动化你的仪式，在每个会话之前运行 JSON 导出
+3. 重新访问[依赖关系指南](/docs/guide/usage/project-management/dependencies)以获取更深入的自动化想法
