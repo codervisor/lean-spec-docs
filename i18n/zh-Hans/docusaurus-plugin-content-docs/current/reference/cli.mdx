@@ -611,6 +611,93 @@ lean-spec deps <spec>
 
 ---
 
+### `lean-spec ui`
+
+启动本地网页 UI 进行可视化规范管理。
+
+```bash
+lean-spec ui [选项]
+```
+
+**选项：**
+- `-s, --specs <dir>` - 规范目录（如果省略则自动检测）
+- `-p, --port <port>` - 运行端口（默认：3000）
+- `--no-open` - 不自动打开浏览器
+- `--dev` - 开发模式（仅限 LeanSpec monorepo）
+- `--dry-run` - 显示命令而不执行
+
+**示例：**
+
+```bash
+# 自动检测规范，在 3000 端口打开
+lean-spec ui
+
+# 自定义目录和端口
+lean-spec ui --specs ./docs/specs --port 3100
+
+# 不自动打开浏览器
+lean-spec ui --no-open
+
+# 查看将运行的命令
+lean-spec ui --dry-run
+```
+
+**功能特性：**
+- **规范浏览器**：列出、搜索和筛选所有规范
+- **依赖关系图**：可视化规范之间的关系
+- **看板视图**：按状态组织的看板式视图
+- **丰富格式**：带语法高亮的完整 markdown 渲染
+- **实时更新**：更改自动显示（60秒缓存）
+
+**工作原理：**
+
+在外部项目中：
+- 委托给 `npx @leanspec/ui`
+- 无需额外安装
+- 使用文件系统模式（直接文件读取）
+
+在 LeanSpec monorepo 中：
+- 在开发中运行本地 `packages/web`
+- 用于测试 UI 更改
+
+**自动检测：**
+
+命令自动搜索您的规范目录：
+1. `--specs` 选项（如果提供）
+2. 当前目录中的 `specs/`
+3. `../specs/`（父目录）
+4. `../../specs/`（祖父目录）
+
+**浏览器控制：**
+
+默认情况下，命令会打开您的默认浏览器。使用 `--no-open` 来阻止这一行为，然后手动导航到 `http://localhost:3000`（或您的自定义端口）。
+
+**端口冲突：**
+
+如果端口 3000 已被使用：
+```bash
+# 使用不同端口
+lean-spec ui --port 3100
+
+# 或停止使用端口 3000 的进程
+# macOS/Linux：
+lsof -ti:3000 | xargs kill
+# Windows：
+netstat -ano | findstr :3000
+# 然后：taskkill /PID <PID> /F
+```
+
+**用例：**
+- 可视化探索和发现规范
+- 团队演示和展示
+- 利益相关者审查
+- 依赖关系分析
+- 无需 CLI 命令的快速规范浏览
+
+→ **了解更多**：查看[可视化模式指南](/docs/guide/visual-mode)了解详细使用方法，查看 [UI 包参考](/docs/reference/ui-package)了解技术细节。
+
+---
+
 ## 规范标识符
 
 接受 `<spec>` 参数的所有命令都支持灵活格式：
