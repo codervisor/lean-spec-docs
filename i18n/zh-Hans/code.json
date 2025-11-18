@@ -259,11 +259,11 @@
     "description": "The ARIA label for hamburger menu button of mobile navigation"
   },
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
-    "message": "Expand the dropdown",
+    "message": "展开下拉菜单",
     "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
   },
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
-    "message": "Collapse the dropdown",
+    "message": "收起下拉菜单",
     "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
   },
   "theme.docs.sidebar.expandButtonTitle": {
@@ -404,6 +404,6 @@
   },
   "homepage.caseStudies.button": {
     "message": "查看真实案例 →",
-    "description": "View Real-World Examples button"
+    "description": "View Examples button"
   }
 }
