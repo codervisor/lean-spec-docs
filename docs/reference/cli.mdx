@@ -714,6 +714,93 @@ Summary:
 
 ---
 
+### `lean-spec ui`
+
+Start a local web UI for visual spec management.
+
+```bash
+lean-spec ui [options]
+```
+
+**Options:**
+- `-s, --specs <dir>` - Specs directory (auto-detected if omitted)
+- `-p, --port <port>` - Port to run on (default: 3000)
+- `--no-open` - Don't open browser automatically
+- `--dev` - Development mode (LeanSpec monorepo only)
+- `--dry-run` - Show command without executing
+
+**Examples:**
+
+```bash
+# Auto-detect specs, open on port 3000
+lean-spec ui
+
+# Custom directory and port
+lean-spec ui --specs ./docs/specs --port 3100
+
+# Don't open browser automatically
+lean-spec ui --no-open
+
+# See what command would run
+lean-spec ui --dry-run
+```
+
+**Features:**
+- **Spec Browser**: List, search, and filter all specs
+- **Dependency Graph**: Visualize relationships between specs
+- **Board View**: Kanban-style view organized by status
+- **Rich Formatting**: Full markdown rendering with syntax highlighting
+- **Realtime Updates**: Changes appear automatically (60s cache)
+
+**How It Works:**
+
+In external projects:
+- Delegates to `npx @leanspec/ui` 
+- No additional installation required
+- Uses filesystem mode (direct file reads)
+
+In LeanSpec monorepo:
+- Runs local `packages/web` in development
+- Useful for testing UI changes
+
+**Auto-Detection:**
+
+The command automatically searches for your specs directory:
+1. `--specs` option (if provided)
+2. `specs/` in current directory
+3. `../specs/` (parent directory)
+4. `../../specs/` (grandparent directory)
+
+**Browser Control:**
+
+By default, the command opens your default browser. Use `--no-open` to prevent this, then manually navigate to `http://localhost:3000` (or your custom port).
+
+**Port Conflicts:**
+
+If port 3000 is already in use:
+```bash
+# Use a different port
+lean-spec ui --port 3100
+
+# Or stop the process using port 3000
+# macOS/Linux:
+lsof -ti:3000 | xargs kill
+# Windows:
+netstat -ano | findstr :3000
+# Then: taskkill /PID <PID> /F
+```
+
+**Use Cases:**
+- Visual exploration and discovery of specs
+- Team presentations and demos
+- Stakeholder reviews
+- Dependency analysis
+- Quick spec browsing without CLI commands
+
+→ **Learn More**: See [Visual Mode Guide](/docs/guide/visual-mode) for detailed usage and [UI Package Reference](/docs/reference/ui-package) for technical details.
+
+---
+
 ## Spec Identifiers
 
 All commands that accept a `<spec>` argument support flexible formats:

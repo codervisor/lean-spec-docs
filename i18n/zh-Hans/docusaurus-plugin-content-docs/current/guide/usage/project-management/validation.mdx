@@ -27,24 +27,29 @@ lean-spec validate <spec-1> <spec-2>
 
 ## 质量检查
 
-### 行数分析
+### Token 计数分析
 
-基于**上下文经济**原则：
+基于**上下文经济**原则 - 规范必须适合 AI 工作记忆：
 
-- **✅ 理想**：&lt;300 行 - 舒适地适合工作记忆
-- **⚠️ 警告**：300-400 行 - 考虑简化或拆分
-- **🔴 错误**：&gt;400 行 - 必须拆分为子规范
+- **✅ 优秀**：&lt;2,000 tokens - 100% AI 有效性
+- **👍 良好**：2,000-3,500 tokens - 95% AI 有效性
+- **⚠️ 警告**：3,500-5,000 tokens - 85% AI 有效性
+- **🔴 错误**：&gt;5,000 tokens - 70% AI 有效性，应拆分
 
 **理由**： 
-- 人类注意力范围：5-10 分钟
 - AI 上下文窗口：有限且昂贵
+- 质量下降始于 50K token 硬限制之前
+- 人类 + AI 工作记忆：~2-3K tokens 以获得最佳理解
 - 物理 + 生物 + 经济 = 硬限制
+
+**行数后备检查**：
+LeanSpec 还会检查行数作为安全网（400 警告 / 500 最大），但 **token 计数是主要指标**，因为它直接衡量 AI 工作记忆消耗。
 
 ### 子规范验证
 
 检查子规范文件（DESIGN.md、TESTING.md、IMPLEMENTATION.md 等）：
 
-- 每个子规范也遵循行数限制
+- 每个子规范也遵循 token 限制
 - 跟踪总规范大小（主 + 子规范）
 - 如果任何文件超过阈值则建议拆分
 
@@ -93,7 +98,7 @@ $ lean-spec validate
 ⚠️  发现警告：
 
 058-docs-overview-polish/README.md
-  ⚠️  行数：385 行（接近限制）
+  ⚠️  Token 计数：4,200 tokens（85% AI 有效性）
   → 考虑：简化或拆分为子规范
 
 摘要：
@@ -110,8 +115,8 @@ $ lean-spec validate
 ❌ 发现错误：
 
 042-complex-spec/README.md
-  🔴 行数：487 行（超过限制）
-  → 操作：拆分为子规范（见规范 012）
+  🔴 Token 计数：5,800 tokens（70% AI 有效性）
+  → 操作：拆分为子规范以提高 AI 理解能力
 
 043-broken-spec/README.md
   🔴 无效状态：'in_progress'（应为 'in-progress'）
@@ -128,18 +133,21 @@ $ lean-spec validate
 ### 设置自定义阈值
 
 ```bash
-# 更严格的阈值
-lean-spec validate --max-lines 250
+# 更严格的 token 阈值
+lean-spec validate --warning-threshold 4000
 
 # 更宽松的阈值
+lean-spec validate --warning-threshold 6000
+
+# 自定义行数后备检查
 lean-spec validate --max-lines 500
 ```
 
 ### 验证特定方面
 
 ```bash
-# 仅检查行数
-lean-spec validate --check lines
+# 仅检查复杂性（tokens）
+lean-spec validate --check complexity
 
 # 仅检查前置元数据
 lean-spec validate --check frontmatter
@@ -150,29 +158,29 @@ lean-spec validate --check structure
 
 ## 复杂性分析
 
-验证检测复杂性问题：
+基于 token 计数检测复杂性问题：
 
-### 行数分布
+### Token 计数分布
 
 ```
 规范复杂性报告：
 
-&lt;200 行：  ████████████████████ 30 个规范（67%）
-200-300：     ████████ 10 个规范（22%）
-300-400：     ███ 4 个规范（9%）
-&gt;400 行：  ▓ 1 个规范（2%）⚠️
+&lt;2,000 tokens：  ████████████████████ 30 个规范（67%）✅
+2,000-3,500：     ████████ 10 个规范（22%）👍
+3,500-5,000：     ███ 4 个规范（9%）⚠️
+&gt;5,000 tokens：  ▓ 1 个规范（2%）🔴
 
-建议：拆分 042-complex-spec
+建议：拆分 042-complex-spec 以提高 AI 有效性
 ```
 
 ### 子规范分析
 
 ```
 042-complex-spec：
-  README.md：           487 行 🔴
-  DESIGN.md：          245 行 ✅
-  IMPLEMENTATION.md：  312 行 ⚠️
-  总计：            1,044 行
+  README.md：           5,800 tokens 🔴
+  DESIGN.md：          2,450 tokens 👍
+  IMPLEMENTATION.md：  3,100 tokens ✅
+  总计：            11,350 tokens
 
 建议：
   • 将 README.md 拆分为多个子规范
@@ -181,21 +189,26 @@ lean-spec validate --check structure
 
 ## 修复验证问题
 
-### 行数违规
+### Token 计数违规
 
-**问题**：规范超过 400 行
+**问题**：规范超过 5,000 tokens（70% AI 有效性）
 
 **解决方案**：使用子规范拆分（见[规范 012](https://github.com/codervisor/lean-spec/tree/main/specs/012-sub-spec-files)）
 
 ```markdown
-# 之前：单个 500 行规范
-README.md（500 行）🔴
+# 之前：单个 5,800-token 规范
+README.md（5,800 tokens）🔴 - 70% AI 有效性
 
 # 之后：拆分为重点子规范
-README.md（200 行）✅ - 概述、决策、摘要
-DESIGN.md（150 行）✅ - 详细设计
-IMPLEMENTATION.md（150 行）✅ - 实现计划
+README.md（2,000 tokens）✅ - 概述、决策、摘要（100% 有效性）
+DESIGN.md（1,500 tokens）✅ - 详细设计（100% 有效性）
+IMPLEMENTATION.md（1,500 tokens）✅ - 实现计划（100% 有效性）
 ```
+
+**为什么这样做有效**：
+- 每个文件保持在 2,000 tokens 以下以获得最佳 AI 理解
+- AI 可以一次专注于一个方面
+- 人类可以快速导航到相关部分
 
 ### 无效的前置元数据
 

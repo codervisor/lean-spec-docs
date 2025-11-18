@@ -63,6 +63,7 @@ const sidebars: SidebarsConfig = {
             'guide/usage/essential-usage/spec-structure',
           ],
         },
+        'guide/visual-mode',
         {
           type: 'category',
           label: 'Project Management',
@@ -126,6 +127,7 @@ const sidebars: SidebarsConfig = {
     'reference/config',
     'reference/frontmatter',
     'reference/mcp-server',
+    'reference/ui-package',
   ],
 };
 

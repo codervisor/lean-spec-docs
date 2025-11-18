@@ -183,6 +183,28 @@ lean-spec archive 001
 
 For a complete command reference, see [CLI Commands](/docs/reference/cli).
 
+## Visual Mode (Optional)
+
+LeanSpec includes a web UI for visual spec management. This is great for browsing specs, visualizing dependencies, and presentations.
+
+```bash
+# Start the web UI
+lean-spec ui
+
+# Or use without installing the CLI
+npx @leanspec/ui
+```
+
+The UI provides:
+- **Interactive Browser**: List and search all specs with rich formatting
+- **Dependency Graphs**: Visualize relationships between specs
+- **Board View**: Kanban-style view organized by status
+- **Project Stats**: Overview of your specs and progress
+
+The UI runs locally on port 3000 and automatically opens in your browser. Your specs are read directly from the filesystem with no setup required.
+
+**Learn more**: [Visual Mode Guide](/docs/guide/visual-mode) for detailed features and usage.
+
 ## AI Integration (Optional)
 
 LeanSpec works great with AI coding agents. When you ran `lean-spec init`, it created `AGENTS.md` with instructions for AI agents.
