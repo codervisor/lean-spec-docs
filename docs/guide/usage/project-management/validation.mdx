@@ -27,24 +27,29 @@ lean-spec validate <spec-1> <spec-2>
 
 ## Quality Checks
 
-### Line Count Analysis
+### Token Count Analysis
 
-Based on **Context Economy** principle:
+Based on **Context Economy** principle - specs must fit in AI working memory:
 
-- **✅ Ideal**: &lt;300 lines - Fits comfortably in working memory
-- **⚠️ Warning**: 300-400 lines - Consider simplifying or splitting
-- **🔴 Error**: &gt;400 lines - Must split into sub-specs
+- **✅ Excellent**: &lt;2,000 tokens - 100% AI effectiveness
+- **👍 Good**: 2,000-3,500 tokens - 95% AI effectiveness
+- **⚠️ Warning**: 3,500-5,000 tokens - 85% AI effectiveness
+- **🔴 Error**: &gt;5,000 tokens - 70% AI effectiveness, should split
 
 **Rationale**: 
-- Human attention span: 5-10 minutes
 - AI context windows: Limited and expensive
+- Quality degradation starts before 50K token hard limits
+- Human + AI working memory: ~2-3K tokens for optimal comprehension
 - Physics + Biology + Economics = Hard limit
+
+**Line Count Backstop**:
+LeanSpec also checks line counts as a safety net (400 warning / 500 max), but **token count is the primary metric** since it directly measures AI working memory consumption.
 
 ### Sub-Spec Validation
 
 Checks sub-spec files (DESIGN.md, TESTING.md, IMPLEMENTATION.md, etc.):
 
-- Each sub-spec also follows line limits
+- Each sub-spec also follows token limits
 - Total spec size (main + sub-specs) tracked
 - Recommends splitting if any file exceeds threshold
 
@@ -93,7 +98,7 @@ $ lean-spec validate
 ⚠️  Warnings found:
 
 058-docs-overview-polish/README.md
-  ⚠️  Line count: 385 lines (approaching limit)
+  ⚠️  Token count: 4,200 tokens (85% AI effectiveness)
   → Consider: Simplifying or splitting into sub-specs
 
 Summary:
@@ -110,8 +115,8 @@ $ lean-spec validate
 ❌ Errors found:
 
 042-complex-spec/README.md
-  🔴 Line count: 487 lines (exceeds limit)
-  → Action: Split into sub-specs (see spec 012)
+  🔴 Token count: 5,800 tokens (70% AI effectiveness)
+  → Action: Split into sub-specs to improve AI comprehension
 
 043-broken-spec/README.md
   🔴 Invalid status: 'in_progress' (should be 'in-progress')
@@ -128,18 +133,21 @@ Summary:
 ### Set Custom Thresholds
 
 ```bash
-# Stricter threshold
-lean-spec validate --max-lines 250
+# Stricter token threshold
+lean-spec validate --warning-threshold 4000
 
 # More lenient threshold
+lean-spec validate --warning-threshold 6000
+
+# Custom line count backstop
 lean-spec validate --max-lines 500
 ```
 
 ### Validate Specific Aspects
 
 ```bash
-# Only check line counts
-lean-spec validate --check lines
+# Only check complexity (tokens)
+lean-spec validate --check complexity
 
 # Only check frontmatter
 lean-spec validate --check frontmatter
@@ -150,29 +158,29 @@ lean-spec validate --check structure
 
 ## Complexity Analysis
 
-Validation detects complexity issues:
+Validation detects complexity issues based on token counts:
 
-### Line Count Distribution
+### Token Count Distribution
 
 ```
 Spec Complexity Report:
 
-&lt;200 lines:  ████████████████████ 30 specs (67%)
-200-300:     ████████ 10 specs (22%)
-300-400:     ███ 4 specs (9%)
-&gt;400 lines:  ▓ 1 spec (2%) ⚠️
+&lt;2,000 tokens:  ████████████████████ 30 specs (67%) ✅
+2,000-3,500:     ████████ 10 specs (22%) 👍
+3,500-5,000:     ███ 4 specs (9%) ⚠️
+&gt;5,000 tokens:  ▓ 1 spec (2%) 🔴
 
-Recommendation: Split 042-complex-spec
+Recommendation: Split 042-complex-spec for better AI effectiveness
 ```
 
 ### Sub-Spec Analysis
 
 ```
 042-complex-spec:
-  README.md:           487 lines 🔴
-  DESIGN.md:          245 lines ✅
-  IMPLEMENTATION.md:  312 lines ⚠️
-  Total:            1,044 lines
+  README.md:           5,800 tokens 🔴
+  DESIGN.md:          2,450 tokens 👍
+  IMPLEMENTATION.md:  3,100 tokens ✅
+  Total:            11,350 tokens
 
 Recommendation:
   • Split README.md into multiple sub-specs
@@ -181,21 +189,26 @@ Recommendation:
 
 ## Fixing Validation Issues
 
-### Line Count Violations
+### Token Count Violations
 
-**Problem**: Spec exceeds 400 lines
+**Problem**: Spec exceeds 5,000 tokens (70% AI effectiveness)
 
 **Solution**: Split using sub-specs (see [spec 012](https://web.lean-spec.dev/specs/012-sub-spec-files))
 
 ```markdown
-# Before: Single 500-line spec
-README.md (500 lines) 🔴
+# Before: Single 5,800-token spec
+README.md (5,800 tokens) 🔴 - 70% AI effectiveness
 
 # After: Split into focused sub-specs
-README.md (200 lines) ✅ - Overview, decision, summary
-DESIGN.md (150 lines) ✅ - Detailed design
-IMPLEMENTATION.md (150 lines) ✅ - Implementation plan
+README.md (2,000 tokens) ✅ - Overview, decision, summary (100% effectiveness)
+DESIGN.md (1,500 tokens) ✅ - Detailed design (100% effectiveness)
+IMPLEMENTATION.md (1,500 tokens) ✅ - Implementation plan (100% effectiveness)
 ```
+
+**Why this works**:
+- Each file stays under 2,000 tokens for optimal AI comprehension
+- AI can focus on one aspect at a time
+- Humans can navigate to relevant sections quickly
 
 ### Invalid Frontmatter
 
