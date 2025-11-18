@@ -1,0 +1,35 @@
+---
+title: 依赖关系
+sidebar_position: 5
+---
+# 依赖关系
+
+LeanSpec 跟踪规范之间的两种关系类型：
+
+## 1. `depends_on`（阻塞）
+当一个规范在另一个完成之前无法开始时使用。
+```yaml
+# Spec 084
+depends_on: [082]
+```
+- 在 `lean-spec deps` 输出中显示为 **→**。
+- 自动在另一个规范上显示 **← Required By**。
+- 适用于迁移、基础设施或前置研究。
+
+## 2. `related`（信息性）
+当规范涉及相同区域但可以独立进展时使用。
+```yaml
+# Spec 043
+related: [042]
+```
+- 在依赖关系图中显示为 **⟷**。
+- 适用于并行工作、共享上下文或可重用模式。
+
+## 良好实践
+- 默认使用 `related`；仅在被阻塞时升级为 `depends_on`。
+- 保持列表简短——将所有内容链接到所有内容会降低价值。
+- 编辑后重新运行 `lean-spec deps <spec>` 以确认关系。
+
+## 另见
+- [项目管理 → 依赖关系](/docs/guide/usage/project-management/dependencies)
+- [跨团队工作示例](/docs/examples/cross-team-official-launch)

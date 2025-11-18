@@ -1,0 +1,112 @@
+---
+title: 使用 AI 编写你的第一个规范
+sidebar_position: 1
+description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图转化为 LeanSpec
+---
+
+# 使用 AI 编写你的第一个规范
+
+**时间**：10-15 分钟  
+**目标**：提供意图，让 Copilot Agent 模式起草规范，并审查后生成一个准备好实现的 LeanSpec。
+
+> 🎥 视频演练（Loom）— 即将推出。下面的每个步骤都引用了我们在演示中涵盖的时间戳。
+
+## 前提条件
+- 安装了 [GitHub Copilot Agent 模式](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code)的 VS Code
+- 全局安装 LeanSpec CLI（`npm install -g lean-spec`）或本地安装（`npx lean-spec`）
+- 包含 `specs/` 目录的工作区（如果是从头开始，运行 `lean-spec init`）
+
+## 步骤 1：与代理分享意图（00:30）
+打开 VS Code，聚焦代理面板，并粘贴你的意图。示例提示：
+
+```
+我想为我们的 SaaS 仪表板添加无密码登录（魔法链接）。
+帮我起草一个 LeanSpec，说明问题、为什么重要、
+约束（必须保留当前的 MFA）以及后端
+和 UX 的成功标准。保持在 2,000 令牌以下。
+```
+
+如果代理还没有看到 AGENTS.md 指令，它会请求这些指令。批准文件共享，以便它了解项目约定。
+
+## 步骤 2：让代理概述规范（02:10）
+要求代理在编写完整文本之前生成概要：
+
+```
+首先总结规范概要：概述、为什么现在、需求、
+风险、验证和计划。在扩展各部分之前等待我的批准。
+```
+
+审查概要。如果缺少某些内容（例如，"电子邮件服务限制"），在继续之前要求代理添加它。
+
+## 步骤 3：生成草稿（04:00）
+给予批准：
+
+```
+看起来不错。用可执行的内容填充每个部分，并包括
+实现和验证的检查清单。
+```
+
+代理内联编写规范。将内容复制到 `specs/###-feature/README.md`（如果规范目录尚不存在，使用 `lean-spec create passwordless-login`）。
+
+## 步骤 4：使用 Lean 原则审查（06:30）
+浏览草稿并检查：
+
+- **上下文经济** — 规范是否低于约 300 行？如果不是，询问代理哪些部分应该移到子规范。
+- **信噪比** — 删除重复和营销术语。
+- **意图优于实现** — 确保"为什么"在"如何"之前清晰。
+
+有用的提示：
+
+```
+重写目标部分，使每个要点在一句话中解释用户影响。
+
+如果我们想包含序列图，建议 DESIGN.md 提取。
+```
+
+## 步骤 5：验证并设置状态（08:45）
+一旦内容看起来不错：
+
+```bash
+lean-spec validate passwordless-login
+lean-spec update passwordless-login --status planned
+```
+
+如果有警告，与代理逐字共享验证输出。示例提示：
+
+```
+验证警告规范是 2,450 令牌。通过
+合并相关任务来减少计划部分。
+```
+
+## 步骤 6：捕获 AI/人类职责（10:00）
+通过记录谁做什么来结束循环：
+
+- 添加带有人类拥有步骤的复选框的 `## 实现计划`。
+- 添加 `## AI 交接` 部分，总结代理稍后应修改的文件。
+
+提示想法：
+
+```
+添加一个 "AI 交接" 部分，列出 Copilot 代理
+在实现此规范时应触及的仓库路径。
+```
+
+## 最终检查清单
+- ☐ 前置元数据设置了状态 `planned`、标签和优先级
+- ☐ 规范 < 2,000 令牌或拆分为子规范
+- ☐ 成功标准和验证步骤明确
+- ☐ AI 交接部分列出下一个命令/文件
+- ☐ `lean-spec validate` 通过
+
+## 你学到了什么
+✅ 如何使用 Copilot Agent 模式作为规范合作者  
+✅ 如何保持 AI 输出与 LeanSpec 第一性原则一致  
+✅ 如何用 AGENTS.md 和验证反馈引导代理  
+✅ 如何将完成的规范交给人类/AI 进行实现
+
+## 下一个教程
+1. [AI 辅助功能开发 →](./ai-assisted-feature-development)
+2. [使用 AI 管理多个规范 →](./managing-multiple-specs-with-ai)
+3. [与 AI 代理的团队协作 →](./team-collaboration-ai-agents)
+
+需要更多上下文？重新访问[什么是 LeanSpec？](/docs/guide/what-is-leanspec)或 [SDD 工作流程](/docs/guide/terminology/sdd-workflow)。
