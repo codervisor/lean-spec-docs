@@ -47,33 +47,57 @@ AI: [Searches specs via MCP: "authentication"]
 
 ## Quick Setup
 
-### 1. Install LeanSpec
+### Option 1: Using @leanspec/mcp (Recommended)
 
-```bash
-npm install -g lean-spec
-```
+The simplest way to use LeanSpec with MCP is via the `@leanspec/mcp` package, which provides a dedicated entry point.
 
-### 2. Configure Your AI Tool
-
-Choose your tool:
-
-#### VS Code (GitHub Copilot)
-
-Edit `~/.vscode/settings.json` or workspace settings:
+**Standard config works in most MCP-compatible tools:**
 
 ```json
 {
-  "github.copilot.chat.mcp.servers": {
-    "lean-spec": {
+  "mcpServers": {
+    "leanspec": {
       "command": "npx",
-      "args": ["-y", "lean-spec", "mcp"],
-      "cwd": "${workspaceFolder}"
+      "args": ["-y", "@leanspec/mcp"]
     }
   }
 }
 ```
 
-**Tip**: `${workspaceFolder}` auto-detects your workspace root.
+**Benefits:**
+- ✅ No installation required - npx auto-installs
+- ✅ Auto-detects workspace from where IDE runs
+- ✅ Simpler, more discoverable package name
+- ✅ Same functionality as `lean-spec mcp`
+
+### Supported Tools
+
+LeanSpec MCP server works with any tool that supports the Model Context Protocol:
+
+#### AI Coding Assistants
+- **[VS Code](https://code.visualstudio.com/)** - GitHub Copilot with MCP support
+- **[Cursor](https://cursor.sh/)** - AI-first code editor
+- **[Windsurf](https://codeium.com/windsurf)** - Codeium's AI editor
+- **[Amp](https://amp.build/)** - AI-powered development environment
+
+#### AI Chat Interfaces  
+- **[Claude Desktop](https://claude.ai/download)** - Anthropic's desktop app
+- **[Claude Code](https://claudecode.com/)** - Claude for coding
+- **[Codex](https://openai.com/index/openai-codex/)** - OpenAI's coding model
+- **[Goose](https://block.github.io/goose/)** - Square's AI assistant
+- **[Kiro](https://kiro.ai/)** - AI coding assistant
+
+#### Terminal & CLI Tools
+- **[Warp](https://www.warp.dev/)** - AI-powered terminal
+- **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** - Google's AI assistant
+
+#### Development Platforms
+- **[Factory](https://factory.ai/)** - AI software development platform
+- **[Qodo Gen](https://www.qodo.ai/products/qodo-gen/)** - AI code generation
+- **[opencode](https://opencode.dev/)** - Open-source AI coding
+- **[LM Studio](https://lmstudio.ai/)** - Local LLM interface
+
+### Configuration Examples
 
 #### Claude Desktop
 
@@ -85,18 +109,64 @@ Edit your Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "lean-spec": {
+    "leanspec": {
       "command": "npx",
-      "args": ["-y", "lean-spec", "mcp"],
-      "cwd": "/absolute/path/to/your/project"
+      "args": ["-y", "@leanspec/mcp"]
     }
   }
 }
 ```
 
-**Important**: Use absolute path, not `${workspaceFolder}`.
+#### VS Code (GitHub Copilot)
 
-### 3. Test the Integration
+Add to your VS Code `settings.json`:
+
+```json
+{
+  "github.copilot.chat.mcp.servers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
+}
+```
+
+#### Cursor / Windsurf / Other MCP Tools
+
+Most tools use the standard MCP configuration format:
+
+```json
+{
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
+}
+```
+
+Refer to your tool's documentation for the exact configuration file location.
+
+### Option 2: Direct lean-spec Command
+
+If you prefer to use the `lean-spec` CLI directly:
+
+```json
+{
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "lean-spec", "mcp"]
+    }
+  }
+}
+```
+
+**Note**: For tools that support workspace variables (like VS Code), you can use `"cwd": "${workspaceFolder}"` to specify the project directory. For tools requiring absolute paths (like Claude Desktop), use `"cwd": "/absolute/path/to/your/project"`.
+
+### Test the Integration
 
 Ask your AI assistant:
 
@@ -264,6 +334,8 @@ The LeanSpec MCP server provides these tools to AI assistants:
 **Try:**
 ```bash
 # Test MCP server directly
+npx @leanspec/mcp
+# or
 npx lean-spec mcp
 
 # Verify it starts without errors
