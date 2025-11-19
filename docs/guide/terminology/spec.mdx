@@ -4,20 +4,37 @@ sidebar_position: 1
 ---
 # Spec
 
-A **spec** is a lightweight document that captures intent, constraints, and success criteria for a unit of work. It is written so that both humans and AI agents can understand what needs to happen next.
+A **spec** is a lightweight checkpoint that captures intent, constraints, and success criteria for a unit of work. It tells both humans and AI agents what needs to happen next—and why.
 
 ## Why It Matters
 - Acts as persistent memory across handoffs and AI sessions
 - Forces clarity on the problem before implementation begins
 - Enables autonomous work by outlining success criteria and guardrails
 
-## Anatomy of a LeanSpec
-1. **Frontmatter** — machine-readable metadata (status, priority, tags)
+## Core Anatomy
+1. **Frontmatter** — machine-readable metadata (status, priority, tags, dependencies)
 2. **Overview** — the problem, why it matters, and desired outcome
-3. **Plan** — phases, implementation notes, or acceptance criteria
-4. **Test / Validation** — how to confirm the work is done
+3. **Plan / Design** — phases, trade-offs, or approach notes
+4. **Validation** — how to confirm the work is done
 
-Keep the main README under ~300 lines (≈2,000 tokens) and push details into sub-spec files when needed.
+Keep the README under ≈2,000 tokens. When it grows beyond working-memory limits, split detail into sub-spec files and link them from the Plan section.
+
+## Sub-Specs: When Depth Matters
+Sub-specs are additional Markdown files inside the spec directory (`DESIGN.md`, `IMPLEMENTATION.md`, `TESTING.md`, etc.). They preserve Context Economy by keeping the main README scannable while storing deep detail for specific audiences.
+
+| Use a Sub-Spec When… | Examples |
+| --- | --- |
+| README would exceed ~2,000 tokens | Architecture diagrams, multi-phase rollout plans |
+| Different audiences need different depth | Exec summary in README, implementation checklist elsewhere |
+| You need dedicated artifacts | `TESTING.md`, migration runbooks, rollout checklists |
+
+```
+specs/082-web-sync/
+	README.md          # Overview + decision context
+	DESIGN.md          # Architecture diagrams and flows
+	IMPLEMENTATION.md  # Phases or task list
+	TESTING.md         # Validation details
+```
 
 ## Quick Example
 ```markdown
@@ -28,4 +45,5 @@ to protect the API from abuse by 2% of heavy users.
 
 ## See Also
 - [What Is LeanSpec?](/docs/guide/what-is-leanspec)
+- [Built-in Metadata](/docs/guide/terminology/built-in-metadata)
 - [Spec Structure](/docs/guide/usage/essential-usage/spec-structure)

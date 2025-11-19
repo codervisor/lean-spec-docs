@@ -190,3 +190,14 @@ This workflow ensures specs stay lean, clear, and in sync with reality (Pattern 
 | Abstract examples | AI hallucinates details | Use real payloads from logs/tests |
 | Hidden constraints | Over-engineering | Surface limits in Constraints section |
 | Stale after implementation | Misleads future work | Update immediately after building |
+
+## When NOT to Use Specs {#when-not-to-use-specs}
+
+Even with AI assistance, not every task needs a formal spec. Skip (or postpone) the spec when:
+
+- The fix is obvious and low-risk (one-line bug, copy update, config tweak)
+- You're prototyping purely to learn—capture the outcome only if it becomes real work
+- A refactor is mechanical (rename, format, dependency bump)
+- Context already lives in code comments or tests and everyone is aligned
+
+Use the spec once intent must persist beyond the current conversation or multiple contributors need shared guardrails.

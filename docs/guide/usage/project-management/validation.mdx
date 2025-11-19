@@ -279,15 +279,15 @@ lean-spec validate
 # Detailed analysis
 lean-spec stats --full
 
-# Review large specs
-lean-spec validate --max-lines 300
+# Review large specs (token focus)
+lean-spec tokens --all --include-sub-specs
 ```
 
 ## Best Practices
 
 1. **Validate early** - Before committing
 2. **Fix warnings promptly** - Don't let them accumulate
-3. **Split at 400 lines** - Use sub-specs for complex features
+3. **Split around 3,500 tokens** - Use sub-specs for complex features
 4. **Automate** - Add to CI/CD pipeline
 5. **Regular reviews** - Weekly health checks
 
@@ -296,13 +296,13 @@ lean-spec validate --max-lines 300
 ### When to Split
 
 Split when:
-- ✅ Spec exceeds 400 lines (Context Economy violation)
+- ✅ Spec exceeds ~3,500 tokens (Context Economy warning)
 - ✅ Multiple distinct concerns (different topics)
 - ✅ Spec takes &gt;10 minutes to read
 - ✅ Frequent editing causes confusion
 
 Don't split when:
-- ❌ Under 300 lines and focused
+- ❌ Under ~2,000 tokens and focused
 - ❌ Single cohesive concept
 - ❌ Quick to read and understand
 
@@ -326,7 +326,7 @@ Always re-evaluate later.
 ## Tips
 
 - Run validation before commits
-- Use `--max-lines` for stricter checks during reviews
+- Use `lean-spec tokens --all --sort-by tokens` for stricter checks during reviews
 - Combine with `lean-spec stats` for overall project health
 - Address errors immediately, warnings within sprint
 - Automate in CI/CD for team consistency
@@ -339,19 +339,19 @@ $ lean-spec validate
 🔍 Validating 45 specs...
 
 ✅ Passed (43 specs)
-  • 040-api-design: 245 lines ✅
-  • 041-testing-strategy: 198 lines ✅
-  • 043-launch-plan: 287 lines ✅
+  • 040-api-design: 1,140 tokens ✅
+  • 041-testing-strategy: 1,020 tokens ✅
+  • 043-launch-plan: 1,310 tokens ✅
   ...
 
 ⚠️  Warnings (1 spec)
-  • 058-docs-restructure: 385 lines
-    → Approaching limit, consider simplifying
+  • 058-docs-restructure: 3,620 tokens
+    → Approaching limit, consider simplifying or splitting
 
 🔴 Errors (1 spec)
-  • 042-complex-feature: 487 lines
+  • 042-complex-feature: 5,180 tokens
     → Exceeds limit, must split into sub-specs
-    → Recommendation: Create DESIGN.md and IMPLEMENTATION.md
+    → Recommendation: Move plan + rollout into DESIGN.md / IMPLEMENTATION.md
 
 Summary:
   • Total: 45 specs
@@ -366,7 +366,7 @@ Action Required:
 
 ## Learning More
 
-- **[Understanding Specs](/docs/guide/understanding-specs)** - First Principles and Context Economy
+- **[Understanding LeanSpec](/docs/guide/understanding-leanspec)** - First Principles and Context Economy
 - **[Sub-Spec Files](https://web.lean-spec.dev/specs/012-sub-spec-files)** - How to split large specs
 - **[Board & Stats](/docs/guide/usage/project-management/board-stats)** - Project health monitoring
 - **[CLI Reference](/docs/reference/cli)** - Complete command documentation

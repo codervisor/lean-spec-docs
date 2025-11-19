@@ -17,7 +17,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Introduction',
-      items: ['guide/index', 'guide/getting-started', 'comparison', 'guide/migration'],
+      items: ['guide/index', 'guide/getting-started', 'comparison'],
     },
     {
       type: 'category',
@@ -34,18 +34,14 @@ const sidebars: SidebarsConfig = {
       label: 'Core Concepts',
       items: [
         'guide/what-is-leanspec',
-        'guide/understanding-specs',
+        'guide/understanding-leanspec',
         {
           type: 'category',
           label: 'Terminology',
           items: [
-            'guide/terminology/index',
             'guide/terminology/spec',
-            'guide/terminology/status',
+            'guide/terminology/built-in-metadata',
             'guide/terminology/sdd-workflow',
-            'guide/terminology/sub-specs',
-            'guide/terminology/dependencies',
-            'guide/terminology/tags-priority',
           ],
         },
       ],
@@ -83,16 +79,9 @@ const sidebars: SidebarsConfig = {
             'guide/usage/advanced-features/frontmatter',
           ],
         },
-        {
-          type: 'category',
-          label: 'AI-Assisted Workflows',
-          items: [
-            'guide/usage/ai-assisted/writing-specs-with-ai',
-            'guide/usage/ai-assisted/ai-executable-patterns',
-            'guide/usage/ai-assisted/agent-configuration',
-            'guide/usage/ai-assisted/mcp-integration',
-          ],
-        },
+        'guide/usage/ai-assisted/ai-executable-patterns',
+        'guide/usage/ai-assisted/agent-configuration',
+        'guide/usage/ai-assisted/mcp-integration',
       ],
     },
     {
@@ -106,6 +95,7 @@ const sidebars: SidebarsConfig = {
         'advanced/limits-and-tradeoffs',
       ],
     },
+    'guide/migration',
     'roadmap',
     'faq',
   ],
@@ -114,7 +104,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Real-World Examples',
       items: [
-        'examples/index',
+        'examples/overview',
         'examples/simple-feature-token-validation',
         'examples/complex-feature-web-sync',
         'examples/refactoring-monorepo-core',
