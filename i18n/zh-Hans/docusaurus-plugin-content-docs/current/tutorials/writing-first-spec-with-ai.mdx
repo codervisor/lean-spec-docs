@@ -9,15 +9,13 @@ description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图�
 **时间**：10-15 分钟  
 **目标**：提供意图，让 Copilot Agent 模式起草规范，并审查后生成一个准备好实现的 LeanSpec。
 
-> 🎥 视频演练（Loom）— 即将推出。下面的每个步骤都引用了我们在演示中涵盖的时间戳。
-
 ## 前提条件
 - 安装了 [GitHub Copilot Agent 模式](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code)的 VS Code
 - 全局安装 LeanSpec CLI（`npm install -g lean-spec`）或本地安装（`npx lean-spec`）
 - 包含 `specs/` 目录的工作区（如果是从头开始，运行 `lean-spec init`）
 
-## 步骤 1：与代理分享意图（00:30）
-打开 VS Code，聚焦代理面板，并粘贴你的意图。示例提示：
+## 步骤 1：与代理分享意图
+打开 VS Code，聚焦代理面板，并粘贴你的意图。示例提示:
 
 ```
 我想为我们的 SaaS 仪表板添加无密码登录（魔法链接）。
@@ -28,7 +26,7 @@ description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图�
 
 如果代理还没有看到 AGENTS.md 指令，它会请求这些指令。批准文件共享，以便它了解项目约定。
 
-## 步骤 2：让代理概述规范（02:10）
+## 步骤 2：让代理概述规范
 要求代理在编写完整文本之前生成概要：
 
 ```
@@ -38,7 +36,7 @@ description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图�
 
 审查概要。如果缺少某些内容（例如，"电子邮件服务限制"），在继续之前要求代理添加它。
 
-## 步骤 3：生成草稿（04:00）
+## 步骤 3：生成草稿
 给予批准：
 
 ```
@@ -48,7 +46,7 @@ description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图�
 
 代理内联编写规范。将内容复制到 `specs/###-feature/README.md`（如果规范目录尚不存在，使用 `lean-spec create passwordless-login`）。
 
-## 步骤 4：使用 Lean 原则审查（06:30）
+## 步骤 4：使用 Lean 原则审查
 浏览草稿并检查：
 
 - **上下文经济** — 规范是否低于约 300 行？如果不是，询问代理哪些部分应该移到子规范。
@@ -63,7 +61,7 @@ description: 与 GitHub Copilot Agent 模式合作，在 10 分钟内将意图�
 如果我们想包含序列图，建议 DESIGN.md 提取。
 ```
 
-## 步骤 5：验证并设置状态（08:45）
+## 步骤 5：验证并设置状态
 一旦内容看起来不错：
 
 ```bash
@@ -78,7 +76,7 @@ lean-spec update passwordless-login --status planned
 合并相关任务来减少计划部分。
 ```
 
-## 步骤 6：捕获 AI/人类职责（10:00）
+## 步骤 6：捕获 AI/人类职责
 通过记录谁做什么来结束循环：
 
 - 添加带有人类拥有步骤的复选框的 `## 实现计划`。

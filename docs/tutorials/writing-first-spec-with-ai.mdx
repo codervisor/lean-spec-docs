@@ -9,14 +9,12 @@ description: Partner with GitHub Copilot Agent Mode to turn intent into a LeanSp
 **Time**: 10-15 minutes  
 **Goal**: Provide intent, let Copilot Agent Mode draft the spec, and land with a reviewed LeanSpec ready for implementation.
 
-> 🎥 Video walkthrough (Loom) — coming soon. Each step below references the timestamp we cover in the demo.
-
 ## Prerequisites
 - VS Code with [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code) enabled
 - LeanSpec CLI installed globally (`npm install -g lean-spec`) or locally (`npx lean-spec`)
 - A workspace containing a `specs/` directory (run `lean-spec init` if you are starting fresh)
 
-## Step 1: Share Intent with the Agent (00:30)
+## Step 1: Share Intent with the Agent
 Open VS Code, focus the agent panel, and paste your intent. Example prompt:
 
 ```
@@ -28,7 +26,7 @@ and UX. Keep it under 2,000 tokens.
 
 The agent will request the AGENTS.md instructions if it has not seen them. Approve the file share so it understands project conventions.
 
-## Step 2: Let the Agent Outline the Spec (02:10)
+## Step 2: Let the Agent Outline the Spec
 Ask the agent to produce an outline before writing full text:
 
 ```
@@ -38,7 +36,7 @@ Risks, Validation, and Plan. Wait for my approval before expanding sections.
 
 Review the outline. If something is missing (for example, "Email service limits"), ask the agent to add it before continuing.
 
-## Step 3: Generate the Draft (04:00)
+## Step 3: Generate the Draft
 Give the go-ahead:
 
 ```
@@ -48,7 +46,7 @@ for implementation and validation.
 
 The agent writes the spec inline. Copy the content into `specs/###-feature/README.md` (use `lean-spec create passwordless-login` if the spec directory does not exist yet).
 
-## Step 4: Review with Lean Principles (06:30)
+## Step 4: Review with Lean Principles
 Walk through the draft and check:
 
 - **Context Economy** — Is the spec under ~300 lines? If not, ask the agent which sections should move to a sub-spec.
@@ -63,7 +61,7 @@ Rewrite the Goals section so each bullet explains the user impact in one sentenc
 Suggest a DESIGN.md extraction if we wanted to include sequence diagrams.
 ```
 
-## Step 5: Validate and Set Status (08:45)
+## Step 5: Validate and Set Status
 Once the content looks good:
 
 ```bash
@@ -78,7 +76,7 @@ Validation warns that the spec is 2,450 tokens. Reduce the Plan section by
 merging related tasks.
 ```
 
-## Step 6: Capture AI/Human Responsibilities (10:00)
+## Step 6: Capture AI/Human Responsibilities
 Close the loop by documenting who does what:
 
 - Add a `## Implementation Plan` with checkboxes for human-owned steps.

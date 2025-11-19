@@ -88,7 +88,7 @@ export default function Home(): ReactNode {
                 <div className={styles.buttons}>
                   <Link
                     className="button button--primary button--lg"
-                    to="/docs/examples">
+                    to="/docs/examples/overview">
                     <Translate
                       id="homepage.caseStudies.button"
                       description="View Examples button">

@@ -40,11 +40,11 @@ Based on research from [LangChain](https://blog.langchain.com/context-engineerin
 
 **LeanSpec Application**:
 ```markdown
-# Instead of one 1,166-line spec:
-specs/045/README.md          (203 lines - overview)
-specs/045/DESIGN.md          (378 lines - design)
-specs/045/IMPLEMENTATION.md  (144 lines - plan)
-specs/045/TESTING.md         (182 lines - tests)
+# Instead of one 11K-token spec:
+specs/045/README.md          (~1,200 tokens - overview)
+specs/045/DESIGN.md          (~2,200 tokens - design)
+specs/045/IMPLEMENTATION.md  (~900 tokens - plan)
+specs/045/TESTING.md         (~1,100 tokens - tests)
 
 # AI loads only what it needs for current task
 ```
@@ -55,12 +55,12 @@ specs/045/TESTING.md         (182 lines - tests)
 - **Progressive disclosure** (overview → details)
 
 **When to Use**:
-- ✅ Spec >400 lines
+- ✅ Spec >3,500 tokens
 - ✅ Multiple distinct concerns (design + testing + config)
 - ✅ Different concerns accessed independently
 
 **Benefits**:
-- ✅ Each file &lt;400 lines (fits in working memory)
+- ✅ Each file &lt;2,000 tokens (fits in working memory)
 - ✅ Reduce irrelevant context (only load needed sections)
 - ✅ Parallel work (edit DESIGN without affecting TESTING)
 
@@ -120,7 +120,7 @@ Set up project structure:
 - Configure Prettier with .prettierrc
 - Add npm scripts for build, test, lint
 - Set up CI pipeline with GitHub Actions
-[50 lines of detailed steps...]
+[~1,000 tokens of detailed steps...]
 
 # After compression (completed phase):
 ## ✅ Phase 1: Infrastructure Setup (Completed 2025-10-15)
@@ -136,7 +136,7 @@ See git commit abc123 for implementation details.
 **When to Use**:
 - ✅ Completed phases (outcomes matter, details don't)
 - ✅ Historical context (need to know it happened, not how)
-- ✅ Approaching line limits (preserve signal, reduce noise)
+- ✅ Approaching token thresholds (preserve signal, reduce noise)
 
 **Benefits**:
 - ✅ Maintain project history without bloat
@@ -156,14 +156,14 @@ specs/045-unified-dashboard/README.md
   - Health scoring system
   - Chart library evaluation
   - API design for metrics endpoint
-  [1,166 lines covering 5 distinct concerns]
+  [~11K tokens covering 5 distinct concerns]
 
 # After isolation (multiple specs):
 specs/045-unified-dashboard/       # Dashboard UI
 specs/060-velocity-algorithm/      # Velocity tracking
 specs/061-health-scoring/          # Health metrics
 specs/062-metrics-api/             # API endpoint
-  [Each spec &lt;400 lines, independent lifecycle]
+  [Each spec &lt;2,000 tokens, independent lifecycle]
 ```
 
 **Mechanisms**:
@@ -175,7 +175,7 @@ specs/062-metrics-api/             # API endpoint
 - ✅ Multiple concerns with different lifecycles
 - ✅ Sections could be standalone features
 - ✅ Parts updated by different people/teams
-- ✅ Spec still >400 lines after partitioning
+- ✅ Spec still >3,500 tokens after partitioning
 
 **Benefits**:
 - ✅ Independent evolution (algorithms change ≠ UI changes)
@@ -216,7 +216,7 @@ Based on research from [Drew Breunig](https://www.dbreunig.com/2025/06/22/how-co
 
 **Symptoms in LeanSpec**:
 ```markdown
-# Spec grows to 800+ lines with extensive history
+# Spec grows beyond 4,000 tokens with extensive history
 
 # AI behavior changes:
 - Repeats past actions from spec history
@@ -226,7 +226,7 @@ Based on research from [Drew Breunig](https://www.dbreunig.com/2025/06/22/how-co
 ```
 
 **Mitigation**:
-- ✅ Split at 400 lines (Context Economy)
+- ✅ Split before 3,500 tokens (Context Economy)
 - ✅ Compress historical sections
 - ✅ Partition by concern
 
@@ -286,25 +286,25 @@ Based on research from [Drew Breunig](https://www.dbreunig.com/2025/06/22/how-co
 
 | Situation | Primary Strategy | Secondary | Why |
 |-----------|-----------------|-----------|-----|
-| Spec >400 lines, multiple concerns | Partition | Compaction | Separate concerns, remove redundancy |
+| Spec >3,500 tokens, multiple concerns | Partition | Compaction | Separate concerns, remove redundancy |
 | Spec verbose but single concern | Compaction | Compression | Remove redundancy, summarize if still long |
 | Historical phases bloating spec | Compression | - | Keep outcomes, drop details |
 | Unrelated concerns in same spec | Isolation | Partition | Move to separate spec, then partition |
-| Spec approaching 400 lines | Compaction | - | Proactive cleanup before hitting limit |
+| Spec approaching 3,500 tokens | Compaction | - | Proactive cleanup before hitting limit |
 
 ### Combining Strategies
 
 Often multiple strategies apply together:
 
-**Example: Large spec (1,166 lines)**:
+**Example: Large spec (~11K tokens)**:
 1. **Partition**: Split into README + DESIGN + IMPLEMENTATION + TESTING
 2. **Compaction**: Remove redundancy within each file
 3. **Compression**: Summarize completed research phase
 4. **Isolation**: Consider moving algorithms to separate specs
 
 **Result**: 
-- Before: 1,166 lines (3x limit)
-- After: Largest file 378 lines (within limit)
+- Before: ~11K tokens (3x limit)
+- After: Largest file ~2,200 tokens (within limit)
 
 ## The Bottom Line
 
@@ -316,7 +316,7 @@ Context engineering is **the #1 job** when building with AI. These aren't just o
 - Bigger context windows don't solve the problem
 - Smart curation (partitioning, compaction, compression, isolation) does
 - Apply strategies proactively to prevent context failures
-- Monitor for warning signs (>400 lines, repetition, confusion, conflicts)
+- Monitor for warning signs (>3,500 tokens, repetition, confusion, conflicts)
 
 ---
 

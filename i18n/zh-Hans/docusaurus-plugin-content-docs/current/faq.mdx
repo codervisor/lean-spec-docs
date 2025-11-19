@@ -9,7 +9,7 @@ sidebar_position: 4
 
 ## 什么是 LeanSpec？
 
-LeanSpec 是一个为 AI 辅助开发优化的轻量级规范框架。它是一个 CLI 工具 + markdown 文件，位于您的仓库中，帮助您记录技术决策并指导 AI 编码工具，同时保持规范在 300 行以下以获得最佳性能。
+LeanSpec 是一个为 AI 辅助开发优化的轻量级规范框架。它是一个 CLI 工具 + markdown 文件，位于您的仓库中，帮助您记录技术决策并指导 AI 编码工具，同时将规范保持在约 2,000 令牌的最佳范围内。
 
 **关键功能：**
 - 用于轻松引用的编号规范
@@ -43,16 +43,16 @@ lean-spec create my-first-spec
 
 **哲学：** 在最大敏捷性的同时获得 80% 的 vibe 编码速度和 80% 的结构化规范优势。在混乱和官僚主义之间架起桥梁。
 
-## 为什么有 300 行限制？
+## 为什么有 2,000 令牌目标？
 
 **注意力是稀缺资源，而不是存储。**
 
 三个原因：
-1. **人类注意力范围** - 在 5-10 分钟内阅读和理解
-2. **AI 性能** - 上下文质量在 50K 令牌之后下降
-3. **工作记忆** - 保持规范认知可管理
+1. **人类注意力范围** - 人与 AI 搭档一次只能处理约 2-3K 令牌
+2. **AI 性能** - 上下文质量在 50K 令牌硬上限之前就开始下降
+3. **工作记忆** - 令牌数量直接对应认知负荷，而行数受格式影响很大
 
-如果您的规范超过 300 行，请将其拆分为子规范文件（`DESIGN.md`、`IMPLEMENTATION.md`、`TESTING.md` 等）。详见[第一原则](/zh-Hans/docs/advanced/first-principles#1-context-economy-)。
+如果您的规范超过 3,500 令牌，请将其拆分为子规范文件（`DESIGN.md`、`IMPLEMENTATION.md`、`TESTING.md` 等）；超过 5,000 令牌必须立即拆分。详见[第一原则](/zh-Hans/docs/advanced/first-principles#1-context-economy-)。
 
 ## 故障排除
 
@@ -66,7 +66,7 @@ git checkout HEAD -- specs/042-my-spec/  # 从 git 恢复
 lean-spec validate                        # 检查问题
 ```
 
-**预防：** 保持规范在 300 行以下（在 300 行时警告，在 400 行时错误）。
+**预防：** 将规范控制在 2,000 令牌以内（3,500 令牌警告，5,000 令牌硬限制），并在编辑前运行 `lean-spec tokens <spec>` 检查。
 
 ### `lean-spec update` 说"找不到规范"
 

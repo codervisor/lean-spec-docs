@@ -2,7 +2,7 @@
 
 ## What is LeanSpec?
 
-LeanSpec is a lightweight spec framework optimized for AI-assisted development. It's a CLI tool + markdown files that live in your repo, helping you document technical decisions and guide AI coding tools while keeping specs under 300 lines for optimal performance.
+LeanSpec is a lightweight spec framework optimized for AI-assisted development. It's a CLI tool + markdown files that live in your repo, helping you document technical decisions and guide AI coding tools while keeping specs within the 2,000-token sweet spot for optimal performance.
 
 **Key features:**
 - Numbered specs for easy reference
@@ -37,16 +37,16 @@ No configuration files, no database, no server. Works with any editor and any AI
 
 **Philosophy:** Get 80% of vibe coding speed with 80% of structured spec benefits. Minimal overhead for maximum agility.
 
-## Why the 300-line limit?
+## Why the 2,000-token target?
 
 **Attention is the scarce resource, not storage.**
 
 Three reasons:
-1. **Human attention span** - Read and understand in 5-10 minutes
-2. **AI performance** - Context quality degrades beyond 50K tokens
-3. **Working memory** - Keep specs cognitively manageable
+1. **Human attention span** - Most people (and AI pairs) can only hold ~2-3K tokens in working memory at once
+2. **AI performance** - Context quality degrades long before the 50K-token hard limit
+3. **Working memory** - Token count correlates directly to cognitive load, while lines vary by formatting
 
-If your spec exceeds 300 lines, split it into sub-spec files (`DESIGN.md`, `IMPLEMENTATION.md`, `TESTING.md`, etc.). See [First Principles](/docs/advanced/first-principles#1-context-economy-) for details.
+If your spec exceeds 3,500 tokens, split it into sub-spec files (`DESIGN.md`, `IMPLEMENTATION.md`, `TESTING.md`, etc.). Anything above 5,000 tokens should be broken down immediately. See [First Principles](/docs/advanced/first-principles#1-context-economy-) for details.
 
 ## Troubleshooting
 
@@ -60,7 +60,7 @@ git checkout HEAD -- specs/042-my-spec/  # Restore from git
 lean-spec validate                        # Check for issues
 ```
 
-**Prevention:** Keep specs under 300 lines (warning at 300, error at 400).
+**Prevention:** Keep specs under 2,000 tokens (warning at 3,500, hard stop at 5,000). Run `lean-spec tokens <spec>` to check before editing.
 
 ### `lean-spec update` says "spec not found"
 
