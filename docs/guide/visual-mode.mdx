@@ -10,6 +10,8 @@ description: Using the LeanSpec web UI for visual spec management
 
 The LeanSpec UI provides a visual web interface for browsing and managing specs. It's perfect for visual learners, team presentations, and exploratory spec browsing.
 
+![LeanSpec UI list view showing spec cards with search and filters](/img/ui/ui-spec-list.png)
+
 ## What is Visual Mode?
 
 Visual Mode is a local web application that provides:
@@ -98,6 +100,8 @@ The main interface shows all your specs in a list view:
 - **Quick Filters**: Filter by status, tags, or priority
 - **Search**: Full-text search across all specs
 
+![List view with filters and search input highlighted](/img/ui/ui-list-view.png)
+
 ### Spec Detail View
 
 Click any spec to see:
@@ -106,6 +110,8 @@ Click any spec to see:
 - **Metadata**: All frontmatter fields displayed clearly
 - **Related Specs**: Links to dependencies and related work
 - **Quick Actions**: Links to edit, view source, or open in file system
+
+![Spec detail view showing metadata, actions, and rendered markdown](/img/ui/ui-spec-detail.png)
 
 ### Dependency Graph
 
@@ -116,6 +122,8 @@ Visualize how specs relate to each other:
 - **Click to Navigate**: Click any node to view that spec
 - **Filter by Status**: Show only active specs, completed work, etc.
 
+![Dependency graph modal with current spec and related work nodes](/img/ui/ui-dependency-graph.png)
+
 ### Board View
 
 Kanban-style view of specs organized by status:
@@ -123,6 +131,8 @@ Kanban-style view of specs organized by status:
 - **Drag and Drop**: Move specs between status columns (if enabled)
 - **Status Columns**: Planned, Active, Done, etc.
 - **Card Previews**: See spec title, tags, and assignee at a glance
+
+![Board view with Planned, In Progress, Complete, and Archived columns](/img/ui/ui-board-view.png)
 
 ### Project Stats
 
@@ -133,6 +143,44 @@ Dashboard showing project metrics:
 - **By Priority**: Distribution of priority levels
 - **By Tags**: Most commonly used tags
 
+![Dashboard summary tiles plus Recently Added, Planned, and activity feeds](/img/ui/ui-dashboard.png)
+
+### Search View
+
+Need to find a specific spec? The search UI updates results instantly as you type, and the board view reflects the filtered set.
+
+![Search filtering to dependency-related specs across board columns](/img/ui/ui-search-view.png)
+
+## Architecture Overview
+
+```mermaid
+flowchart LR
+    CLI[lean-spec ui] -- delegates --> Local[Local Next.js build]
+    External[npx @leanspec/ui] -- downloads --> Package["@leanspec/ui package"]
+    Local & Package --> Server[Next.js standalone server]
+    Server -->|Reads specs| FS[specs/ directory]
+    Browser((Browser)) -->|HTTP :3000| Server
+```
+
+### Monorepo vs External Projects
+
+```mermaid
+flowchart TB
+    subgraph Monorepo Dev
+        CLIDev[lean-spec ui --dev]
+        WebPkg[packages/web]
+        CLIDev --> WebPkg --> Server1[Local Next.js server]
+    end
+
+    subgraph External Project
+        NPX[npx @leanspec/ui]
+        npmCache[npm registry cache]
+        NPX --> npmCache --> Server2[Standalone server]
+    end
+
+    Server1 & Server2 --> SharedFS[SPECS_DIR filesystem mode]
+```
+
 ## How Filesystem Mode Works
 
 The UI uses **filesystem mode**, which means it stays in sync with your local files automatically.
@@ -142,8 +190,6 @@ graph LR
     Editor[Code Editor] -->|Writes| Disk[specs/ directory]
     Disk -->|Reads| UI[LeanSpec UI]
     UI -->|Displays| Browser[Web Browser]
-    
-    style Disk fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
 ### Direct File Access

@@ -10,6 +10,8 @@ description: 使用 LeanSpec 网页界面进行可视化规范管理
 
 LeanSpec UI 提供了一个可视化的网页界面，用于浏览和管理规范。它非常适合视觉学习者、团队演示和探索性规范浏览。
 
+![LeanSpec UI 列表视图，展示搜索和筛选控件](/img/ui/ui-spec-list.png)
+
 ## 什么是可视化模式？
 
 可视化模式是一个本地网页应用程序，提供：
@@ -98,6 +100,8 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 - **快速筛选**：按状态、标签或优先级筛选
 - **搜索**：跨所有规范的全文搜索
 
+![列表视图示例，突出筛选器和搜索框](/img/ui/ui-list-view.png)
+
 ### 规范详情视图
 
 点击任何规范查看：
@@ -106,6 +110,8 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 - **元数据**：清晰显示所有前置字段
 - **相关规范**：依赖关系和相关工作的链接
 - **快速操作**：编辑、查看源代码或在文件系统中打开的链接
+
+![规范详情视图展示元数据、操作按钮和正文内容](/img/ui/ui-spec-detail.png)
 
 ### 依赖关系图
 
@@ -116,6 +122,8 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 - **点击导航**：点击任何节点查看该规范
 - **按状态筛选**：仅显示活动规范、已完成工作等
 
+![依赖关系图弹窗，包含当前规范与关联工作的节点](/img/ui/ui-dependency-graph.png)
+
 ### 看板视图
 
 按状态组织规范的看板式视图：
@@ -123,6 +131,8 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 - **拖放**：在状态列之间移动规范（如果启用）
 - **状态列**：Planned、Active、Done 等
 - **卡片预览**：一目了然地查看规范标题、标签和负责人
+
+![看板视图包含 Planned、In Progress、Complete、Archived 列](/img/ui/ui-board-view.png)
 
 ### 项目统计
 
@@ -133,6 +143,46 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 - **按优先级**：优先级级别的分布
 - **按标签**：最常用的标签
 
+![项目统计仪表板展示总计、完成率和饼图](/img/ui/ui-project-stats.png)
+
+### 搜索视图
+
+需要立即定位规范？搜索框输入后实时刷新，列表和看板都会同步过滤。
+
+![搜索关键字 dependency 后仅显示匹配的卡片与列](/img/ui/ui-search-view.png)
+
+## 架构总览
+
+```mermaid
+flowchart LR
+    CLI[lean-spec ui] --> Local[本地 Next.js 构建]
+    External[npx @leanspec/ui] --> Package["@leanspec/ui 包"]
+    Local --> Server[Next.js standalone 服务器]
+    Package --> Server
+    Server -->|读取规范| FS[specs/ 目录]
+    Browser((浏览器)) -->|HTTP :3000| Server
+```
+
+### Monorepo vs 外部项目
+
+```mermaid
+flowchart TB
+    subgraph Monorepo 开发
+        CLIDev[lean-spec ui --dev]
+        WebPkg[packages/web]
+        CLIDev --> WebPkg --> Server1[本地 Next.js 服务器]
+    end
+
+    subgraph 外部项目
+        NPX[npx @leanspec/ui]
+        npmCache[npm registry 缓存]
+        NPX --> npmCache --> Server2[Standalone 服务器]
+    end
+
+    Server1 --> SharedFS[SPECS_DIR 文件系统模式]
+    Server2 --> SharedFS
+```
+
 ## 文件系统模式的工作原理
 
 UI 使用**文件系统模式**，这意味着它会自动与您的本地文件保持同步。
@@ -142,8 +192,6 @@ graph LR
     Editor[代码编辑器] -->|写入| Disk[specs/ 目录]
     Disk -->|读取| UI[LeanSpec UI]
     UI -->|显示| Browser[Web 浏览器]
-    
-    style Disk fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
 ### 直接文件访问
