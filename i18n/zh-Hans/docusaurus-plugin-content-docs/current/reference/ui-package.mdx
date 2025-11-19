@@ -127,6 +127,20 @@ npx @leanspec/ui --specs ./specs --port 3100 --no-open
 
 ## 架构
 
+### 组件交互
+
+```mermaid
+graph TD
+    CLI[lean-spec ui] -->|委托| NPX[npx @leanspec/ui]
+    NPX -->|运行| Next[Next.js 服务器]
+    Next -->|读取| Specs[specs/ 目录]
+    Browser[Web 浏览器] -->|HTTP :3000| Next
+    
+    subgraph "文件系统模式"
+    Next <--> Specs
+    end
+```
+
 ### Next.js Standalone 输出
 
 该包使用 Next.js 的 standalone 输出模式：
@@ -147,6 +161,27 @@ module.exports = {
 ### 文件系统模式
 
 UI 在文件系统模式下运行，这意味着：
+
+**数据流：**
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Cache
+    participant Disk
+    
+    Browser->>Server: 请求 /api/specs
+    Server->>Cache: 检查缓存
+    alt 缓存命中
+        Cache-->>Server: 返回缓存数据
+    else 缓存未命中
+        Server->>Disk: 读取 specs/*.md
+        Disk-->>Server: 规范内容
+        Server->>Cache: 存储 (TTL 60s)
+    end
+    Server-->>Browser: JSON 响应
+```
 
 **直接文件访问：**
 - 从规范目录读取 `README.md` 文件

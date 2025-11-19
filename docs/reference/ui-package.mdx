@@ -126,7 +126,19 @@ The package uses these environment variables internally:
 **Note**: These are set automatically by the package. You typically don't need to set them manually.
 
 ## Architecture
+#### Component Interaction
 
+```mermaid
+graph TD
+    CLI[lean-spec ui] -->|Delegates| NPX[npx @leanspec/ui]
+    NPX -->|Runs| Next[Next.js Server]
+    Next -->|Reads| Specs[specs/ directory]
+    Browser[Web Browser] -->|HTTP :3000| Next
+    
+    subgraph "Filesystem Mode"
+    Next <--> Specs
+    end
+```
 ### Next.js Standalone Output
 
 The package uses Next.js's standalone output mode:
@@ -147,6 +159,27 @@ module.exports = {
 ### Filesystem Mode
 
 The UI operates in filesystem mode, which means:
+
+**Data Flow:**
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Cache
+    participant Disk
+    
+    Browser->>Server: Request /api/specs
+    Server->>Cache: Check cache
+    alt Cache Hit
+        Cache-->>Server: Return cached data
+    else Cache Miss
+        Server->>Disk: Read specs/*.md
+        Disk-->>Server: Spec content
+        Server->>Cache: Store (TTL 60s)
+    end
+    Server-->>Browser: JSON response
+```
 
 **Direct File Access:**
 - Reads `README.md` files from the specs directory

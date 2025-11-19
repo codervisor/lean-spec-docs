@@ -135,7 +135,16 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 
 ## 文件系统模式的工作原理
 
-UI 使用**文件系统模式**，这意味着：
+UI 使用**文件系统模式**，这意味着它会自动与您的本地文件保持同步。
+
+```mermaid
+graph LR
+    Editor[代码编辑器] -->|写入| Disk[specs/ 目录]
+    Disk -->|读取| UI[LeanSpec UI]
+    UI -->|显示| Browser[Web 浏览器]
+    
+    style Disk fill:#f9f,stroke:#333,stroke-width:2px
+```
 
 ### 直接文件访问
 - 无需数据库

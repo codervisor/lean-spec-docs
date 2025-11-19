@@ -135,7 +135,16 @@ Dashboard showing project metrics:
 
 ## How Filesystem Mode Works
 
-The UI uses **filesystem mode**, which means:
+The UI uses **filesystem mode**, which means it stays in sync with your local files automatically.
+
+```mermaid
+graph LR
+    Editor[Code Editor] -->|Writes| Disk[specs/ directory]
+    Disk -->|Reads| UI[LeanSpec UI]
+    UI -->|Displays| Browser[Web Browser]
+    
+    style Disk fill:#f9f,stroke:#333,stroke-width:2px
+```
 
 ### Direct File Access
 - No database required
