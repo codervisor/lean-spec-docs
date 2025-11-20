@@ -24,11 +24,11 @@
     "description": "Navbar item with label GitHub"
   },
   "item.label.Examples": {
-    "message": "Examples",
+    "message": "示例",
     "description": "Navbar item with label Examples"
   },
   "item.label.Web App": {
-    "message": "Web App",
+    "message": "Web 应用",
     "description": "Navbar item with label Web App"
   }
 }
