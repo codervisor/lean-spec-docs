@@ -7,32 +7,20 @@ sidebar_position: 2
 
 This guide will help you install LeanSpec and set up your first project.
 
+## Pre-requisites
+
+- **Node.js**: Ensure you have Node.js (version 20 or higher) installed. You can download it from [nodejs.org](https://nodejs.org/).
+- **AI Tool**: If you plan to integrate with AI coding agents (like GitHub Copilot, Claude, etc.), make sure you have your preferred tool set up.
+
 ## Installation
 
-LeanSpec can be installed globally or as a project dependency.
-
-### Global Installation
+LeanSpec can be installed globally using npm.
 
 ```bash
 npm install -g lean-spec
 ```
 
 This makes the `lean-spec` command available system-wide.
-
-### Project Installation
-
-```bash
-# Using npm
-npm install -D lean-spec
-
-# Using pnpm
-pnpm add -D lean-spec
-
-# Using yarn
-yarn add -D lean-spec
-```
-
-For project installation, you'll need to use `npx lean-spec` or add scripts to your `package.json`.
 
 ## Verify Installation
 
@@ -42,7 +30,7 @@ Check that LeanSpec is installed correctly:
 lean-spec --version
 ```
 
-You should see the version number (e.g., `0.1.0`).
+You should see the version number (e.g., `0.3.0`).
 
 ## Initialize Your Project
 
@@ -62,7 +50,6 @@ Zero configuration using standard template. Gets you up and running in seconds.
 ? How would you like to set up?
   ❯ Quick start (recommended)
     Choose a template
-    Customize everything
 ```
 
 This creates:
@@ -84,10 +71,6 @@ Each template includes:
 - Supporting files (CONTRIBUTING.md, checklists, etc.)
 - Project-specific configuration
 
-### 3. Customize Everything
-
-Full control over configuration (coming soon).
-
 ## Project Structure
 
 After initialization, your project will have:
@@ -106,23 +89,11 @@ your-project/
 └── ... (your project files)
 ```
 
-**Note**: Default structure is flat with global numbering (`001-name/`, `002-name/`). For date-based grouping, configure the `structure.pattern` in `.lean-spec/config.json`.
-
-## Integrating with Existing Projects
-
-If you already have `AGENTS.md`, `.cursorrules`, or other system prompts, `lean-spec init` will detect them and offer three options:
-
-1. **Merge** - Appends LeanSpec guidance to your existing `AGENTS.md` (preserves your content)
-2. **Backup** - Saves existing files as `.backup` and creates fresh ones
-3. **Skip** - Only adds `.lean-spec` config and `specs/` directory, keeps your files untouched
-
-This makes it easy to adopt LeanSpec incrementally without disrupting your existing AI agent setup.
-
 ## Configuration
 
 The `.lean-spec/config.json` file controls LeanSpec behavior:
 
-```json
+```json title=".lean-spec/config.json"
 {
   "template": "spec-template.md",
   "specsDir": "specs",
@@ -171,19 +142,19 @@ lean-spec create feature-name
 lean-spec list
 
 # View a spec
-lean-spec view 001
+lean-spec view 1
 
-# Update spec metadata (by number or path)
-lean-spec update 001 --status=in-progress
-lean-spec update specs/001-my-feature --status=in-progress
+# Update spec metadata (by number or name)
+lean-spec update 1 --status=in-progress
+lean-spec update feature-name --status=in-progress
 
 # Archive completed specs
-lean-spec archive 001
+lean-spec archive 1
 ```
 
 For a complete command reference, see [CLI Commands](/docs/reference/cli).
 
-## Visual Mode (Optional)
+## Visual Mode
 
 LeanSpec includes a web UI for visual spec management. This is great for browsing specs, visualizing dependencies, and presentations.
 
@@ -203,9 +174,13 @@ The UI provides:
 
 The UI runs locally on port 3000 and automatically opens in your browser. Your specs are read directly from the filesystem with no setup required.
 
+**Screenshot:**
+
+![LeanSpec UI Screenshot](/img/ui/ui-dashboard.png)
+
 **Learn more**: [Visual Mode Guide](/docs/guide/visual-mode) for detailed features and usage.
 
-## AI Integration (Optional)
+## AI Integration
 
 LeanSpec works great with AI coding agents. When you ran `lean-spec init`, it created `AGENTS.md` with instructions for AI agents.
 
@@ -220,27 +195,25 @@ LeanSpec works great with AI coding agents. When you ran `lean-spec init`, it cr
 
 2. Configure your AI tool:
 
-   **VS Code (GitHub Copilot)** - Add to settings.json:
-   ```json
+   **VS Code (GitHub Copilot)** - Add to `.vscode/mcp.json`:
+   ```json title=".vscode/mcp.json"
    {
-     "github.copilot.chat.mcp.servers": {
+     "servers": {
        "lean-spec": {
          "command": "npx",
-         "args": ["-y", "lean-spec", "mcp"],
-         "cwd": "${workspaceFolder}"
+         "args": ["-y", "@leanspec/mcp"],
        }
      }
    }
    ```
 
-   **Claude Desktop** - Add to claude_desktop_config.json:
-   ```json
+   **Claude Code** - Add to `.mcp.json`:
+   ```json title=".mcp.json"
    {
      "mcpServers": {
        "lean-spec": {
          "command": "npx",
-         "args": ["-y", "lean-spec", "mcp"],
-         "cwd": "/absolute/path/to/your/project"
+         "args": ["-y", "@leanspec/mcp"],
        }
      }
    }

@@ -7,32 +7,20 @@ sidebar_position: 2
 
 本指南将帮助您安装 LeanSpec 并设置您的第一个项目。
 
+## 先决条件
+
+- **Node.js**：确保您已安装 Node.js（版本 20 或更高）。您可以从 [nodejs.org](https://nodejs.org/) 下载。
+- **AI 工具**：如果您计划与 AI 编码代理集成（如 GitHub Copilot、Claude 等），请确保设置了您首选的工具。
+
 ## 安装
 
-LeanSpec 可以全局安装，也可以作为项目依赖安装。
-
-### 全局安装
+LeanSpec 可以用 npm 全局安装。
 
 ```bash
 npm install -g lean-spec
 ```
 
 这样可以在系统范围内使用 `lean-spec` 命令。
-
-### 项目安装
-
-```bash
-# 使用 npm
-npm install -D lean-spec
-
-# 使用 pnpm
-pnpm add -D lean-spec
-
-# 使用 yarn
-yarn add -D lean-spec
-```
-
-对于项目安装，您需要使用 `npx lean-spec` 或在 `package.json` 中添加脚本。
 
 ## 验证安装
 
@@ -42,7 +30,7 @@ yarn add -D lean-spec
 lean-spec --version
 ```
 
-您应该看到版本号（例如 `0.1.0`）。
+您应该看到版本号（例如 `0.3.0`）。
 
 ## 初始化项目
 
@@ -62,7 +50,6 @@ lean-spec init
 ? 您希望如何设置？
   ❯ 快速开始（推荐）
     选择模板
-    自定义所有设置
 ```
 
 这将创建：
@@ -84,10 +71,6 @@ lean-spec init
 - 支持文件（CONTRIBUTING.md、检查清单等）
 - 项目特定配置
 
-### 3. 自定义所有设置
-
-完全控制配置（即将推出）。
-
 ## 项目结构
 
 初始化后，您的项目将包含：
@@ -105,18 +88,6 @@ your-project/
 ├── AGENTS.md              # AI 代理集成指南
 └── ... (您的项目文件)
 ```
-
-**注意**：默认结构是扁平的，使用全局编号（`001-name/`、`002-name/`）。要使用基于日期的分组，请在 `.lean-spec/config.json` 中配置 `structure.pattern`。
-
-## 与现有项目集成
-
-如果您已经有 `AGENTS.md`、`.cursorrules` 或其他系统提示，`lean-spec init` 将检测到它们并提供三个选项：
-
-1. **合并** - 将 LeanSpec 指南附加到现有的 `AGENTS.md`（保留您的内容）
-2. **备份** - 将现有文件保存为 `.backup` 并创建新文件
-3. **跳过** - 仅添加 `.lean-spec` 配置和 `specs/` 目录，保持您的文件不变
-
-这使得您可以逐步采用 LeanSpec，而不会破坏现有的 AI 代理设置。
 
 ## 配置
 
@@ -171,14 +142,14 @@ lean-spec create feature-name
 lean-spec list
 
 # 查看规范
-lean-spec view 001
+lean-spec view 1
 
-# 更新规范元数据（通过编号或路径）
-lean-spec update 001 --status=in-progress
-lean-spec update specs/001-my-feature --status=in-progress
+# 更新规范元数据（通过编号或名称）
+lean-spec update 1 --status=in-progress
+lean-spec update feature-name --status=in-progress
 
 # 归档已完成的规范
-lean-spec archive 001
+lean-spec archive 1
 ```
 
 完整的命令参考，请参阅 [CLI 命令](/docs/reference/cli)。
@@ -203,6 +174,10 @@ UI 提供：
 
 UI 在端口 3000 上本地运行，并自动在浏览器中打开。您的规范直接从文件系统读取，无需设置。
 
+**屏幕截图：**
+
+![LeanSpec UI Screenshot](/img/ui/ui-dashboard.png)
+
 **了解更多**：查看[可视化模式指南](/docs/guide/visual-mode)了解详细功能和使用方法。
 
 ## AI 集成（可选）
@@ -220,27 +195,25 @@ LeanSpec 与 AI 编码代理配合得很好。当您运行 `lean-spec init` 时�
 
 2. 配置您的 AI 工具：
 
-   **VS Code (GitHub Copilot)** - 添加到 settings.json：
-   ```json
+   **VS Code (GitHub Copilot)** - 添加到 `.vscode/mcp.json`：
+   ```json title=".vscode/mcp.json"
    {
-     "github.copilot.chat.mcp.servers": {
+     "servers": {
        "lean-spec": {
          "command": "npx",
-         "args": ["-y", "lean-spec", "mcp"],
-         "cwd": "${workspaceFolder}"
+         "args": ["-y", "@leanspec/mcp"],
        }
      }
    }
    ```
 
-   **Claude Desktop** - 添加到 claude_desktop_config.json：
-   ```json
+   **Claude Code** - 添加到 `.mcp.json`：
+   ```json title=".mcp.json"
    {
      "mcpServers": {
        "lean-spec": {
          "command": "npx",
-         "args": ["-y", "lean-spec", "mcp"],
-         "cwd": "/absolute/path/to/your/project"
+         "args": ["-y", "@leanspec/mcp"],
        }
      }
    }
