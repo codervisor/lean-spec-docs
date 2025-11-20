@@ -160,7 +160,7 @@ Common sub-spec files:
 - `TESTING.md` - Test strategy
 - `CONFIGURATION.md` - Config examples
 
-**Why?** Keeps each file under 400 lines (Context Economy principle).
+**Why?** Keeps each file under 2,000 tokens (Context Economy principle).
 
 **See also**: [Sub-Spec Files](/docs/guide/usage/essential-usage/spec-structure#sub-spec-files)
 
@@ -203,18 +203,14 @@ Archived specs:
 
 ### Declaring Dependencies
 
-**Hard dependencies** (blocking):
-```yaml
-# In spec frontmatter (must edit manually for now)
-depends_on:
-  - spec-041  # Must complete before this can start
-```
+Use `lean-spec link` to manage relationships (do not edit frontmatter manually):
 
-**Soft relationships** (informational):
-```yaml
-# In spec frontmatter (must edit manually for now)
-related:
-  - spec-043  # Related work, not blocking
+```bash
+# Add hard dependency (blocking)
+lean-spec link 042 --depends-on 041
+
+# Add soft relationship (informational)
+lean-spec link 042 --related 043,044
 ```
 
 ### Viewing Dependencies
@@ -256,7 +252,7 @@ Catches:
 - Invalid frontmatter structure
 - Missing required fields
 - Dependency cycles
-- Token count warnings (>5,000 tokens reduces AI effectiveness)
+- Token count warnings (>3,500 tokens reduces AI effectiveness)
 
 **See also**: [Validation](/docs/guide/usage/project-management/validation)
 
@@ -306,9 +302,9 @@ lean-spec update 042 --status archived
 
 ```bash
 # 1. Check if spec is getting too large
-lean-spec view 042 --raw | wc -l
+lean-spec tokens 042
 
-# 2. If >400 lines, split into sub-specs
+# 2. If >3,500 tokens, split into sub-specs
 # Create DESIGN.md, TESTING.md, etc.
 
 # 3. Verify structure
@@ -319,14 +315,15 @@ lean-spec files 042
 
 **DO:**
 - ✅ Use `lean-spec update` for status/priority/tags (never edit frontmatter)
+- ✅ Use `lean-spec link` for relationships
 - ✅ Keep README.md focused (use sub-specs for detail)
 - ✅ Update status as work progresses
 - ✅ Archive completed specs to reduce clutter
 - ✅ Validate regularly (`lean-spec validate`)
 
 **DON'T:**
-- ❌ Manually edit system-managed frontmatter (status, priority, tags, assignee, transitions, timestamps)
-- ❌ Let specs grow beyond 400 lines without splitting
+- ❌ Manually edit system-managed frontmatter (status, priority, tags, assignee, transitions, timestamps, depends_on, related)
+- ❌ Let specs grow beyond 3,500 tokens without splitting
 - ❌ Leave specs in stale status
 - ❌ Skip validation before committing
 

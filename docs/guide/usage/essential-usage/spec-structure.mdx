@@ -59,7 +59,7 @@ transitions:                       # Status change history
 ---
 ```
 
-**Manual editing**: Only `depends_on` and `related` must be edited manually (no CLI command yet). All others use `lean-spec update`.
+**Manual editing**: Most fields are managed via CLI. Use `lean-spec update` for status/priority/tags, and `lean-spec link` for relationships.
 
 **See also**: [Frontmatter Reference](/docs/reference/frontmatter)
 
@@ -157,7 +157,7 @@ Add only if needed:
 
 ## Sub-Spec Files {#sub-spec-files}
 
-When a spec exceeds 400 lines or has multiple distinct concerns, split into sub-specs:
+When a spec exceeds **3,500 tokens** or has multiple distinct concerns, split into sub-specs:
 
 ### Common Sub-Specs
 
@@ -181,7 +181,7 @@ Should contain:
 - Success criteria
 - Links to sub-specs for details
 
-**Target**: &lt;300 lines
+**Target**: &lt;2,000 tokens
 
 ### DESIGN.md
 
@@ -191,7 +191,7 @@ Detailed design decisions:
 - Component interactions
 - Technology choices and rationale
 
-**Target**: &lt;400 lines
+**Target**: &lt;2,000 tokens
 
 ### IMPLEMENTATION.md
 
@@ -201,7 +201,7 @@ Execution plan:
 - Order of operations
 - Integration points
 
-**Target**: &lt;400 lines
+**Target**: &lt;2,000 tokens
 
 ### TESTING.md
 
@@ -211,7 +211,7 @@ Test strategy:
 - Performance tests
 - Integration tests
 
-**Target**: &lt;400 lines
+**Target**: &lt;2,000 tokens
 
 ## Examples
 
@@ -313,25 +313,25 @@ See:
 - Batch operations (v2.2)
 ```
 
-**DESIGN.md** (detailed design - 350 lines)  
-**IMPLEMENTATION.md** (execution plan - 280 lines)  
-**TESTING.md** (test strategy - 190 lines)  
+**DESIGN.md** (detailed design - 1,500 tokens)  
+**IMPLEMENTATION.md** (execution plan - 1,200 tokens)  
+**TESTING.md** (test strategy - 800 tokens)  
 
-**Total**: ~820 lines across 4 files ✅  
-**Largest file**: 350 lines ✅
+**Total**: ~4,000 tokens across 4 files ✅  
+**Largest file**: 1,500 tokens ✅
 
 ## Structure Best Practices
 
 **DO:**
 - ✅ Start with Problem, Solution, Success Criteria (minimum viable)
 - ✅ Add sections progressively as needed
-- ✅ Split into sub-specs when >400 lines
+- ✅ Split into sub-specs when >3,500 tokens
 - ✅ Link between sub-specs for navigation
 - ✅ Keep README.md as entry point/overview
 
 **DON'T:**
 - ❌ Add every possible section upfront
-- ❌ Let any single file exceed 400 lines
+- ❌ Let any single file exceed 3,500 tokens
 - ❌ Bury the problem statement
 - ❌ Skip success criteria
 - ❌ Mix multiple unrelated concerns in one spec

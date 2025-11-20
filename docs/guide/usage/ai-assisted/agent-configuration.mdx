@@ -26,12 +26,44 @@ Configure AI coding agents to work effectively with LeanSpec through AGENTS.md i
 
 [Brief description of what the project does]
 
+## First Principles (Decision Framework)
+
+When making spec decisions, apply these principles in priority order:
+
+### 1. Context Economy - Fit in working memory
+**Specs must fit in working memory—both human and AI.**
+- **Target**: <2,000 tokens per spec file
+- **Warning**: 2,000-3,500 tokens (acceptable but watch complexity)
+- **Problem**: >3,500 tokens (consider splitting)
+
+### 2. Signal-to-Noise Maximization - Every word informs decisions
+**Every word must inform decisions or be cut.**
+- **Test**: "What decision does this sentence inform?"
+- **Cut**: Obvious, inferable, or "maybe future" content
+
+### 3. Intent Over Implementation - Capture why, not just how
+**Capture "why" and "what," let "how" emerge.**
+- **Must have**: Problem, intent, success criteria
+- **Should have**: Design rationale, trade-offs
+
+### 4. Bridge the Gap - Both human and AI must understand
+**Specs exist to align human intent with machine execution.**
+- **For humans**: Overview, context, rationale
+- **For AI**: Unambiguous requirements, clear structure, examples
+
+### 5. Progressive Disclosure - Add complexity when pain is felt
+**Start simple, add structure only when pain is felt.**
+- **Solo dev**: Just status + created
+- **Feel pain?**: Add tags, priority, custom fields
+
 ## Core Rules
 
 1. **Read README.md first** - Understand project context
 2. **Check specs/** - Review existing specs before starting
-3. **Follow LeanSpec principles** - Clarity over documentation
-4. **Keep it minimal** - If it doesn't add clarity, cut it
+3. **Use `lean-spec --help`** - When unsure about commands
+4. **Follow LeanSpec principles** - Clarity over documentation
+5. **Keep it minimal** - If it doesn't add clarity, cut it
+6. **NEVER manually edit system-managed frontmatter** - Use CLI commands instead
 
 ## When to Use Specs
 
@@ -53,53 +85,57 @@ Skip specs for:
 - `lean-spec board` - Kanban view with project health
 - `lean-spec stats` - Quick project metrics
 
-**Viewing specs:**
-- `lean-spec view <spec>` - View a spec (formatted)
-- `lean-spec view <spec> --raw` - Get raw markdown
-- `lean-spec view <spec> --json` - Get structured JSON
-- `lean-spec open <spec>` - Open spec in editor
-- `lean-spec files <spec>` - List all files in a spec
-
 **Working with specs:**
-- `lean-spec create <name>` - Create a new spec
-- `lean-spec update <spec> --status <status>` - Update status
-- `lean-spec deps <spec>` - Show dependencies
+- `lean-spec create <name>` - Create new spec
+- `lean-spec update <spec> --status <status>` - Update status (REQUIRED)
+- `lean-spec link <spec> --related <other>` - Link specs
+- `lean-spec deps <spec>` - Show dependency graph
+- `lean-spec tokens <spec>` - Count tokens for context management
 
-## Spec Frontmatter
+## Spec Relationships
 
-When creating or updating specs, include YAML frontmatter:
+### `related` - Bidirectional Soft Reference
+Informational relationship between specs. Automatically shown from both sides.
+**Use when:** Specs cover related topics, work is coordinated but not blocking.
 
-```yaml
----
-status: planned|in-progress|blocked|complete|archived
-created: YYYY-MM-DD
-tags: [tag1, tag2]  # optional
-priority: low|medium|high  # optional
----
-```
-
-**IMPORTANT**: Always use `lean-spec update` to modify status, priority, tags, and assignee. Never edit frontmatter manually for these system-managed fields.
+### `depends_on` - Directional Blocking Dependency
+Hard dependency - spec cannot start until dependencies complete.
+**Use when:** Spec truly cannot start until another completes, work order matters.
 
 ## SDD Workflow
 
 1. **Discover** - Check existing specs with `lean-spec list`
-2. **Plan** - Create spec with `lean-spec create <name>` when needed
-3. **Implement** - Write code, keep spec in sync as you learn
-4. **Update** - Mark progress with `lean-spec update <spec> --status <status>`
-5. **Complete** - Mark complete when done
+2. **Plan** - Create spec with `lean-spec create <name>` (status: `planned`)
+3. **Start Work** - Run `lean-spec update <spec> --status in-progress` before implementing
+4. **Implement** - Write code/docs, keep spec in sync as you learn
+5. **Complete** - Run `lean-spec update <spec> --status complete` after implementation done
+
+**CRITICAL - What "Work" Means:**
+- ❌ **NOT**: Creating/writing the spec document itself
+- ✅ **YES**: Implementing what the spec describes (code, docs, features, etc.)
 
 ## Quality Standards
 
 - Code is clear and maintainable
 - Tests cover critical paths
 - Specs stay in sync with implementation
-- Always validate before completing work:
+- **Status tracking is mandatory:**
+  - Specs start as `planned` after creation
+  - Mark `in-progress` BEFORE starting implementation work
+  - Mark `complete` AFTER implementation is finished
+- **Always validate before completing work:**
   - Run `lean-spec validate` to check spec structure
-  - Fix any validation errors before marking complete
+  - Fix any validation errors before marking work complete
 
-## [Project-Specific Rules]
+## Spec Complexity Guidelines
 
-[Add your project-specific guidelines here]
+**Token Thresholds:**
+- **<2,000 tokens**: ✅ Optimal
+- **2,000-3,500 tokens**: ✅ Good
+- **3,500-5,000 tokens**: ⚠️ Warning - Consider splitting
+- **>5,000 tokens**: 🔴 Should split
+
+**Check with:** `lean-spec tokens <spec>`
 ```
 
 ## Configuring Different AI Tools

@@ -25,9 +25,9 @@ LeanSpec has two types of relationships:
 
 Use `related` for informational connections:
 
-```yaml
-# In spec 042
-related: [043, 044]
+```bash
+# Link spec 042 to 043 and 044
+lean-spec link 042 --related 043,044
 ```
 
 Both sides see the relationship:
@@ -52,10 +52,9 @@ Related Specs:
 
 Use `depends_on` for hard dependencies:
 
-```yaml
+```bash
 # Spec A depends on Spec B
-# In spec A
-depends_on: [spec-b]
+lean-spec link spec-a --depends-on spec-b
 ```
 
 Shows differently from each side:
@@ -91,7 +90,7 @@ Shows:
 ### Example Output
 
 ```
-🔗 Dependencies for 043-feature-launch
+Dependency Graph for 043-feature-launch
 
 Depends On:
   → 042-error-handling [complete] ✅
@@ -104,8 +103,6 @@ Required By:
 Related Specs:
   ⟷ 040-performance [in-progress]
   ⟷ 039-security-audit [complete]
-
-Status: Ready to start (all dependencies complete)
 ```
 
 ## Best Practices
@@ -114,50 +111,45 @@ Status: Ready to start (all dependencies complete)
 
 Most relationships are informational, not blocking:
 
-```yaml
+```bash
 # ✅ Good - Related specs for context
-related: [feature-a, feature-b]
+lean-spec link feature-a --related feature-b
 
 # ❌ Overuse - Not a true blocking dependency
-depends_on: [documentation-spec]
+lean-spec link feature-a --depends-on documentation-spec
 ```
 
 ### 2. Reserve `depends_on` for True Blockers
 
 Only use when work truly cannot start:
 
-```yaml
+```bash
 # ✅ Good - API must exist before integration
-depends_on: [api-implementation]
+lean-spec link integration --depends-on api-implementation
 
 # ❌ Bad - These can be done in parallel
-depends_on: [docs-update]
+lean-spec link feature --depends-on docs-update
 ```
 
 ### 3. Avoid Circular Dependencies
 
-```yaml
+```bash
 # ❌ Bad - Circular dependency
-# Spec A
-depends_on: [spec-b]
-
-# Spec B
-depends_on: [spec-a]
+lean-spec link spec-a --depends-on spec-b
+lean-spec link spec-b --depends-on spec-a
 ```
 
 LeanSpec will warn about circular dependencies.
 
 ### 4. Update Once, Show Everywhere
 
-`related` only needs to be in one spec:
+`related` only needs to be linked from one side:
 
-```yaml
-# ✅ Good - Only in spec A
-# Spec A
-related: [spec-b]
+```bash
+# ✅ Good - Link from A to B
+lean-spec link spec-a --related spec-b
 
-# Spec B - no need to list A
-# (relationship automatically shown)
+# Spec B automatically shows relationship to A
 ```
 
 ## Workflows
@@ -199,73 +191,56 @@ lean-spec deps <in-progress-spec>
 
 ### Sequential Work
 
-```yaml
-# Phase 1
-status: complete
+```bash
+# Phase 2 depends on Phase 1
+lean-spec link phase-2 --depends-on phase-1
 
-# Phase 2
-depends_on: [phase-1]
-status: in-progress
-
-# Phase 3
-depends_on: [phase-2]
-status: planned
+# Phase 3 depends on Phase 2
+lean-spec link phase-3 --depends-on phase-2
 ```
 
 ### Parallel Work with Coordination
 
-```yaml
-# Feature A
-related: [feature-b, feature-c]
-
-# Feature B
-related: [feature-a, feature-c]
-
-# Feature C
-related: [feature-a, feature-b]
+```bash
+# Link all related features
+lean-spec link feature-a --related feature-b,feature-c
+lean-spec link feature-b --related feature-c
 ```
 
 ### Integration Point
 
-```yaml
-# Core Feature
-status: in-progress
+```bash
+# Tests blocked until feature done
+lean-spec link tests --depends-on core-feature
 
-# Tests (blocked until feature done)
-depends_on: [core-feature]
-
-# Docs (can start early, related)
-related: [core-feature]
+# Docs related but not blocked
+lean-spec link docs --related core-feature
 ```
 
 ## Managing Changes
 
 ### Adding Dependencies
 
-```yaml
-# Before
-status: planned
-
-# After
-depends_on: [prerequisite-spec]
-status: planned  # Can't start until dependency complete
+```bash
+# Add dependency
+lean-spec link my-spec --depends-on prerequisite-spec
 ```
 
 ### Removing Dependencies
 
 When a dependency is no longer needed:
 
-```yaml
-# Before
-depends_on: [old-requirement]
+```bash
+# Remove dependency
+lean-spec unlink my-spec --depends-on old-requirement
 
-# After
-# (remove depends_on or replace with related)
-related: [old-requirement]
+# Replace with related (optional)
+lean-spec link my-spec --related old-requirement
 ```
 
 ## Tips
 
+- Use `lean-spec link` and `lean-spec unlink` (avoid manual frontmatter edits)
 - Check dependencies before starting work
 - Use `related` for most connections
 - Only use `depends_on` for true blockers

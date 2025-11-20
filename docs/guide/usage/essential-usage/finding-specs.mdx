@@ -18,15 +18,12 @@ lean-spec list
 
 Output:
 ```
-📋 Specs (18 total)
+📋 Spec List
 
-┌─────┬────────────────────────┬──────────────┬──────────┐
-│ ID  │ Name                   │ Status       │ Priority │
-├─────┼────────────────────────┼──────────────┼──────────┤
-│ 042 │ auth-refactor          │ in-progress  │ high     │
-│ 043 │ api-redesign           │ planned      │ medium   │
-│ 044 │ dashboard-performance  │ complete     │ low      │
-└─────┴────────────────────────┴──────────────┴──────────┘
+🟡 ✅ 107-ui-ux-refinements #ui #ux #lessons-learned
+🟡 ✅ 106-ui-package-documentation
+🟡 ⏳ 105-docs-site-enhancements
+🟠 ✅ 104-ui-packaging-fix #packaging #bug-fix
 ```
 
 ### Filter by Status
@@ -106,15 +103,38 @@ lean-spec search "JWT"      # Matches "jwt", "JWT", "Jwt"
 lean-spec board
 ```
 
-Shows specs grouped by status:
-```
-┌─────────── PLANNED ───────────┬──── IN-PROGRESS ────┐
-│ 043 api-redesign [medium]     │ 042 auth-refactor   │
-│ 045 notification-system [low] │ 046 db-migration    │
-└───────────────────────────────┴─────────────────────┘
+Shows specs grouped by status with project health metrics:
 
-Project Completion: 60% (3/5 specs complete)
-- 2 in progress, 2 planned, 3 complete
+```
+📋 Spec Kanban Board
+
+╔════════════════════════════════════════════════════════════╗
+║  Project Overview                                          ║
+║  72 total · 15 active · 57 complete (79%)                  ║
+║  🚀 Velocity: 0.5d avg cycle · 34.0/wk throughput          ║
+╚════════════════════════════════════════════════════════════╝
+
+📅 Planned (14)
+
+  🔴 Critical (1)
+    065-v03-planning #release #planning #milestone
+
+  🟠 High (5)
+    098-github-multi-project-integration #web #github
+    094-ai-chatbot-web-integration #web #ai #ux
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏳ In Progress (1)
+
+  🟡 Medium (1)
+    105-docs-site-enhancements
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Complete (86)
+
+  (collapsed, use --complete to expand)
 ```
 
 **See also**: [Board & Stats](/docs/guide/usage/project-management/board-stats)
@@ -214,7 +234,7 @@ lean-spec list --archived
 lean-spec stats
 ```
 
-Output (simplified view by default):
+Output:
 ```
 📊 Project Statistics
 

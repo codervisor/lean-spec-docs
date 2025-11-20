@@ -16,17 +16,17 @@ lean-spec board
 ```
 
 Shows specs organized by status columns:
-- 📋 **Planned** - Specs ready to start
-- 🚧 **In Progress** - Active work
+- � **Planned** - Specs ready to start
+- ⏳ **In Progress** - Active work
 - ✅ **Complete** - Finished specs
 
-### Project Completion Summary
+### Project Overview
 
-The board includes a project completion summary:
+The board includes a project overview box:
 - Total specs count
-- Distribution by status (planned, in-progress, complete)
+- Active vs Complete count
 - Completion percentage
-- Active work in progress
+- Velocity metrics (cycle time, throughput)
 
 ### Filtering
 
@@ -52,11 +52,11 @@ lean-spec stats
 ```
 
 Shows:
-- Total specs count
-- Status breakdown (planned, in-progress, complete)
-- Priority distribution
-- Most common tags
-- Recent activity summary
+- **Overview**: Total specs, active count, completion rate
+- **Status**: Visual bar chart of status distribution
+- **Priority Focus**: Breakdown by priority
+- **Needs Attention**: Critical/High priority specs not started
+- **Velocity Summary**: Cycle time and throughput
 
 ### Full Analytics
 
@@ -150,19 +150,28 @@ The board and stats commands help identify:
 ## Example Output
 
 ```
-📊 LeanSpec Board
+📋 Spec Kanban Board
 
-📋 Planned (3)
-  • 045-new-feature [high] #feature
-  • 046-refactor [medium] #tech-debt
-  • 047-docs-update [low] #documentation
+╔════════════════════════════════════════════════════════════╗
+║  Project Overview                                          ║
+║  72 total · 15 active · 57 complete (79%)                  ║
+║  🚀 Velocity: 0.5d avg cycle · 34.0/wk throughput          ║
+╚════════════════════════════════════════════════════════════╝
 
-🚧 In Progress (2)
-  • 043-launch [high] #release
-  • 044-api-update [high] #feature
+📅 Planned (14)
 
-Project Completion: 71% (12/17 specs complete)
-- 2 in progress, 3 planned, 12 complete
+  🔴 Critical (1)
+    065-v03-planning #release #planning #milestone
+
+  🟠 High (5)
+    098-github-multi-project-integration #web #github
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏳ In Progress (1)
+
+  🟡 Medium (1)
+    105-docs-site-enhancements
 ```
 
 ## Learning More
