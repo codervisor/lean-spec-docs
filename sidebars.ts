@@ -17,7 +17,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Introduction',
-      items: ['guide/index', 'guide/getting-started', 'comparison'],
+      items: ['guide/index', 'guide/getting-started', 'why-leanspec'],
     },
     {
       type: 'category',
