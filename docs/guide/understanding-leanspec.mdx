@@ -5,6 +5,27 @@ sidebar_position: 2
 
 LeanSpec is designed so both humans and AI agents can hold the full context for a piece of work. This page explains why the structure matters, how each concept connects, and how to evolve specs as complexity grows.
 
+## Core Principles
+
+LeanSpec is built on five key principles designed to bridge the gap between human intent and AI execution:
+
+1.  **Context Economy**: Keep specs small (&lt;2,000 tokens) to fit in working memory.
+2.  **Signal-to-Noise**: Every word must inform a decision.
+3.  **Intent Over Implementation**: Capture *why* and *what*, let *how* emerge.
+4.  **Bridge the Gap**: Write for both human understanding and AI parsing.
+5.  **Progressive Disclosure**: Start simple, add complexity only when pain is felt.
+
+## When to Write a Spec
+
+Write or update a spec when:
+- Intent needs clarification or multiple interpretations exist
+- Trade-offs, constraints, or success criteria matter
+- Work spans multiple files/systems or affects other teams
+- AI agents will implement part of the feature
+- Decisions should persist beyond a chat or meeting
+
+**Skip it when:** Fixing obvious bugs, performing mechanical refactors, or prototyping to learn.
+
 ## Why the Structure Works
 LeanSpec optimizes for Context Economy and Signal-to-Noise:
 - **Frontmatter** keeps machine-readable truth about status, dependencies, and priority so boards and agents stay aligned.

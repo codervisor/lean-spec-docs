@@ -33,7 +33,6 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Core Concepts',
       items: [
-        'guide/what-is-leanspec',
         'guide/understanding-leanspec',
         {
           type: 'category',
