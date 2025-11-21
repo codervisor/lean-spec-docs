@@ -26,7 +26,6 @@ const sidebars: SidebarsConfig = {
         'tutorials/writing-first-spec-with-ai',
         'tutorials/ai-assisted-feature-development',
         'tutorials/managing-multiple-specs-with-ai',
-        'tutorials/team-collaboration-ai-agents',
       ],
     },
     {
@@ -78,7 +77,6 @@ const sidebars: SidebarsConfig = {
             'guide/usage/advanced-features/frontmatter',
           ],
         },
-        'guide/usage/ai-assisted/ai-executable-patterns',
         'guide/usage/ai-assisted/agent-configuration',
         'guide/usage/ai-assisted/mcp-integration',
       ],
