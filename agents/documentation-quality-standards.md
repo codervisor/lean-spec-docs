@@ -204,6 +204,117 @@ npm run build
 - **MDX parsing errors**: Check bold formatting with quotes/Chinese
 - **Missing translations**: Ensure Chinese docs are updated
 
+## 6. Mermaid Diagram Styling
+
+**CRITICAL**: Mermaid diagrams must be readable in both light and dark themes. Default colors often have poor contrast in dark mode.
+
+### Required Styling for All Mermaid Diagrams
+
+When creating Mermaid diagrams, ALWAYS apply custom styles to ensure proper contrast in dark theme:
+
+**Correct - With Dark Theme Support:**
+````markdown
+```mermaid
+graph LR
+    A[Node 1] --> B[Node 2]
+    B --> C[Node 3]
+    
+    style A fill:#e1f5ff,stroke:#1e3a8a,stroke-width:2px,color:#1e3a8a
+    style B fill:#fff4e1,stroke:#92400e,stroke-width:2px,color:#92400e
+    style C fill:#f0e1ff,stroke:#6b21a8,stroke-width:2px,color:#6b21a8
+    
+    linkStyle default stroke-width:1px
+```
+````
+
+**Incorrect - Default Colors:**
+````markdown
+```mermaid
+graph LR
+    A[Node 1] --> B[Node 2]
+    B --> C[Node 3]
+```
+````
+
+### Color Palette Guidelines
+
+Use these color combinations for good contrast in both themes:
+
+**Blue variants:**
+- `fill:#e1f5ff,stroke:#1e3a8a,color:#1e3a8a` (light blue background, dark blue text)
+
+**Orange/Brown variants:**
+- `fill:#fff4e1,stroke:#92400e,color:#92400e` (light orange background, dark brown text)
+
+**Purple variants:**
+- `fill:#f0e1ff,stroke:#6b21a8,color:#6b21a8` (light purple background, dark purple text)
+
+**Green variants:**
+- `fill:#e1ffe1,stroke:#166534,color:#166534` (light green background, dark green text)
+
+**Red variants:**
+- `fill:#ffe1e1,stroke:#991b1b,color:#991b1b` (light red background, dark red text)
+
+**Gray/Neutral:**
+- `fill:#f5f5f5,stroke:#525252,color:#525252` (light gray background, dark gray text)
+
+### Style Properties Explained
+
+- **`fill`**: Background color of the node (use light colors)
+- **`stroke`**: Border color of the node (use dark colors for contrast)
+- **`stroke-width`**: Border thickness (typically `2px`)
+- **`color`**: Text color inside the node (should match stroke color for consistency)
+- **`linkStyle`**: Arrow/line styling between nodes
+
+### Flowchart vs Graph Diagrams
+
+**For flowcharts** (with `flowchart TD` or `flowchart LR`):
+```markdown
+flowchart TD
+    A[Step 1] --> B[Step 2]
+    
+    style A fill:#e1f5ff,stroke:#1e3a8a,stroke-width:2px,color:#1e3a8a
+    style B fill:#fff4e1,stroke:#92400e,stroke-width:2px,color:#92400e
+```
+
+**For graphs** (with `graph LR` or `graph TD`):
+```markdown
+graph LR
+    A[Node 1] --> B[Node 2]
+    
+    style A fill:#e1f5ff,stroke:#1e3a8a,stroke-width:2px,color:#1e3a8a
+    linkStyle default stroke:#333,stroke-width:2px
+```
+
+### Subgraph Styling
+
+For diagrams with subgraphs, apply styles to the subgraph container:
+
+```markdown
+graph LR
+    subgraph S1["Group 1"]
+        A[Item 1]
+        B[Item 2]
+    end
+    
+    style S1 fill:#e1f5ff,stroke:#1e3a8a,stroke-width:2px
+    style A fill:#f5f5f5,stroke:#525252,stroke-width:1px,color:#525252
+    style B fill:#f5f5f5,stroke:#525252,stroke-width:1px,color:#525252
+```
+
+### Testing Dark Theme
+
+After adding/updating Mermaid diagrams:
+
+1. Run dev server: `npm start`
+2. Toggle dark theme in the site's theme switcher
+3. Verify all diagram nodes have clear, readable text
+4. Check that colors have sufficient contrast
+
+### Reference Example
+
+See `docs/advanced/ai-assisted-spec-writing.mdx` for comprehensive examples of properly styled Mermaid diagrams.
+
 ## Workflow for Documentation Changes
 
 1. **Plan**: Understand full scope of changes (English + Chinese)

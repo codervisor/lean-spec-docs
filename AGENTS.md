@@ -35,6 +35,23 @@ Every English `.mdx` file needs a Chinese translation in `i18n/zh-Hans/docusauru
 ** "quoted text" **  ✅ (spaces inside bold markers)
 ```
 
+### Mermaid Diagram Dark Theme Styling
+
+**CRITICAL**: Mermaid diagrams MUST have custom styling for dark theme contrast. Default colors are unreadable in dark mode.
+
+**Always apply styles to Mermaid nodes:**
+```markdown
+```mermaid
+graph LR
+    A[Node] --> B[Node]
+    
+    style A fill:#e1f5ff,stroke:#1e3a8a,stroke-width:2px,color:#1e3a8a
+    style B fill:#fff4e1,stroke:#92400e,stroke-width:2px,color:#92400e
+```
+```
+
+**Use color palette:** Light background + dark text for contrast in both themes. See `agents/documentation-quality-standards.md` section 6 for full color palette and examples.
+
 ### Build Validation
 
 Before committing:

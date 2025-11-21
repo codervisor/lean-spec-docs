@@ -30,22 +30,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Core Concepts',
-      items: [
-        'guide/understanding-leanspec',
-        {
-          type: 'category',
-          label: 'Terminology',
-          items: [
-            'guide/terminology/spec',
-            'guide/terminology/built-in-metadata',
-            'guide/terminology/sdd-workflow',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
       label: 'Usage',
       items: [
         'guide/usage/overview',
@@ -73,6 +57,22 @@ const sidebars: SidebarsConfig = {
             'guide/usage/advanced-features/variables',
             'guide/usage/advanced-features/frontmatter',
             'guide/usage/advanced-features/agent-configuration',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Core Concepts',
+      items: [
+        'guide/understanding-leanspec',
+        {
+          type: 'category',
+          label: 'Terminology',
+          items: [
+            'guide/terminology/spec',
+            'guide/terminology/built-in-metadata',
+            'guide/terminology/sdd-workflow',
           ],
         },
       ],
