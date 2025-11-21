@@ -95,51 +95,7 @@ lean-spec search "api"      # Matches "API", "api", "Api"
 lean-spec search "JWT"      # Matches "jwt", "JWT", "Jwt"
 ```
 
-## Visual Navigation
-
-### Kanban Board
-
-```bash
-lean-spec board
-```
-
-Shows specs grouped by status with project health metrics:
-
-```
-📋 Spec Kanban Board
-
-╔════════════════════════════════════════════════════════════╗
-║  Project Overview                                          ║
-║  72 total · 15 active · 57 complete (79%)                  ║
-║  🚀 Velocity: 0.5d avg cycle · 34.0/wk throughput          ║
-╚════════════════════════════════════════════════════════════╝
-
-📅 Planned (14)
-
-  🔴 Critical (1)
-    065-v03-planning #release #planning #milestone
-
-  🟠 High (5)
-    098-github-multi-project-integration #web #github
-    094-ai-chatbot-web-integration #web #ai #ux
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⏳ In Progress (1)
-
-  🟡 Medium (1)
-    105-docs-site-enhancements
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-✅ Complete (86)
-
-  (collapsed, use --complete to expand)
-```
-
-**See also**: [Board & Stats](/docs/guide/usage/cli/project-management#board-stats)
-
-### Dependency View
+## Dependency Navigation
 
 ```bash
 # Show dependencies for a spec
@@ -168,37 +124,6 @@ Navigate relationships:
 
 **See also**: [Dependencies](/docs/guide/usage/cli/project-management#dependencies)
 
-## AI Agent Access (MCP)
-
-### MCP Server Integration
-
-The LeanSpec MCP server enables AI agents to search and retrieve specs:
-
-```javascript
-// AI agent uses MCP tools
-search_specs("authentication system")
-get_spec("042")
-list_specs({status: "in-progress"})
-```
-
-This powers:
-- **Semantic memory**: AI retrieves past decisions across sessions
-- **Context-aware**: AI finds relevant specs for current task
-- **Cross-reference**: AI follows dependencies automatically
-
-**See also**: [MCP Server Reference](/docs/reference/mcp-server)
-
-### AI Search Workflow
-
-When working with AI agents:
-
-1. **Agent queries**: "Why did we choose PostgreSQL?"
-2. **MCP search**: `search_specs("database decision")`
-3. **Agent retrieves**: Spec 023 with rationale
-4. **Agent answers**: "Per spec 023, PostgreSQL chosen because..."
-
-This eliminates repetitive questions and maintains consistency.
-
 ## Advanced Filtering
 
 ### Combine Multiple Criteria
@@ -225,36 +150,6 @@ lean-spec list
 # Include archived
 lean-spec list --archived
 ```
-
-## Project Stats
-
-### Quick Overview
-
-```bash
-lean-spec stats
-```
-
-Output:
-```
-📊 Project Statistics
-
-Status Distribution:
-  ⏳ In Progress: 2
-  📋 Planned: 5
-  ✅ Complete: 3
-
-Priority Breakdown:
-  🔴 High: 3
-  🟠 Medium: 4
-  🟢 Low: 3
-
-Top Tags:
-  #api: 4 specs
-  #backend: 6 specs
-  #security: 2 specs
-```
-
-**See also**: [Board & Stats](/docs/guide/usage/cli/project-management#board-stats)
 
 ## Common Search Patterns
 
@@ -300,11 +195,10 @@ lean-spec deps <spec-id>
 ## Navigation Tips
 
 **DO:**
-- ✅ Use `lean-spec board` for visual overview
-- ✅ Use `lean-spec list` with filters for focused views
 - ✅ Use `lean-spec search` for content-based discovery
+- ✅ Use `lean-spec list` with filters for focused views
 - ✅ Use `lean-spec deps` to understand relationships
-- ✅ Let AI agents search via MCP for semantic retrieval
+- ✅ Check [Board & Stats](/docs/guide/usage/cli/project-management#board-stats) for visual overview
 
 **DON'T:**
 - ❌ Manually grep through specs/ directory
@@ -317,7 +211,7 @@ lean-spec deps <spec-id>
 
 ```bash
 # 1. What's the project state?
-lean-spec board
+lean-spec list --status in-progress
 
 # 2. What should I work on?
 lean-spec list --status planned --priority high
@@ -349,8 +243,8 @@ lean-spec view 041
 ## Next Steps
 
 - [Creating & Managing Specs](/docs/guide/usage/cli/creating-managing) - Basic operations
+- [Project Management](/docs/guide/usage/cli/project-management) - Board views and health tracking
 - [Spec Structure](/docs/guide/usage/spec-structure) - Understanding spec anatomy
-- [Dependencies](/docs/guide/usage/cli/project-management#dependencies) - Managing relationships
 
 ---
 

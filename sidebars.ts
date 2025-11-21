@@ -54,9 +54,11 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: 'CLI Usage',
           items: [
+            'guide/usage/cli/overview',
             'guide/usage/cli/creating-managing',
             'guide/usage/cli/finding-specs',
             'guide/usage/cli/project-management',
+            'guide/usage/cli/validation',
           ],
         },
         'guide/visual-mode',
