@@ -48,25 +48,20 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Usage',
       items: [
+        'guide/usage/overview',
+        'guide/usage/ai-coding-workflow',
         {
           type: 'category',
-          label: 'Essential Usage',
+          label: 'CLI Usage',
           items: [
-            'guide/usage/essential-usage/creating-managing',
-            'guide/usage/essential-usage/finding-specs',
-            'guide/usage/essential-usage/spec-structure',
+            'guide/usage/cli/creating-managing',
+            'guide/usage/cli/finding-specs',
+            'guide/usage/cli/project-management',
           ],
         },
         'guide/visual-mode',
-        {
-          type: 'category',
-          label: 'Project Management',
-          items: [
-            'guide/usage/project-management/board-stats',
-            'guide/usage/project-management/dependencies',
-            'guide/usage/project-management/validation',
-          ],
-        },
+        'guide/usage/mcp-integration',
+        'guide/usage/spec-structure',
         {
           type: 'category',
           label: 'Advanced Features',
@@ -75,10 +70,9 @@ const sidebars: SidebarsConfig = {
             'guide/usage/advanced-features/custom-fields',
             'guide/usage/advanced-features/variables',
             'guide/usage/advanced-features/frontmatter',
+            'guide/usage/advanced-features/agent-configuration',
           ],
         },
-        'guide/usage/ai-assisted/agent-configuration',
-        'guide/usage/ai-assisted/mcp-integration',
       ],
     },
     {
@@ -88,6 +82,7 @@ const sidebars: SidebarsConfig = {
         'advanced/first-principles',
         'advanced/context-engineering',
         'advanced/ai-agent-memory',
+        'advanced/ai-assisted-spec-writing',
         'advanced/philosophy',
         'advanced/limits-and-tradeoffs',
       ],

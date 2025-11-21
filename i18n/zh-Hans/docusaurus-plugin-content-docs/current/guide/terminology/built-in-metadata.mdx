@@ -1,49 +1,51 @@
 ---
-title: 内置元数据
+title: Built-in Metadata
 sidebar_position: 2
 ---
-# 内置元数据
+# Built-in Metadata
 
-LeanSpec 在前置元数据里保存少量系统管理字段，让人类、仪表盘和 AI 代理共享同一份事实。保持这些字段准确，Kanban 视图、CLI、MCP 代理才能做出正确决定。
+LeanSpec specs store a small set of system-managed fields in frontmatter so humans, dashboards, and AI agents share the same truth. Keep these fields accurate—automation, Kanban boards, and MCP-powered workflows all rely on them.
 
-## 状态生命周期
-1. **planned** —— 只记录了意图，尚未进入实现。
-2. **in-progress** —— 正在执行。
-3. **blocked** —— 外部依赖阻塞进度。
-4. **complete** —— 已实现并通过验证。
-5. **archived** —— 仅供历史参考。
+## Status Lifecycle
+1. **planned** — intent captured, implementation not started.
+2. **in-progress** — work is actively happening.
+3. **blocked** — external dependency is preventing progress.
+4. **complete** — implementation finished and validated.
+5. **archived** — historical reference only.
 
-状态描述的是实现进度，而不是撰写文档的速度。使用 `lean-spec update <spec> --status <value>`，确保白板、自动化和 AI 都看到同一状态。
+Update status the moment implementation starts or stops; status tracks the work, not the spec writing process. Use `lean-spec update <spec> --status <value>` so every tool (and AI agent) sees the same state.
 
-## 关系字段
-LeanSpec 区分硬阻塞和软引用：
+## Relationships
+LeanSpec distinguishes between directional blockers and soft references:
 
-- **`depends_on`** —— 硬依赖，另一个规范完成前无法开始。
+- **`depends_on`** — Hard dependency. Spec A cannot start until Spec B is complete.
   ```yaml
   depends_on:
     - 082
   ```
-  在 `lean-spec deps` 中显示为 **→**，并在被依赖的规范上自动生成 “Required By”。
-- **`related`** —— 信息性链接，用于互相参考的工作流。
+  Appears as **→** in `lean-spec deps` and automatically adds a "Required By" entry on the dependency.
+- **`related`** — Informational link for parallel or adjacent work.
   ```yaml
   related:
     - 043
   ```
-  在图里显示为 **⟷**，让并行项目共享上下文而不锁死顺序。
+  Shows as **⟷** in graphs and keeps context discoverable without blocking schedules.
 
-默认使用 `related`，只有当顺序确实重要时才升级为 `depends_on`。
+Default to `related`; escalate to `depends_on` only when sequencing truly matters.
 
-## 优先级与标签
-- **priority** 反映紧急程度或业务影响，常用值：`low`、`medium`、`high`、`critical`。
-- **tags** 让你快速筛选工作项，建议使用统一词汇（如 `frontend`、`backend`、`docs`、`infra`）。
+## Priority & Tags
+These fields make specs filterable and keep planning lightweight.
+
+- **priority** communicates urgency or impact. Typical values: `low`, `medium`, `high`, `critical`.
+- **tags** provide fast slicing across the portfolio. Stick to a shared vocabulary (for example `frontend`, `backend`, `docs`, `infra`).
   ```yaml
   priority: high
   tags: [api, backend, security]
   ```
 
-每个规范保持 2-4 个标签即可，过多会稀释信号。
+Aim for 2-4 tags per spec. Too many tags reduce signal and make search noisy.
 
-## 前置元数据示例
+## Example Frontmatter
 ```yaml
 ---
 status: in-progress
@@ -55,9 +57,9 @@ created: '2025-11-16'
 ---
 ```
 
-## 为什么要严格维护
-- **项目视图更真实** —— 看板、燃尽、路线图直接读取这些字段。
-- **AI 更易对齐** —— 代理会根据状态、优先级和依赖决定是否修改规范或实现代码。
-- **传递上下文更轻松** —— 标签、关系和状态演进让新成员无需再开同步会议。
+## Why Metadata Discipline Matters
+- **Projects stay honest** — Boards, burndown charts, and roadmap exports use these fields directly.
+- **AI stays aligned** — Agents decide whether to edit a spec or start implementation based on `status`, `priority`, and dependencies.
+- **Context sharing improves** — Tags, relationships, and status transitions tell newcomers where to plug in without another meeting.
 
-像维护代码一样维护前置元数据：现实变化就更新，并在合并前运行 `lean-spec validate`。
+Treat the frontmatter like code: update it as soon as reality changes and validate with `lean-spec validate` before merging.

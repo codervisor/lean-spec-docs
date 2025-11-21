@@ -1,322 +1,323 @@
 ---
 id: 'context-engineering'
-title: '上下文工程'
+title: 'Context Engineering'
 sidebar_position: 4
 ---
-# 上下文工程
+# Context Engineering
 
-> "更大的上下文窗口 ≠ 更好的结果。智能策展 > 原始容量。"
+> "Bigger context windows ≠ better results. Smart curation > raw capacity."
 
-上下文工程是管理 AI 工作记忆以最大化效果的实践。LeanSpec 将上下文工程原则应用于规范管理，确保规范适配工作记忆并提供高信噪比。
+Context engineering is the practice of managing AI working memory to maximize effectiveness. LeanSpec applies context engineering principles to spec management, ensuring specs fit in working memory and deliver high signal-to-noise ratio.
 
-## 核心问题
+## The Core Problem
 
-### 上下文是有限的
+### Context is Finite
 
-即使拥有 100 万+ 令牌窗口：
-- **注意力随长度退化**（上下文腐烂）
-- **N² 复杂度**的 transformer 注意力机制
-- **训练偏向**更短的序列
-- **成本随令牌**线性增长
+Even with 1M+ token windows:
+- **Attention degrades** with length (context rot)
+- **N² complexity** in transformer attention
+- **Training bias** toward shorter sequences
+- **Cost scales** linearly with tokens
 
-**关键洞察**：更大的窗口不能解决问题。智能策展才能。
+**Key Insight**: Bigger windows don't solve the problem. Smart curation does.
 
-### 与 LeanSpec 的联系
+### The LeanSpec Connection
 
-LeanSpec 存在的原因：
-1. **上下文经济** - 规范必须适配工作记忆（人类 + AI）
-2. **信噪比** - 每个词都必须为决策提供信息
-3. **上下文失败**发生在我们违反这些原则时
+LeanSpec exists because:
+1. **Context Economy** - Specs must fit in working memory (human + AI)
+2. **Signal-to-Noise** - Every word must inform decisions
+3. **Context failures** happen when we violate these principles
 
-本页解释：**如何通过编程方式维护上下文经济**
+This page explains: **How to maintain Context Economy programmatically**
 
-## 四种上下文工程策略
+## Four Context Engineering Strategies
 
-基于 [LangChain](https://blog.langchain.com/context-engineering-for-agents/) 和 [Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) 的研究：
+Based on research from [LangChain](https://blog.langchain.com/context-engineering-for-agents/) and [Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents):
 
-### 1. 分区（写入与选择）
+### 1. Partitioning (Write & Select)
 
-**定义**：将内容拆分到多个上下文中并选择性加载
+**What**: Split content across multiple contexts with selective loading
 
-**LeanSpec 应用**：
+**LeanSpec Application**:
 ```markdown
-# 替代一个约 11K 令牌的规范：
-specs/045/README.md          (~1,200 令牌 - 概览)
-specs/045/DESIGN.md          (~2,200 令牌 - 设计)
-specs/045/IMPLEMENTATION.md  (~900 令牌 - 计划)
-specs/045/TESTING.md         (~1,100 令牌 - 测试)
+# Instead of one 11K-token spec:
+specs/045/README.md          (~1,200 tokens - overview)
+specs/045/DESIGN.md          (~2,200 tokens - design)
+specs/045/IMPLEMENTATION.md  (~900 tokens - plan)
+specs/045/TESTING.md         (~1,100 tokens - tests)
 
-# AI 只加载当前任务所需的内容
+# AI loads only what it needs for current task
 ```
 
-**机制**：
-- **子规范文件**（README + DESIGN + TESTING + CONFIG）
-- **延迟加载**（按需读取文件）
-- **渐进式披露**（概览 → 详细信息）
+**Mechanisms**:
+- **Sub-spec files** (README + DESIGN + TESTING + CONFIG)
+- **Lazy loading** (read files on demand)
+- **Progressive disclosure** (overview → details)
 
-**何时使用**：
-- ✅ 规范 >3,500 令牌
-- ✅ 多个不同的关注点（设计 + 测试 + 配置）
-- ✅ 不同关注点独立访问
+**When to Use**:
+- ✅ Spec >3,500 tokens
+- ✅ Multiple distinct concerns (design + testing + config)
+- ✅ Different concerns accessed independently
 
-**优势**：
-- ✅ 每个文件 &lt;2,000 令牌（适配工作记忆）
-- ✅ 减少无关上下文（仅加载所需部分）
-- ✅ 并行工作（编辑 DESIGN 不影响 TESTING）
+**Benefits**:
+- ✅ Each file &lt;2,000 tokens (fits in working memory)
+- ✅ Reduce irrelevant context (only load needed sections)
+- ✅ Parallel work (edit DESIGN without affecting TESTING)
 
-### 2. 精简（移除冗余）
+### 2. Compaction (Remove Redundancy)
 
-**定义**：消除重复或可推断的内容
+**What**: Eliminate duplicate or inferable content
 
-**LeanSpec 应用**：
+**LeanSpec Application**:
 ```markdown
-# 精简前（冗长）：
-## 身份认证
-身份认证系统使用 JWT 令牌。JWT 令牌是行业标准，
-提供无状态身份认证。JWT 令牌的好处是不需要服务端
-会话存储...
+# Before compaction (verbose):
+## Authentication
+The authentication system uses JWT tokens. JWT tokens are 
+industry-standard and provide stateless authentication. The 
+benefit of JWT tokens is that they don't require server-side 
+session storage...
 
-## 实现
-我们将实现 JWT 身份认证。选择 JWT 是因为...
-[重复相同的理由]
+## Implementation
+We'll implement JWT authentication. JWT was chosen because...
+[repeats same rationale]
 
-# 精简后（简洁）：
-## 身份认证
-使用 JWT 令牌（无状态，无会话存储）。
+# After compaction (concise):
+## Authentication
+Uses JWT tokens (stateless, no session storage).
 
-## 实现
-[链接到身份认证部分查看理由]
+## Implementation
+[links to Authentication section for rationale]
 ```
 
-**机制**：
-- **重复检测**（多处相同内容）
-- **推断移除**（从上下文显而易见）
-- **引用整合**（一个规范来源，其他链接）
+**Mechanisms**:
+- **Duplicate detection** (same content in multiple places)
+- **Inference removal** (obvious from context)
+- **Reference consolidation** (one canonical source, others link)
 
-**何时使用**：
-- ✅ 跨部分重复解释
-- ✅ 明显/可推断的信息明确陈述
-- ✅ "为了完整性"的部分几乎没有决策价值
+**When to Use**:
+- ✅ Repeated explanations across sections
+- ✅ Obvious/inferable information stated explicitly
+- ✅ "For completeness" sections with little decision value
 
-**优势**：
-- ✅ 更少令牌 = 更快处理
-- ✅ 更少干扰 = 更好注意力
-- ✅ 更易维护 = 单一事实来源
+**Benefits**:
+- ✅ Fewer tokens = faster processing
+- ✅ Less distraction = better attention
+- ✅ Easier maintenance = single source of truth
 
-### 3. 压缩（总结）
+### 3. Compression (Summarize)
 
-**定义**：浓缩同时保留关键信息
+**What**: Condense while preserving essential information
 
-**LeanSpec 应用**：
+**LeanSpec Application**:
 ```markdown
-# 压缩前：
-## 阶段 1：基础设施搭建
-设置项目结构：
-- 创建 src/ 目录
-- 创建 tests/ 目录
-- 使用 tsconfig.json 配置 TypeScript
-- 使用 .eslintrc 配置 ESLint
-- 使用 .prettierrc 配置 Prettier
-- 添加构建、测试、检查的 npm 脚本
-- 使用 GitHub Actions 配置 CI 流水线
-[约 1,000 令牌的详细步骤...]
+# Before compression:
+## Phase 1: Infrastructure Setup
+Set up project structure:
+- Create src/ directory
+- Create tests/ directory
+- Configure TypeScript with tsconfig.json
+- Set up ESLint with .eslintrc
+- Configure Prettier with .prettierrc
+- Add npm scripts for build, test, lint
+- Set up CI pipeline with GitHub Actions
+[~1,000 tokens of detailed steps...]
 
-# 压缩后（已完成阶段）：
-## ✅ 阶段 1：基础设施搭建（2025-10-15 完成）
-已建立包含 TypeScript、测试和 CI 的项目结构。
-实现详情见 git 提交 abc123。
+# After compression (completed phase):
+## ✅ Phase 1: Infrastructure Setup (Completed 2025-10-15)
+Project structure established with TypeScript, testing, and CI.
+See git commit abc123 for implementation details.
 ```
 
-**机制**：
-- **历史总结**（已完成工作 → 摘要）
-- **阶段汇总**（详细步骤 → 结果）
-- **选择性细节**（保留决策，总结执行）
+**Mechanisms**:
+- **Historical summarization** (completed work → summary)
+- **Phase rollup** (detailed steps → outcomes)
+- **Selective detail** (keep decisions, summarize execution)
 
-**何时使用**：
-- ✅ 已完成阶段（结果重要，细节不重要）
-- ✅ 历史背景（需要知道发生了什么，不需要知道如何发生）
-- ✅ 接近令牌阈值（保留信号，减少噪音）
+**When to Use**:
+- ✅ Completed phases (outcomes matter, details don't)
+- ✅ Historical context (need to know it happened, not how)
+- ✅ Approaching token thresholds (preserve signal, reduce noise)
 
-**优势**：
-- ✅ 保持项目历史不臃肿
-- ✅ 关注活跃工作，而非过去细节
-- ✅ 如需细节可轻松扩展
+**Benefits**:
+- ✅ Maintain project history without bloat
+- ✅ Focus on active work, not past details
+- ✅ Easy to expand if details needed later
 
-### 4. 隔离（移到独立上下文）
+### 4. Isolation (Move to Separate Context)
 
-**定义**：将不相关的关注点拆分为独立规范
+**What**: Split unrelated concerns into separate specs
 
-**LeanSpec 应用**：
+**LeanSpec Application**:
 ```markdown
-# 隔离前（一个规范）：
+# Before isolation (one spec):
 specs/045-unified-dashboard/README.md
-  - 仪表板实现
-  - 速度跟踪算法
-  - 健康评分系统
-  - 图表库评估
-  - 指标端点的 API 设计
-  [约 11K 令牌涵盖 5 个不同关注点]
+  - Dashboard implementation
+  - Velocity tracking algorithm
+  - Health scoring system
+  - Chart library evaluation
+  - API design for metrics endpoint
+  [~11K tokens covering 5 distinct concerns]
 
-# 隔离后（多个规范）：
-specs/045-unified-dashboard/       # 仪表板 UI
-specs/060-velocity-algorithm/      # 速度跟踪
-specs/061-health-scoring/          # 健康指标
-specs/062-metrics-api/             # API 端点
-  [每个规范 &lt;2,000 令牌，独立生命周期]
+# After isolation (multiple specs):
+specs/045-unified-dashboard/       # Dashboard UI
+specs/060-velocity-algorithm/      # Velocity tracking
+specs/061-health-scoring/          # Health metrics
+specs/062-metrics-api/             # API endpoint
+  [Each spec &lt;2,000 tokens, independent lifecycle]
 ```
 
-**机制**：
-- **关注点提取**（识别不相关主题）
-- **依赖分析**（什么必须放在一起？）
-- **规范创建**（移至新规范并交叉引用）
+**Mechanisms**:
+- **Concern extraction** (identify unrelated topics)
+- **Dependency analysis** (what must stay together?)
+- **Spec creation** (move to new spec with cross-references)
 
-**何时使用**：
-- ✅ 多个关注点有不同的生命周期
-- ✅ 部分可以是独立功能
-- ✅ 部分由不同人员/团队更新
-- ✅ 分区后规范仍然 >3,500 令牌
+**When to Use**:
+- ✅ Multiple concerns with different lifecycles
+- ✅ Sections could be standalone features
+- ✅ Parts updated by different people/teams
+- ✅ Spec still >3,500 tokens after partitioning
 
-**优势**：
-- ✅ 独立演进（算法变化 ≠ UI 变化）
-- ✅ 明确所有权（不同关注点，不同所有者）
-- ✅ 更易审查（每个规范范围集中）
+**Benefits**:
+- ✅ Independent evolution (algorithms change ≠ UI changes)
+- ✅ Clear ownership (different concerns, different owners)
+- ✅ Easier review (focused scope per spec)
 
-## 四种上下文失败模式
+## Four Context Failure Modes
 
-基于 [Drew Breunig](https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html) 的研究：
+Based on research from [Drew Breunig](https://www.dbreunig.com/2025/06/22/how-contexts-fail-and-how-to-fix-them.html):
 
-### 1. 上下文污染
+### 1. Context Poisoning
 
-**定义**：幻觉或错误内容进入上下文并被反复引用
+**Definition**: Hallucinated or erroneous content makes it into context and gets repeatedly referenced
 
-**LeanSpec 中的症状**：
+**Symptoms in LeanSpec**:
 ```markdown
-# AI 在编辑时产生幻觉：
-"身份认证模块使用 Redis 存储会话"
-  (现实：我们使用 JWT 令牌，不是 Redis 会话)
+# AI hallucinates during edit:
+"The authentication module uses Redis for session storage"
+  (Reality: We use JWT tokens, not Redis sessions)
 
-# 幻觉被保存到规范中
+# Hallucination gets saved to spec
 
-# 之后，AI 读取规范并基于幻觉构建：
-"Redis 配置应使用集群模式以实现高可用"
-  (基于原始错误构建)
+# Later, AI reads the spec and builds on the hallucination:
+"Redis configuration should use cluster mode for HA"
+  (Building on the original error)
 
-# 上下文现在被污染 - 错误信息复合
+# Context is now poisoned - wrong info compounds
 ```
 
-**缓解措施**：
-- ✅ 编程验证（保存前捕获）
-- ✅ 定期规范-代码同步检查
-- ✅ 立即移除损坏的部分
+**Mitigation**:
+- ✅ Programmatic validation (catch before save)
+- ✅ Regular spec-code sync checks
+- ✅ Remove corrupted sections immediately
 
-### 2. 上下文干扰
+### 2. Context Distraction
 
-**定义**：上下文增长过大，模型忽略训练并重复历史
+**Definition**: Context grows so large the model ignores training and repeats history
 
-**LeanSpec 中的症状**：
+**Symptoms in LeanSpec**:
 ```markdown
-# 规范增长到 4,000+ 令牌，包含大量历史
+# Spec grows beyond 4,000 tokens with extensive history
 
-# AI 行为改变：
-- 重复规范历史中的过去行动
-- 忽略训练知识
-- 建议规范中记录的过时方法
-- 无法综合新解决方案
+# AI behavior changes:
+- Repeats past actions from spec history
+- Ignores training knowledge
+- Suggests outdated approaches documented in spec
+- Fails to synthesize new solutions
 ```
 
-**缓解措施**：
-- ✅ 在 3,500 令牌前拆分（上下文经济）
-- ✅ 压缩历史部分
-- ✅ 按关注点分区
+**Mitigation**:
+- ✅ Split before 3,500 tokens (Context Economy)
+- ✅ Compress historical sections
+- ✅ Partition by concern
 
-**研究**：Databricks 发现 Llama 3.1 405b 在约 32k 令牌开始退化，较小模型更早
+**Research**: Databricks found degradation starts ~32k tokens for Llama 3.1 405b, earlier for smaller models
 
-### 3. 上下文混淆
+### 3. Context Confusion
 
-**定义**：多余内容影响模型做出错误决策
+**Definition**: Superfluous content influences model to make wrong decisions
 
-**LeanSpec 中的症状**：
+**Symptoms in LeanSpec**:
 ```markdown
-# 规范包含 20 个集成的 MCP 工具定义
+# Spec includes MCP tool definitions for 20 integrations
 # (GitHub, Jira, Slack, Linear, Notion, Asana, ...)
 
-# 任务："更新 GitHub issue 状态"
+# Task: "Update the GitHub issue status"
 
-# AI 行为：
-- 对使用哪个工具感到困惑
-- 有时调用错误工具（Jira 而不是 GitHub）
-- 处理更慢（评估无关选项）
-- 准确率降低
+# AI behavior:
+- Confused about which tool to use
+- Sometimes calls wrong tool (Jira instead of GitHub)
+- Slower processing (evaluating irrelevant options)
+- Lower accuracy
 ```
 
-**缓解措施**：
-- ✅ AI 处理前移除无关部分
-- ✅ 使用选择性加载（仅相关子规范）
-- ✅ 关注点清晰分离
+**Mitigation**:
+- ✅ Remove irrelevant sections before AI processing
+- ✅ Use selective loading (only relevant sub-specs)
+- ✅ Clear separation of concerns
 
-**研究**：伯克利函数调用排行榜确认所有模型在 >1 个工具时性能下降
+**Research**: Berkeley Function-Calling Leaderboard confirms ALL models perform worse with >1 tool
 
-### 4. 上下文冲突
+### 4. Context Clash
 
-**定义**：同一上下文中的信息冲突
+**Definition**: Conflicting information within same context
 
-**LeanSpec 中的症状**：
+**Symptoms in LeanSpec**:
 ```markdown
-# 规范前部：
-"我们将使用 PostgreSQL 存储数据"
+# Early in spec:
+"We'll use PostgreSQL for data storage"
 
-# 规范中部（讨论后）：
-"实际上，MongoDB 更适合这个用例"
+# Middle of spec (after discussion):
+"Actually, MongoDB is better for this use case"
 
-# 规范后部（忘记更新）：
-"PostgreSQL 模式设计：..."
+# Later in spec (forgot to update):
+"PostgreSQL schema design: ..."
 
-# AI 看到冲突信息 - 可能混合方法
+# AI sees conflicting info - may mix approaches
 ```
 
-**缓解措施**：
-- ✅ 每个决策的单一事实来源
-- ✅ 明确标记被取代的决策
-- ✅ 使用精简移除过时信息
+**Mitigation**:
+- ✅ Single source of truth per decision
+- ✅ Mark superseded decisions clearly
+- ✅ Use compaction to remove outdated info
 
-**研究**：微软/Salesforce 论文显示当信息跨多轮收集时性能下降 39%
+**Research**: Microsoft/Salesforce paper showed 39% performance drop when information gathered across multiple turns
 
-## 策略选择框架
+## Strategy Selection Framework
 
-| 情况 | 主要策略 | 次要策略 | 原因 |
+| Situation | Primary Strategy | Secondary | Why |
 |-----------|-----------------|-----------|-----|
-| 规范 >3,500 令牌，多个关注点 | 分区 | 精简 | 分离关注点，移除冗余 |
-| 规范冗长但单一关注点 | 精简 | 压缩 | 移除冗余，如仍长则总结 |
-| 历史阶段使规范臃肿 | 压缩 | - | 保留结果，删除细节 |
-| 同一规范中不相关关注点 | 隔离 | 分区 | 移至独立规范，然后分区 |
-| 规范接近 3,500 令牌 | 精简 | - | 达到限制前主动清理 |
+| Spec >3,500 tokens, multiple concerns | Partition | Compaction | Separate concerns, remove redundancy |
+| Spec verbose but single concern | Compaction | Compression | Remove redundancy, summarize if still long |
+| Historical phases bloating spec | Compression | - | Keep outcomes, drop details |
+| Unrelated concerns in same spec | Isolation | Partition | Move to separate spec, then partition |
+| Spec approaching 3,500 tokens | Compaction | - | Proactive cleanup before hitting limit |
 
-### 组合策略
+### Combining Strategies
 
-通常多个策略一起应用：
+Often multiple strategies apply together:
 
-**示例：大型规范（约 11K 令牌）**：
-1. **分区**：拆分为 README + DESIGN + IMPLEMENTATION + TESTING
-2. **精简**：移除每个文件内的冗余
-3. **压缩**：总结已完成的研究阶段
-4. **隔离**：考虑将算法移至独立规范
+**Example: Large spec (~11K tokens)**:
+1. **Partition**: Split into README + DESIGN + IMPLEMENTATION + TESTING
+2. **Compaction**: Remove redundancy within each file
+3. **Compression**: Summarize completed research phase
+4. **Isolation**: Consider moving algorithms to separate specs
 
-**结果**： 
-- 之前：约 11K 令牌（3 倍限制）
-- 之后：最大文件约 2,200 令牌（在限制内）
+**Result**: 
+- Before: ~11K tokens (3x limit)
+- After: Largest file ~2,200 tokens (within limit)
 
-## 底线
+## The Bottom Line
 
-上下文工程是**使用 AI 构建时的首要任务**。这些不仅是优化技术——它们是使 AI 辅助规范管理工作的基础。
+Context engineering is **the #1 job** when building with AI. These aren't just optimization techniques—they're fundamental to making AI-assisted spec management work.
 
-**关键洞察**：LeanSpec 是人类-AI 协作软件规范的上下文工程方法论。
+**Key Insight**: LeanSpec is a context engineering methodology for human-AI collaboration on software specs.
 
-**记住**：
-- 更大的上下文窗口不能解决问题
-- 智能策展（分区、精简、压缩、隔离）才能
-- 主动应用策略以防止上下文失败
-- 监控警告信号（>3,500 令牌、重复、混淆、冲突）
+**Remember**:
+- Bigger context windows don't solve the problem
+- Smart curation (partitioning, compaction, compression, isolation) does
+- Apply strategies proactively to prevent context failures
+- Monitor for warning signs (>3,500 tokens, repetition, confusion, conflicts)
 
 ---
 
-**相关**：查看[第一性原则](/docs/advanced/first-principles)了解基础约束，或探索[子规范文件](/docs/guide/usage/essential-usage/spec-structure#sub-spec-files)了解分区的实际实现。
+**Related**: See [First Principles](/docs/advanced/first-principles) for the foundational constraints, or explore [Sub-Spec Files](/docs/guide/usage/spec-structure#sub-spec-files) for practical implementation of partitioning.

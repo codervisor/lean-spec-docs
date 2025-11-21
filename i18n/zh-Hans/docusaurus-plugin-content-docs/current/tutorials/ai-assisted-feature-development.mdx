@@ -1,132 +1,132 @@
 ---
-title: AI 辅助功能开发
+title: AI-Assisted Feature Development
 sidebar_position: 2
-description: 将 LeanSpec 与 Copilot Agent 模式配对，端到端交付真实功能。
+description: Pair a LeanSpec with Copilot Agent Mode to ship a real feature end-to-end.
 ---
 
-# AI 辅助功能开发
+# AI-Assisted Feature Development
 
-**时间**：30-40 分钟  
-**目标**：从规范 → AI 计划 → 人类验证 → 交付功能，而不失去对齐。
+**Time**: 30-40 minutes  
+**Goal**: Go from spec → AI plan → human validation → shipped feature without losing alignment.
 
-## 场景
-向任务列表添加"优先级过滤器"。用户应切换高、中、低或全部。过滤器选择必须在会话之间保持。
+## Scenario
+Add "Priority filters" to a task list. Users should toggle High, Medium, Low, or All. Filter choice must persist between sessions.
 
-## 前提条件
-- 完成[使用 AI 编写你的第一个规范](./writing-first-spec-with-ai)
-- 通过 `lean-spec create task-priority-filter` 创建的规范
-- 具有对仓库的 MCP 访问权限的 GitHub Copilot Agent 模式（已共享 `AGENTS.md`）
+## Prerequisites
+- Completed [Writing Your First Spec with AI](./writing-first-spec-with-ai)
+- Spec created via `lean-spec create task-priority-filter`
+- GitHub Copilot Agent Mode with MCP access to the repo (`AGENTS.md` shared)
 
-## 步骤 1：引导代理（01:00）
-1. 运行 `lean-spec view task-priority-filter` 以确认规范是最新的。
-2. 在代理聊天中，共享文件路径：
-
-```
-请阅读 specs/002-task-priority-filter/README.md。用你自己的话确认
-目标、成功标准和计划阶段。
-```
-
-3. 等待摘要。如果它遗漏了细节（例如，持久性），回复：
-   `明确指出持久性——状态应该存储在哪里？`
-
-## 步骤 2：请求实现计划（04:00）
-提示：
+## Step 1: Ground the Agent (01:00)
+1. Run `lean-spec view task-priority-filter` to confirm the spec is up to date.
+2. In the agent chat, share the file path:
 
 ```
-创建引用规范部分的逐步实现计划。
-将其分解为我可以按顺序应用的提交。
+Please read specs/002-task-priority-filter/README.md. Confirm back the
+goal, success criteria, and plan phases in your own words.
 ```
 
-期望如下内容：
-- 提交 1：过滤器 UI 脚手架
-- 提交 2：状态 + 过滤逻辑
-- 提交 3：持久性 + 测试
+3. Wait for the summary. If it misses a detail (for example, persistence), reply:
+   `Call out persistence explicitly—where should state live?`
 
-将计划复制到规范的 `## 计划` 或 `## 实现说明` 下，以便进度保持可见。
-
-## 步骤 3：逐阶段执行（08:00）
-对于每个阶段，遵循此循环：
-
-1. **提示**
+## Step 2: Ask for an Implementation Plan (04:00)
+Prompt:
 
 ```
-实现计划中的阶段 1：构建 FilterBar.tsx，包含按钮和活动状态。
-仅关注 UI 连接——还没有持久性。
+Create a step-by-step implementation plan referencing the spec sections.
+Break it into commits I can apply sequentially.
 ```
 
-2. **审查差异**。要求代理解释任何非平凡的更改。
-3. **更新规范**，带有复选框：
+Expect something like:
+- Commit 1: Filter UI scaffold
+- Commit 2: State + filtering logic
+- Commit 3: Persistence + tests
+
+Copy the plan into the spec under `## Plan` or `## Implementation Notes` so progress stays visible.
+
+## Step 3: Execute Phase-by-Phase (08:00)
+For each phase, follow this loop:
+
+1. **Prompt**
+
+```
+Implement Phase 1 from the plan: build FilterBar.tsx with buttons and active states.
+Focus only on UI wiring—no persistence yet.
+```
+
+2. **Review the diff**. Ask the agent to explain any non-trivial change.
+3. **Update the spec** with checkboxes:
 
 ```markdown
-**阶段 1：UI 外壳** ✅
-- [x] 过滤器按钮在列表上方渲染
-- [x] 活动状态高亮显示
-- [x] 发出 `onFilterChange` 回调
+**Phase 1: UI Shell** ✅
+- [x] Filter buttons render above list
+- [x] Active state highlighted
+- [x] Emits `onFilterChange` callback
 ```
 
-对后期阶段（逻辑、持久性、测试）重复。将提示范围限制在当前阶段以保持上下文经济。
+Repeat for later phases (logic, persistence, tests). Keep prompts scoped to the current phase to maintain Context Economy.
 
-## 步骤 4：处理规范中的变更（16:00）
-如果你发现新需求——比如，显示每个过滤器的任务计数——首先更新规范：
+## Step 4: Handle Mid-Spec Changes (16:00)
+If you discover a new requirement—say, showing task counts per filter—update the spec first:
 
 ```markdown
-## 设计（更新）
-- 每个过滤器按钮根据缓存的任务列表显示 `标签（计数）`。
+## Design (update)
+- Each filter button shows `Label (count)` based on the cached task list.
 ```
 
-然后告诉代理：
+Then tell the agent:
 
 ```
-规范已更新：过滤器按钮必须显示计数。
-相应修改 FilterBar 和数据钩子。将范围保持在阶段 2 内。
+Specs updated: filter buttons must show counts.
+Modify FilterBar and the data hook accordingly. Keep scope inside Phase 2.
 ```
 
-在 `## 注释` 或 `## 演变` 部分记录更改，以便未来读者知道为什么范围发生了变化。
+Document the change in a `## Notes` or `## Evolution` section so future readers know why scope shifted.
 
-## 步骤 5：使用命令验证（22:00）
+## Step 5: Validate with Commands (22:00)
 
 ```bash
 npm test
 lean-spec validate task-priority-filter
 ```
 
-逐字与代理共享失败。提示想法：
+Share failures with the agent verbatim. Prompt idea:
 
 ```
-测试失败：过滤器状态未保持。这是错误...
-使用规范的持久性标准进行调试。
+Tests failing: Filter state does not persist. Here's the error...
+Debug using the spec's persistence criteria.
 ```
 
-继续迭代，直到两个命令都通过。
+Keep iterating until both commands pass.
 
-## 步骤 6：结束循环（30:00）
-1. 更新规范：
+## Step 6: Close the Loop (30:00)
+1. Update the spec:
 
 ```bash
 lean-spec update task-priority-filter --status complete
 ```
 
-2. 添加简短的 `## 结果` 部分，总结：
-   - 指标（令牌计数、测试覆盖率）
-   - 与原计划的变化
-   - PR/提交链接
+2. Add a short `## Outcome` section summarizing:
+   - Metrics (token count, test coverage)
+   - What changed from the original plan
+   - Links to PR/commit
 
-3. 将最终规范链接粘贴回代理，以便它可以从完成的工作中学习。
+3. Paste the final spec link back to the agent so it can learn from the finished work.
 
-## 观察到的好处
-- **人类清晰度**：随着需求变化，规范保持真实。
-- **AI 自主性**：代理在具有明确成功标准的范围阶段上操作。
-- **可追溯性**：看板/状态更新准确显示功能何时交付。
+## Observed Benefits
+- **Human clarity**: Specs stayed truthful as requirements changed.
+- **AI autonomy**: Agent operated on scoped phases with explicit success criteria.
+- **Traceability**: Board/status updates show exactly when the feature shipped.
 
-## 检查清单
-- ☐ 代理在编码之前总结了规范
-- ☐ 实现计划存在于规范内
-- ☐ 每个阶段后更新规范
-- ☐ 测试 + `lean-spec validate` 通过
-- ☐ 状态标记为 `complete`，带有结果说明
+## Checklist
+- ☐ Agent summarized the spec before coding
+- ☐ Implementation plan lives inside the spec
+- ☐ Spec updated after each phase
+- ☐ Tests + `lean-spec validate` pass
+- ☐ Status marked `complete` with outcome notes
 
-## 下一个教程
-1. [使用 AI 管理多个规范 →](./managing-multiple-specs-with-ai)
-2. [与 AI 代理的团队协作 →](./team-collaboration-ai-agents)
+## Next Tutorials
+1. [Managing Multiple Specs with AI →](./managing-multiple-specs-with-ai)
+<!-- 2. [Team Collaboration with AI Agents →](./team-collaboration-ai-agents) -->
 
-通过 [AI 可执行模式](/docs/guide/usage/ai-assisted/ai-executable-patterns)和 [MCP 集成](/docs/guide/usage/ai-assisted/mcp-integration)深化你的实践。
+Deepen your practice with [AI-Assisted Spec Writing](/docs/advanced/ai-assisted-spec-writing) and [MCP Integration](/docs/guide/usage/mcp-integration).

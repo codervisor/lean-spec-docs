@@ -133,11 +133,11 @@ const config: Config = {
             },
             {
               label: 'MCP Server',
-              to: '/docs/guide/usage/ai-assisted/mcp-integration',
+              to: '/docs/guide/usage/mcp-integration',
             },
             {
               label: 'AI Integration',
-              to: '/docs/guide/usage/ai-assisted/agent-configuration',
+              to: '/docs/guide/usage/advanced-features/agent-configuration',
             },
           ],
         },

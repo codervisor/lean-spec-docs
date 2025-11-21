@@ -1,26 +1,26 @@
 ---
 id: index
-title: 什么是 LeanSpec？
-sidebar_label: 概述
+title: What is LeanSpec?
+sidebar_label: Overview
 sidebar_position: 1
-description: 为 AI 驱动的开发设计的轻量级规范驱动开发方法论
+description: A lightweight Spec-Driven Development methodology for AI-powered development
 ---
 
-# 什么是 LeanSpec？
+# What is LeanSpec?
 
-LeanSpec 是一种为 AI 时代设计的轻量级**规范驱动开发 (SDD)** 方法论。它帮助团队——包括人类和 AI 代理——专注于*意图*而非实现细节。
+LeanSpec is a lightweight **Spec-Driven Development (SDD)** methodology designed for the AI era. It helps teams—both humans and AI agents—focus on *intent* rather than implementation details.
 
-> **可以把它看作是"项目管理的 Markdown"**：简单、结构化且机器可读。
+> **Think of it as "Markdown for Project Management"**: Simple, structured, and machine-readable.
 
-## 您将获得什么
+## What You Get
 
-*   [**核心 CLI**](/docs/guide/usage/essential-usage)：管理规范、跟踪状态并可视化依赖关系（`lean-spec board`, `lean-spec deps`）。
-*   [**MCP 服务器**](/docs/guide/usage/ai-assisted/mcp-integration)：让 AI 代理（Claude, Cursor 等）直接读取和搜索您的规范。
-*   [**可视化模式**](/docs/guide/usage/visual-mode)：一个精美的 Web 界面，用于浏览项目的规范图谱（`lean-spec ui`）。
+*   [**Core CLI**](/docs/guide/usage/cli/creating-managing): Manage specs, track status, and visualize dependencies (`lean-spec board`, `lean-spec deps`).
+*   [**MCP Server**](/docs/guide/usage/mcp-integration): Give AI agents (Claude, Cursor, etc.) direct access to read and search your specs.
+*   [**Visual Mode**](/docs/guide/visual-mode): A beautiful web interface for browsing your project's spec graph (`lean-spec ui`).
 
-## 一个简单的示例
+## A Simple Example
 
-LeanSpec 只是一个带有 frontmatter 的 Markdown 文件：
+A LeanSpec is just a Markdown file with frontmatter:
 
 ```markdown title="./specs/001-user-auth-api/README.md"
 ---
@@ -30,31 +30,31 @@ priority: high
 tags: [api, auth]
 ---
 
-# 用户认证 API
+# User Authentication API
 
-## 目标
-为移动应用启用安全的用户登录和会话管理。
+## Goal
+Enable secure user login and session management for the mobile app.
 
-## 关键场景
-1. 用户使用电子邮件/密码登录 → 接收 JWT 令牌
-2. 用户使用令牌访问受保护的端点 → 获取数据
-3. 用户令牌过期 → 接收 401，必须重新认证
+## Key Scenarios
+1. User logs in with email/password → receives JWT token
+2. User accesses protected endpoint with token → gets data
+3. User token expires → receives 401, must re-authenticate
 
-## 验收标准
-- [ ] 登录端点在成功时返回有效的 JWT
-- [ ] JWT 包含用户 ID 和过期时间
-- [ ] 受保护的端点验证 JWT 签名
+## Acceptance Criteria
+- [ ] Login endpoint returns valid JWT on success
+- [ ] JWT includes user ID and expiration
+- [ ] Protected endpoints verify JWT signature
 
-## 非目标
-- 社交登录（未来功能）
-- 密码重置（单独的规范）
+## Non-Goals
+- Social login (future feature)
+- Password reset (separate spec)
 ```
 
-您可以使用您喜欢的 AI 编码工具来读取此规范，并基于它生成代码、文档或甚至测试用例。
+You can use your favorite AI coding tools to read this spec and generate code, documentation, or even test cases based on it.
 
-## 下一步
+## Next Steps
 
-*   **[快速开始](/docs/guide/getting-started)**：安装 CLI 并创建您的第一个规范。
-*   **[为什么选择 LeanSpec？](/docs/guide/why-leanspec)**：了解 LeanSpec 相对于其他工具的优势。
-*   **[理解 LeanSpec](/docs/guide/understanding-leanspec)**：深入了解"上下文经济"哲学。
-*   **[AI 集成](/docs/guide/usage/ai-assisted/mcp-integration)**：将 LeanSpec 连接到您的 AI 编码助手。
+*   **[Getting Started](/docs/guide/getting-started)**: Install the CLI and create your first spec.
+*   **[Why LeanSpec?](/docs/guide/why-leanspec)**: Understand the benefits of LeanSpec over other tools.
+*   **[Understanding LeanSpec](/docs/guide/understanding-leanspec)**: Dive deeper into the "Context Economy" philosophy.
+*   **[AI Integration](/docs/guide/usage/mcp-integration)**: Connect LeanSpec to your AI coding assistant.

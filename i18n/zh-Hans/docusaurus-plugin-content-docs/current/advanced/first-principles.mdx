@@ -1,218 +1,218 @@
 ---
 id: 'first-principles'
-title: '第一性原则'
+title: 'First Principles'
 sidebar_position: 3
 ---
-# 第一性原则
+# First Principles
 
-> "这些不是我们选择的原则——它们是我们发现的约束。"
+> "These aren't principles we chose—they're constraints we discovered."
 
-从三个不可改变的约束（物理学、生物学、经济学）中，涌现出五个第一性原则。它们定义了 LeanSpec 的核心本质，并指导所有决策。
+From three immutable constraints (physics, biology, economics), five first principles emerge. They define what LeanSpec IS at its core and guide all decisions.
 
-:::info 术语说明
-**上下文**、**令牌**、**信噪比**等术语在[术语表](/docs/guide/terminology/spec)中定义。本页解释基于这些术语构建的原则。
+:::info Terminology Note
+Terms like **Context**, **Tokens**, **Signal-to-Noise** are defined in [Terminology](/docs/guide/terminology/spec). This page explains the principles built on those terms.
 :::
 
-## 我们发现的约束
+## The Constraints We Discovered
 
-LeanSpec 基于三个不可改变的约束：
+LeanSpec is built on three unchangeable constraints:
 
-### 1. 物理学：上下文窗口随长度退化
-- AI 模型有有限的令牌限制（128K-200K 令牌）
-- **质量在超过 20-50K 有效令牌后显著退化**
-- 即使在限制内，更长的上下文 = 更差的性能
-- 大上下文增加错误率和"中间丢失"效应
+### 1. Physics: Context Windows Degrade with Length
+- AI models have finite token limits (128K-200K tokens)
+- **Quality degrades significantly** beyond 20-50K effective tokens
+- Even within limits, longer context = worse performance
+- Large context increases error rates and "lost in the middle" effects
 
-### 2. 生物学：注意力是稀缺资源
-- 人类可以在工作记忆中保持约 7 个项目
-- 注意力持续时间为 5-10 分钟的专注阅读
-- 认知负荷随复杂性增加
-- **注意力，而不是存储，是瓶颈**
+### 2. Biology: Attention Is the Scarce Resource
+- Humans can hold ~7 items in working memory
+- Attention spans are 5-10 minutes for focused reading
+- Cognitive load compounds with complexity
+- **Attention, not storage, is the bottleneck**
 
-### 3. 经济学：时间和令牌成本金钱
-- 令牌成本快速累积
-- 工程师时间昂贵
-- 维护负担随文档大小增长
+### 3. Economics: Time & Tokens Cost Money
+- Token costs accumulate quickly
+- Engineer time is expensive
+- Maintenance burden grows with document size
 
-**这些约束是不可改变的。** LeanSpec 不与之对抗——而是在其中工作。
+**These constraints are unchangeable.** LeanSpec doesn't fight them—it works within them.
 
-## 五个第一性原则
+## The Five First Principles
 
-从这些约束中，涌现出五个第一性原则：
+From these constraints, five first principles emerge:
 
-### 1. 上下文经济 🧠 {#1-context-economy-}
-**规范必须适合工作记忆——人类和 AI 都是。**
+### 1. Context Economy 🧠
+**Specs must fit in working memory—both human and AI.**
 
-**这意味着什么：**
-这不是关于超出令牌限制（如内存不足）。这是关于**注意力和认知能力**：
-- 即使在令牌限制内，AI 性能也会随着更长的上下文**退化**
-- 人类一次不能在工作记忆中保持超过约 7 个概念
-- **注意力是稀缺资源**，而不是存储
+**What This Means:**
+This isn't about exceeding token limits (like running out of memory). It's about **attention and cognitive capacity**:
+- Even within token limits, AI performance **degrades** with longer context
+- Humans can't hold more than ~7 concepts in working memory at once
+- **Attention is the scarce resource**, not storage
 
-**为什么是 400 行？**
-- 600 行 ≈ 15-20K 令牌 = 一个规范的整个有效工作记忆
-- 质量在超过 50K 令牌后退化（即使限制为 200K）
-- 阅读需要 >10 分钟（超出注意力持续时间）
-- 无法在脑海中保持整个规范结构
+**Why 400 Lines?**
+- 600 lines ≈ 15-20K tokens = entire effective working memory for ONE spec
+- Quality degrades beyond 50K tokens (even with 200K limit)
+- Takes >10 minutes to read (attention span exceeded)
+- Can't hold entire spec structure in mind
 
-**在实践中：**
-- **目标**：每个规范文件 &lt;2,000 令牌
-- **警告**：2,000-3,500 令牌（可接受但需注意复杂度）
-- **问题**：>3,500 令牌（考虑拆分）
+**In Practice:**
+- **Target**: &lt;2,000 tokens per spec file
+- **Warning**: 2,000-3,500 tokens (acceptable but watch complexity)
+- **Problem**: >3,500 tokens (consider splitting)
 
-**测试：**
-> "能否在 5-10 分钟内阅读和理解？你能在脑海中保持整个结构吗？"
+**The Test:**
+> "Can this be read and understood in 5-10 minutes? Can you hold the entire structure in your head?"
 
-如果不能，它违反了上下文经济。
+If no, it violates Context Economy.
 
-**示例：**
+**Example:**
 ```markdown
-❌ 不好：650 行规范涵盖功能、测试、配置、示例
-✅ 好：250 行 README + 150 行 TESTING.md + 100 行 CONFIG.md
+❌ Bad: 650-line spec covering feature, testing, config, examples
+✅ Good: 250-line README + 150-line TESTING.md + 100-line CONFIG.md
 ```
 
-**为什么这是 #1：**
-如果规范不适合工作记忆，其他一切都无关紧要。800 行规范中的完美信噪比仍然无用。
+**Why This Is #1:**
+Nothing else matters if the spec doesn't fit in working memory. Perfect signal-to-noise in an 800-line spec is still useless.
 
-**与信噪比对比：**
-- **上下文经济** = 你能在脑海中保持所有吗？（认知能力）
-- **信噪比** = 每个词都为决策提供信息吗？（信息密度）
+**Contrast with Signal-to-Noise:**
+- **Context Economy** = Can you hold it all in mind? (cognitive capacity)
+- **Signal-to-Noise** = Does each word inform decisions? (information density)
 
 ---
 
-### 2. 信噪比最大化 📡
-**每个词都必须为决策提供信息或被删除。**
+### 2. Signal-to-Noise Maximization 📡
+**Every word must inform decisions or be cut.**
 
-**这意味着什么：**
-虽然上下文经济问"你能保持所有吗？"，信噪比问"每个部分都值得保持吗？"
-- 令牌成本惩罚冗长（AI 处理）
-- 认知负荷惩罚噪音（人类阅读）
-- 维护负担增加（保持文档最新）
+**What This Means:**
+While Context Economy asks "Can you hold it all?", Signal-to-Noise asks "Is each piece worth holding?"
+- Token costs penalize verbosity (AI processing)
+- Cognitive load penalizes noise (human reading)
+- Maintenance burden compounds (keeping docs current)
 
-**测试：**
-> "这句话为什么决策提供信息？"
+**The Test:**
+> "What decision does this sentence inform?"
 
-如果答案是"没有"或"也许将来"，删除它。
+If the answer is "none" or "maybe future," cut it.
 
-**示例：**
+**Examples:**
 
-❌ **低信噪比：**
+❌ **Low Signal-to-Noise:**
 ```markdown
-用户身份验证系统，将使用
-行业标准安全实践和方法论实现，将提供
-用户验证自己的安全机制...
+The user authentication system, which will be implemented using 
+industry-standard security practices and methodologies, will provide 
+a secure mechanism for users to authenticate themselves...
 ```
 
-✅ **高信噪比：**
+✅ **High Signal-to-Noise:**
 ```markdown
-用户使用电子邮件/密码登录。系统对数据库进行验证
-并返回 JWT 令牌（24 小时到期）。
+Users log in with email/password. System validates against database 
+and returns JWT token (24h expiry).
 ```
 
-**何时添加细节：**
-- 解释权衡决策
-- 澄清约束
-- 定义成功标准
-- 显示关键示例
+**When to Add Detail:**
+- Explains a trade-off decision
+- Clarifies a constraint
+- Defines success criteria
+- Shows a critical example
 
-**何时删除：**
-- 对你的受众显而易见
-- 在其他地方容易发现
-- 可能在实现之前更改
-- "最好知道"与"需要知道"
+**When to Cut:**
+- Obvious to your audience
+- Easily discovered elsewhere
+- Might change before implementation
+- "Nice to know" vs. "need to know"
 
 ---
 
-### 3. 意图优于实现 🎯
-**捕获"为什么"和"是什么"，让"如何"出现。**
+### 3. Intent Over Implementation 🎯
+**Capture "why" and "what," let "how" emerge.**
 
-**约束：**
-- 意图是稳定的，实现会改变
-- AI 需要"为什么"来做出好决策
-- 开发人员需要上下文，而不是规定
+**The Constraint:**
+- Intent is stable, implementation changes
+- AI needs "why" to make good decisions
+- Developers need context, not prescriptions
 
-**在实践中：**
-- **必须有**：问题、意图、成功标准
-- **应该有**：设计理由、权衡
-- **可以有**：实现细节、示例
+**In Practice:**
+- **Must have**: Problem, intent, success criteria
+- **Should have**: Design rationale, trade-offs
+- **Could have**: Implementation details, examples
 
-**测试：**
-> "理由清楚吗？有人能在没有我的情况下做出好决策吗？"
+**The Test:**
+> "Is the rationale clear? Can someone make good decisions without me?"
 
-**示例：**
+**Example:**
 ```markdown
-❌ 不好（仅实现）：
-使用 Redis 进行缓存。配置 1GB 最大内存和 LRU 驱逐。
+❌ Bad (Just Implementation):
+Use Redis for caching. Configure 1GB max memory with LRU eviction.
 
-✅ 好（意图 + 实现）：
-**意图**：仪表板的 API 响应低于 100ms。
-**约束**：10k+ 用户重复查询相同数据。
-**方法**：Redis 缓存与 LRU 驱逐（减少 DB 负载 90%）。
-**权衡**：增加的复杂性与性能要求。
+✅ Good (Intent + Implementation):
+**Intent**: Sub-100ms API response for dashboard.
+**Constraint**: 10k+ users querying same data repeatedly.
+**Approach**: Redis cache with LRU eviction (reduces DB load 90%).
+**Trade-off**: Added complexity vs. performance requirement.
 ```
 
-第二个解释了为什么 Redis，为什么 100ms 重要，以及我们做出了什么权衡。
+The second explains WHY Redis, WHY 100ms matters, and what trade-off we're making.
 
 ---
 
-### 4. 跨越鸿沟 🌉
-**规范的存在是为了使人类意图与机器执行对齐。**
+### 4. Bridge the Gap 🌉
+**Specs exist to align human intent with machine execution.**
 
-**约束：**
-- 人类以目标和上下文思考
-- 机器需要清晰、明确的指令
-- 它们之间的鸿沟必须弥合
+**The Constraint:**
+- Humans think in goals and context
+- Machines need clear, unambiguous instructions
+- The gap between them must be bridged
 
-**在实践中：**
-- **对于人类**：概述、上下文、理由
-- **对于 AI**：清晰的结构、需求、示例
-- **两者都需要**：自然语言 + 结构化数据
+**In Practice:**
+- **For humans**: Overview, context, rationale
+- **For AI**: Clear structure, requirements, examples
+- **Both need**: Natural language + structured data
 
-**测试：**
-> "人类和 AI 都能解析和推理这个吗？"
+**The Test:**
+> "Can both human and AI parse and reason about this?"
 
-**示例：**
+**Example:**
 ```markdown
-✅ 好（跨越鸿沟）：
-## 目标
-将仪表板的 API 延迟降低到 &lt;100ms（当前为 2-3 秒）。
+✅ Good (Bridges the Gap):
+## Goal
+Reduce API latency to &lt;100ms for dashboard (currently 2-3 seconds).
 
-## 为什么重要
-用户在 3 秒后放弃。我们正在损失 40% 的流量。
+## Why It Matters
+Users abandon after 3 seconds. We're losing 40% of traffic.
 
-## 技术方法
-- 在 Redis 中缓存仪表板数据（TTL：5 分钟）
-- 延迟加载小部件，而不是阻塞所有数据
-- 对静态资源使用 CDN
+## Technical Approach
+- Cache dashboard data in Redis (TTL: 5 minutes)
+- Lazy-load widgets instead of blocking on all data
+- Use CDN for static assets
 
-## 成功标准
-- [ ] 仪表板在 &lt;100ms 内加载（在 p95 测量）
-- [ ] 缓存命中率 >80%
-- [ ] 2 周后零缓存相关错误
+## Success Criteria
+- [ ] Dashboard loads in &lt;100ms (measured at p95)
+- [ ] Cache hit rate >80%
+- [ ] Zero cache-related bugs after 2 weeks
 ```
 
-**人类看到**：为什么重要、目标、方法  
-**AI 看到**：清晰的需求、成功标准、技术方法
+**Human sees**: Why it matters, the goal, the approach  
+**AI sees**: Clear requirements, success criteria, technical approach
 
 ---
 
-### 5. 渐进式披露 📈
-**从简单开始，仅在感到痛苦时添加结构。**
+### 5. Progressive Disclosure 📈
+**Start simple, add structure only when pain is felt.**
 
-**约束：**
-- 团队随时间演变
-- 需求涌现，不是预先存在
-- 过早抽象是浪费
+**The Constraint:**
+- Teams evolve over time
+- Requirements emerge, don't exist upfront
+- Premature abstraction is waste
 
-**在实践中：**
+**In Practice:**
 
-**第 1 天（独立开发）：**
+**Day 1 (Solo dev):**
 ```yaml
 status: planned
 created: 2025-11-01
 ```
 
-**第 2 周（小团队）：**
+**Week 2 (Small team):**
 ```yaml
 status: in-progress
 created: 2025-11-01
@@ -220,7 +220,7 @@ tags: [api, backend]
 priority: high
 ```
 
-**第 3 月（企业）：**
+**Month 3 (Enterprise):**
 ```yaml
 status: in-progress
 created: 2025-11-01
@@ -232,54 +232,54 @@ sprint: sprint-10
 reviewer: bob
 ```
 
-**测试：**
-> "没有这个功能我们会感到痛苦吗？"
+**The Test:**
+> "Do we feel pain without this feature?"
 
-如果不会，还不要添加它。
+If no, don't add it yet.
 
-**为什么这有效：**
-你永远不需要重写规范。只需在需要时添加字段。
-
----
-
-## 冲突解决框架
-
-当实践冲突时，按**优先级顺序**应用原则：
-
-1. **上下文经济** - 如果它不适合工作记忆，拆分它
-2. **信噪比** - 如果它不为决策提供信息，删除它
-3. **意图优于实现** - 捕获为什么，而不仅仅是如何
-4. **跨越鸿沟** - 人类和 AI 都必须理解
-5. **渐进式披露** - 在感到痛苦时添加结构
-
-### 真实示例
-
-**问："我应该拆分这个 450 行规范吗？"**  
-→ **是**（上下文经济在 400 行覆盖完整性）
-
-**问："我应该记录每个边缘情况吗？"**  
-→ **仅当它为当前决策提供信息时**（信噪比测试）
-
-**问："我应该预先添加自定义字段吗？"**  
-→ **仅当你没有它们就感到痛苦时**（渐进式披露）
-
-**问："我应该在规范中保留实现细节吗？"**  
-→ **仅当理由/约束重要时**（意图优于实现）
-
-**问："哪个更重要：完整文档还是保持在 400 行以下？"**  
-→ **保持在 400 行以下**（上下文经济是 #1 原则）
+**Why This Works:**
+You never need to rewrite your specs. Just add fields as you need them.
 
 ---
 
-## 底线
+## Conflict Resolution Framework
 
-这五个第一性原则不是任意的指南——它们源于不可改变的约束：
-- **物理学**（上下文窗口有限）
-- **生物学**（工作记忆很小）  
-- **经济学**（时间和令牌成本金钱）
+When practices conflict, apply principles in **priority order**:
 
-按优先级顺序应用它们。有疑问时，上下文经济总是获胜。
+1. **Context Economy** - If it doesn't fit in working memory, split it
+2. **Signal-to-Noise** - If it doesn't inform decisions, remove it
+3. **Intent Over Implementation** - Capture why, not just how
+4. **Bridge the Gap** - Both human and AI must understand
+5. **Progressive Disclosure** - Add structure when pain is felt
+
+### Real-World Examples
+
+**Q: "Should I split this 450-line spec?"**  
+→ **Yes** (Context Economy at 400 lines overrides completeness)
+
+**Q: "Should I document every edge case?"**  
+→ **Only if it informs current decisions** (Signal-to-Noise test)
+
+**Q: "Should I add custom fields upfront?"**  
+→ **Only if you feel pain without them** (Progressive Disclosure)
+
+**Q: "Should I keep implementation details in spec?"**  
+→ **Only if rationale/constraints matter** (Intent Over Implementation)
+
+**Q: "Which is more important: Complete documentation or staying under 400 lines?"**  
+→ **Staying under 400 lines** (Context Economy is #1 principle)
 
 ---
 
-**下一步**：探索[上下文工程](/docs/advanced/context-engineering)以了解如何以程序方式应用这些原则，或了解[哲学和心态](/docs/advanced/philosophy)以获得更广泛的心智模型。
+## The Bottom Line
+
+These five first principles aren't arbitrary guidelines—they emerge from immutable constraints:
+- **Physics** (context windows are limited)
+- **Biology** (working memory is small)  
+- **Economics** (time and tokens cost money)
+
+Apply them in priority order. When in doubt, Context Economy always wins.
+
+---
+
+**Next**: Explore [Context Engineering](/docs/advanced/context-engineering) to see how these principles are applied programmatically, or learn about [Philosophy & Mindset](/docs/advanced/philosophy) for the broader mental models.

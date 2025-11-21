@@ -1,229 +1,229 @@
 ---
 id: limits-and-tradeoffs
-title: 限制、权衡与现实预期
+title: Limits, Trade-offs & What's Realistic
 sidebar_position: 7
 ---
 
-# 限制、权衡与现实预期
+# Limits, Trade-offs & What's Realistic
 
-## 我们应该问的问题
+## The Question We Should Ask
 
-[Robert Matsuoka 的批判性分析](https://hyperdev.matsuoka.com/p/is-ai-a-bubble-i-didnt-think-so-until)认为，规范驱动开发（SDD）具有双重目的：解决实际问题，但也提供"证明企业采购合理性并实现脱离价值的治理叙事"。
+A [critical analysis by Robert Matsuoka](https://hyperdev.matsuoka.com/p/is-ai-a-bubble-i-didnt-think-so-until) argues that Specification-Driven Development (SDD) serves dual purposes: solving real problems BUT also providing "governance narratives that justify enterprise procurement and enable disconnected valuations."
 
-这是个公平的问题。让我们诚实地回答。
+Fair question. Let's address it honestly.
 
-## 批评是有效的
+## The Critiques Are Valid
 
-### 1. TDD 的平行警告
+### 1. The TDD Parallel Warning
 
-**关注点：**测试驱动开发在 20 年后的采用率仍&lt;20%，尽管有已证实的好处。由于时间压力、货物崇拜实践和采用障碍而失败。
+**The concern:** Test-Driven Development has \<20% adoption after 20 years despite proven benefits. Failed due to timing pressures, cargo cult practices, and adoption barriers.
 
-**SDD 的类似风险：**该方法论要求在实现之前完成规范——这恰恰是软件 50 年来一直努力应对的问题。
+**The similar risk for SDD:** The methodology requires complete specifications before implementation—precisely what software has struggled with for 50 years.
 
-**我们的回应：**LeanSpec 明确拒绝"前期完整规范"。我们的**上下文经济**原则（少于 2,000 令牌）和**意图优于实现**方法专注于捕获为什么/是什么，而不是详尽的如何做。我们不要求瀑布式需求——我们要求足够的意图来对齐人类和 AI。
+**Our response:** LeanSpec explicitly rejects "complete specifications upfront." Our **Context Economy** principle (under 2,000 tokens) and **Intent Over Implementation** approach focus on capturing WHY/WHAT, not exhaustive HOW. We're not asking for waterfall requirements—we're asking for enough intent to align humans and AI.
 
-### 2. 70% 自动化的神话
+### 2. The 70% Automation Myth
 
-**关注点：**真实世界的 METR 研究发现，开发者使用 AI 实际上**慢了 19%**，尽管他们认为自己快了 20%。"70% 自动化"的说法被夸大了——它只占总开发工作的 27%（39% 编码时间 × 70% 自动化）。
+**The concern:** Real-world METR study found developers took **19% longer** with AI despite believing they were 20% faster. The "70% automation" claim is inflated—it's only 27% of total dev work (39% time coding × 70% automation).
 
-**我们的回应：****我们不承诺自动化百分比。**LeanSpec 关注对齐和意图文档，而不是自动化声明。现实结果：通过更好的人类-AI 协作实现 10-30% 的生产力提升，而不是消除人类工作。
+**Our response:** **We don't promise automation percentages.** LeanSpec is about alignment and intent documentation, not automation claims. Realistic outcome: 10-30% productivity improvement through better human-AI collaboration, not elimination of human work.
 
-### 3. AI 代理仍然会犯错
+### 3. AI Agents Still Make Mistakes
 
-**关注点：**Martin Fowler 的实验显示，尽管有详细规范，AI 代理仍然会生成未请求的功能、中途改变假设，并在构建失败时声称成功。
+**The concern:** Martin Fowler's experiments showed that despite detailed specs, AI agents still generate unrequested features, change assumptions mid-stream, and claim success when builds fail.
 
-**Fowler 的引述：**_"由于这项技术的非确定性本质，始终存在一个非常不可忽视的概率，它会做我们不想要的事情。"_
+**Quote from Fowler:** _"Because of the non-deterministic nature of this technology, there will always remain a very non-negligible probability that it does things that we don't want."_
 
-**我们的回应：****我们同意。**规范不能消除 AI 的不可预测性——它们减少了它。目标不是自主编码；而是人类审查的更明智的 AI 建议。规范提供使 AI 输出更符合意图的上下文。
+**Our response:** **We agree.** Specs don't eliminate AI unpredictability—they reduce it. The goal isn't autonomous coding; it's better-informed AI suggestions that humans review. Specs provide context that makes AI outputs more aligned with intent.
 
-### 4. SDD 可能是过渡性的
+### 4. SDD Could Be Transitional
 
-**关注点：**"如果模型变得足够确定性和上下文感知，规范将成为不必要的开销。"
+**The concern:** "If models become sufficiently deterministic and context-aware, specifications become unnecessary overhead."
 
-**我们的回应：****可能是真的。**如果 AI 足够好，你可能需要更少的结构。但即使那样：
-- 人与人之间的对齐仍然需要文档
-- 捕获意图（而不仅是实现）的规范老化得更好
-- **渐进式披露**意味着随着 AI 改进，你可以使用更少的结构，而不是放弃方法论
+**Our response:** **Probably true.** If AI gets good enough, you might need less structure. But even then:
+- Human-to-human alignment still needs documentation
+- Specs that capture INTENT (not just implementation) age better
+- **Progressive Disclosure** means you can use LESS structure as AI improves, not abandon the methodology
 
-我们在今天有用是因为 AI 不可预测。如果 AI 大幅改进，相应地调整。
+We're useful TODAY because AI is unpredictable. If AI improves dramatically, adapt accordingly.
 
-## 规范确实是表演的情况
+## Where Specs ARE Theater
 
-让我们具体说明规范何时成为治理表演而不是生产工具：
+Let's be specific about when specs become governance theater rather than productive tools:
 
-### ❌ 表演：规范作为勾选练习
-- **症状：**为了证明预算合理性而编写规范，但不衡量结果
-- **示例：**企业要求规范用于采购，但批准后没人阅读
-- **结果：**浪费精力，没有对齐好处
+### ❌ Theater: Specs as Checkbox Exercise
+- **Symptom:** Writing specs to justify budgets without measuring outcomes
+- **Example:** Enterprise requires specs for procurement, but nobody reads them after approval
+- **Result:** Wasted effort, no alignment benefit
 
-### ❌ 表演：完整的前期需求
-- **症状：**在任何编码之前要求详尽的规范（瀑布陷阱）
-- **示例：**2,000 行 PRD 试图在发现之前指定每个边缘情况
-- **结果：**上下文溢出，文档过时，AI 无法帮助
+### ❌ Theater: Complete Upfront Requirements
+- **Symptom:** Requiring exhaustive specifications before any coding (waterfall trap)
+- **Example:** 2,000-line PRD that tries to specify every edge case before discovery
+- **Result:** Context overflow, stale docs, AI can't help
 
-### ❌ 表演：AI 会忽略的规范
-- **症状：**编写 AI 不读或无法适配上下文窗口的规范
-- **示例：**超过令牌限制的冗长文档
-- **结果：**人类努力浪费，AI 在没有规范上下文的情况下生成代码
+### ❌ Theater: Specs AI Will Ignore Anyway
+- **Symptom:** Writing specs AI doesn't read or can't fit in context window
+- **Example:** Verbose documentation that exceeds token limits
+- **Result:** Human effort wasted, AI generates code without spec context
 
-### ❌ 表演：死板流程而非实用主义
-- **症状：**无论变化大小都需要多步骤工作流
-- **示例：**错误修复需要规范 → 计划 → 任务 → 批准 → 实现
-- **结果：**流程开销扼杀速度
+### ❌ Theater: Rigid Process Over Pragmatism
+- **Symptom:** Multi-step workflows required for all changes regardless of size
+- **Example:** Bug fix requires spec → plan → tasks → approval → implementation
+- **Result:** Process overhead kills velocity
 
-## 规范增加价值的情况
+## Where Specs ADD Value
 
-当规范真正改善结果，而不仅仅是勾选合规框时：
+When specs genuinely improve outcomes, not just check compliance boxes:
 
-### ✅ 价值：复杂功能的团队对齐
-- **场景：**多个开发者需要协调理解
-- **好处：**共享的事实来源防止实现分歧
-- **结果：**更少返工，更快进展
+### ✅ Value: Team Alignment on Complex Features
+- **Scenario:** Multiple developers need coordinated understanding
+- **Benefit:** Shared source of truth prevents divergent implementations
+- **Result:** Less rework, faster progress
 
-### ✅ 价值：意图保留
-- **场景：**决策需要文档供未来参考
-- **好处：**捕获"为什么"，而不仅是"如何"
-- **结果：**未来变化尊重原始约束和权衡
+### ✅ Value: Intent Preservation
+- **Scenario:** Decisions need documentation for future reference
+- **Benefit:** "Why" is captured, not just "how"
+- **Result:** Future changes respect original constraints and trade-offs
 
-### ✅ 价值：AI 上下文不溢出
-- **场景：**功能对于纯氛围编码过于复杂
-- **好处：**2,000 令牌以下的规范适配 AI 上下文窗口
-- **结果：**AI 实际读取并将规范纳入建议
+### ✅ Value: AI Context Without Overflow
+- **Scenario:** Feature is too complex for pure vibe coding
+- **Benefit:** Spec under 2,000 tokens fits in AI context window
+- **Result:** AI actually reads and incorporates spec into suggestions
 
-### ✅ 价值：渐进式完善
-- **场景：**需求通过实现涌现（规范驱动开发风格）
-- **好处：**规范随着学习演进，保持对齐
-- **结果：**保持相关性的活文档
+### ✅ Value: Progressive Refinement
+- **Scenario:** Requirements emerge through implementation (Spec-Driven Development style)
+- **Benefit:** Spec evolves as you learn, maintaining alignment
+- **Result:** Living documentation that stays relevant
 
-## 理论基础：莱斯定理
+## The Theoretical Foundation: Rice's Theorem
 
-人类参与必要性的更深层原因来自计算机科学基础。
+A deeper reason why human involvement is necessary comes from computer science fundamentals.
 
-**[莱斯定理](https://www.marvinzhang.dev/blog/rices-theorem-why-automated-testing-will-fail)**（1951）证明程序的所有非平凡语义属性都是**不可判定的**——没有算法可以确定任意程序是否具有任何有趣的行为特征。
+**[Rice's Theorem](https://www.marvinzhang.dev/blog/rices-theorem-why-automated-testing-will-fail)** (1951) proves that all non-trivial semantic properties of programs are **undecidable**—no algorithm can determine whether an arbitrary program has any interesting behavioral characteristic.
 
-### 这对 SDD 意味着什么
+### What This Means for SDD
 
-**不可判定的问题：**"这个程序是否做了用户想要的？"（需要理解未定义的意图）
+**The undecidable question:** "Does this program do what the user wants?" (requires understanding undefined intent)
 
-**可处理的问题：**"这个程序是否满足这些明确的规范？"（检查定义的需求）
+**The tractable question:** "Does this program satisfy these explicit specifications?" (checking defined requirements)
 
-**关键洞察：**规范不能"解决"不可判定性——它们提供使验证可处理的语义基础。**人类定义"正确"的含义；AI 在这些约束内生成实现和测试。**
+**Key insight:** Specifications don't "solve" undecidability—they provide the semantic grounding that makes verification tractable. **Humans define what "correct" means; AI generates implementations and tests within those constraints.**
 
-### 为什么 AI 不能替代人类规范
+### Why AI Can't Replace Human Specs
 
-莱斯定理解释了原因：
+Rice's Theorem explains why:
 
-1. **语义属性是不可判定的** - AI 不能算法性地确定你想要什么
-2. **规范提供基础** - 人类将意图转化为可检查的断言
-3. **AI 放大，不替代** - AI 从人类提供的规范生成代码/测试
-4. **测试是采样，不是证明** - 即使有规范，我们通过启发式测试建立信心，而不是数学确定性
+1. **Semantic properties are undecidable** - AI can't algorithmically determine what you want
+2. **Specs provide grounding** - Humans translate intent into checkable assertions
+3. **AI amplifies, doesn't replace** - AI generates code/tests from human-provided specs
+4. **Testing is sampling, not proof** - Even with specs, we build confidence through heuristic testing, not mathematical certainty
 
-**来自莱斯定理文章：**
-> _"理解完全测试自动化在数学上是不可能的，并不会让我们无助——它指导我们走向更有效的策略。关键洞察是我们可以通过将形式规范与 AI 驱动的测试生成相结合来显著提高测试有效性。"_
+**From the Rice's Theorem article:**
+> _"Understanding that complete test automation is mathematically impossible doesn't leave us helpless—it guides us toward more effective strategies. The key insight is that we can dramatically improve testing effectiveness by combining formal specifications with AI-driven test generation."_
 
-**这正是 LeanSpec 的哲学：**人类提供意图（规范），AI 放大规模（实现），两者在理论约束内工作。
+**This is exactly LeanSpec's philosophy:** Humans provide intent (specs), AI amplifies scale (implementation), both work within theoretical constraints.
 
-## LeanSpec 与批评的不同之处
+## How LeanSpec Differs From The Critique
 
-Hyperdev 文章批评了像 Tessl（1.25 亿美元，仅交付测试版注册表）和死板方法论这样的 SDD 框架。以下是 LeanSpec 的不同定位：
+The Hyperdev article critiques SDD frameworks like Tessl ($125M, delivered only beta registry) and rigid methodologies. Here's where LeanSpec positions differently:
 
-### 我们不是：
-- ❌ 承诺 70% 自动化或自主编码
-- ❌ 销售 1.25 亿美元平台或 100 亿美元 IDE
-- ❌ 在任何代码之前要求死板的 5 步工作流
-- ❌ 声称规范消除 AI 不可预测性
-- ❌ 要求完整的前期规范
+### We're NOT:
+- ❌ Promising 70% automation or autonomous coding
+- ❌ Selling a $125M platform or $10B IDE
+- ❌ Requiring rigid 5-step workflows before any code
+- ❌ Claiming specs eliminate AI unpredictability
+- ❌ Demanding complete upfront specifications
 
-### 我们是：
-- ✅ 免费、开源工具（无风险投资，无估值炒作）
-- ✅ 对规范何时有助何时有害持实用态度（明确的"何时不使用规范"指导）
-- ✅ 工具不可知（与任何编辑器、任何 AI 助手配合）
-- ✅ 解决真实痛点：团队对齐、上下文腐烂、决策文档
-- ✅ 从最小开始，仅在感到痛苦时添加结构（**渐进式披露**）
+### We ARE:
+- ✅ Free, open-source tooling (no venture capital, no valuation hype)
+- ✅ Pragmatic about when specs help vs hurt (explicit "when NOT to use specs" guidance)
+- ✅ Tool-agnostic (works with any editor, any AI assistant)
+- ✅ Addressing real pain: team alignment, context rot, decision documentation
+- ✅ Starting minimal, adding structure only when you feel pain (**Progressive Disclosure**)
 
-### 定位差异
+### The Positioning Difference
 
-**来自文章：**_"SDD 作为质量控制表演……但该方法论也提供证明企业采购合理性并实现脱离价值的治理叙事——它既是解决方案又是症状。"_
+**From the article:** _"SDD functions as quality control theater... but the methodology also provides governance narratives that justify enterprise procurement and enable disconnected valuations—it's both solution and symptom."_
 
-**LeanSpec 的立场：**我们是"解决方案"部分，没有"症状"部分：
-- 规范增强判断，它们不替代理解你的代码库
-- 随团队成长的结构（独立开发者 → 企业）
-- 不承诺革命性地改变软件创建——只是务实的文档
+**LeanSpec's stance:** We're the "solution" part without the "symptom" part:
+- Specs enhance judgment, they don't replace understanding your codebase
+- Structure that grows with your team (solo → enterprise)
+- No promises of revolutionizing software creation—just pragmatic documentation
 
-## 度过修正期
+## Surviving The Correction
 
-Hyperdev 文章预测 AI 泡沫将在 18-24 个月内修正。以下是 LeanSpec 为何定位不同：
+The Hyperdev article predicts AI bubble correction in 18-24 months. Here's why LeanSpec is positioned differently:
 
-### 幸存者共享这些特征
-根据文章，幸存者将是"增强而不是替代核心能力"的工具。
+### Survivors Share These Traits
+Per the article, survivors will be tools that "enhance rather than replace core capabilities."
 
-**那就是我们：**
-- 规范不替代编码判断——它们增强人类-AI 对齐
-- 没有自主编码声明——只是更明智的建议
-- 免费工具，没有需要证明的估值
-- 在理论约束（莱斯定理）内工作，而不是对抗它们
+**That's us:**
+- Specs don't replace coding judgment—they enhance human-AI alignment
+- No autonomous coding claims—just better-informed suggestions
+- Free tooling with no valuation to justify
+- Works within theoretical constraints (Rice's Theorem), not against them
 
-### 在修正期扼杀公司的因素
-- 在"技术潜力"上烧钱而不是付费客户
-- 承诺超出理论上可能的自动化
-- 不适应现实的死板流程
-- 与实际效用脱节的估值
+### What Kills Companies in Corrections
+- Burning capital on "technical potential" rather than paying customers
+- Promising automation that exceeds what's theoretically possible
+- Rigid processes that don't adapt to reality
+- Disconnected valuations from actual utility
 
-**LeanSpec 避免这些：**
-- 开源，无资本燃烧
-- 对限制诚实（不承诺 70% 自动化）
-- 渐进式披露（适应团队需求）
-- 免费使用，价值以生产力衡量而不是估值
+**LeanSpec avoids these:**
+- Open source, no capital burn
+- Honest about limits (no 70% automation promises)
+- Progressive disclosure (adapt to team needs)
+- Free to use, value measured in productivity not valuation
 
-## 诚实的评估
+## The Honest Assessment
 
-**规范可能是表演。**当它们：
-- 为采购所需但没人阅读
-- 超出上下文限制的详尽前期需求
-- 应用于琐碎变化的死板流程
-- 代码演进时保持静态的文档
+**Specs CAN be theater.** When they're:
+- Required for procurement but nobody reads them
+- Exhaustive upfront requirements that exceed context limits
+- Rigid processes applied to trivial changes
+- Documentation that stays static while code evolves
 
-**规范增加价值当：**
-- 团队需要在复杂功能上对齐
-- 意图必须在对话之外持久存在
-- 决策需要文档供未来参考
-- 规范适配 AI 上下文窗口并实际指导实现
-- 结构渐进式地适应团队需求
+**Specs ADD value when:**
+- Team needs alignment on complex features
+- Intent must persist beyond conversations
+- Decisions need documentation for future reference
+- Specs fit in AI context windows and actually inform implementation
+- Structure adapts progressively to team needs
 
-**LeanSpec 的哲学：**
-- 对限制诚实（莱斯定理证明完全自动化是不可能的）
-- 从简单开始，仅在感到痛苦时添加复杂性（渐进式披露）
-- 保持规范足够短以实际使用（&lt;2,000 令牌，上下文经济）
-- 专注于老化良好的意图（意图优于实现）
-- 与 AI 的优势合作，承认其弱点
+**LeanSpec's philosophy:**
+- Be honest about limitations (Rice's Theorem proves complete automation is impossible)
+- Start simple, add complexity only when pain is felt (Progressive Disclosure)
+- Keep specs short enough to actually use (&lt;2,000 tokens, Context Economy)
+- Focus on intent that ages well (Intent Over Implementation)
+- Work with AI's strengths, acknowledge its weaknesses
 
-## 你应该问的问题
+## The Question You Should Ask
 
-不是：_"我应该使用 SDD 吗？"_
+Not: _"Should I use SDD?"_
 
-而是：_"将意图形式化为规范是否为这个特定工作增加价值？"_
+But: _"Does formalizing intent into a spec add value for this specific work?"_
 
-**回答是当：**
-- 功能足够复杂，氛围编码导致不对齐
-- 团队需要共享理解
-- AI 需要结构化上下文以有效帮助
-- 决策应该为未来维护者记录
+**Answer YES when:**
+- Feature is complex enough that vibe coding causes misalignment
+- Team needs shared understanding
+- AI needs structured context to help effectively
+- Decisions should be documented for future maintainers
 
-**回答否当：**
-- 变化琐碎且明显
-- 你仍在探索和发现需求
-- 开销超过好处
-- 不会维护的原型
+**Answer NO when:**
+- Change is trivial and obvious
+- You're still exploring and discovering requirements
+- Overhead exceeds benefit
+- Prototype that won't be maintained
 
-**LeanSpec 为你提供在重要时高效说是的工具。**
+**LeanSpec gives you the tools to say YES efficiently when it matters.**
 
-## 进一步阅读
+## Further Reading
 
-- [AI 泡沫文章](https://hyperdev.matsuoka.com/p/is-ai-a-bubble-i-didnt-think-so-until) - 引发此评估的批评
-- [莱斯定理解释](https://www.marvinzhang.dev/blog/rices-theorem-why-automated-testing-will-fail) - 为什么人类参与在数学上是必要的
-- [LeanSpec 第一性原则](/docs/advanced/first-principles) - 我们从约束中推导出的哲学
-- [何时不使用规范](/docs/guide/usage/ai-assisted/ai-executable-patterns#when-not-to-use-specs) - 关于跳过规范的诚实指导
+- [The AI Bubble Article](https://hyperdev.matsuoka.com/p/is-ai-a-bubble-i-didnt-think-so-until) - The critique that sparked this assessment
+- [Rice's Theorem Explained](https://www.marvinzhang.dev/blog/rices-theorem-why-automated-testing-will-fail) - Why human involvement is mathematically necessary
+- [LeanSpec First Principles](/docs/advanced/first-principles) - Our philosophy derived from constraints
+- [When NOT to Use Specs](/docs/advanced/ai-assisted-spec-writing#when-not-to-use-specs) - Honest guidance on skipping specs
 
 ---
 
-**底线：**我们不是在销售革命。我们提供务实的工具来解决真实问题——通过轻量级、可维护的规范保持人类和 AI 对齐。如果这是表演，那是真正改善演出的那种。
+**The bottom line:** We're not selling a revolution. We're offering pragmatic tools for a real problem—keeping humans and AI aligned through lightweight, maintainable specs. If that's theater, it's the kind that actually improves the show.

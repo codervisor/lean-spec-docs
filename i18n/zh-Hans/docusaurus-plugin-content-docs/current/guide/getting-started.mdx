@@ -1,99 +1,99 @@
 ---
 id: 'getting-started'
-title: '快速开始'
+title: 'Getting Started'
 sidebar_position: 2
 ---
-# 快速开始
+# Getting Started
 
-本指南将帮助您安装 LeanSpec 并设置您的第一个项目。
+This guide will help you install LeanSpec and set up your first project.
 
-## 先决条件
+## Pre-requisites
 
-- **Node.js**：确保您已安装 Node.js（版本 20 或更高）。您可以从 [nodejs.org](https://nodejs.org/) 下载。
-- **AI 工具**：如果您计划与 AI 编码代理集成（如 GitHub Copilot、Claude 等），请确保设置了您首选的工具。
+- **Node.js**: Ensure you have Node.js (version 20 or higher) installed. You can download it from [nodejs.org](https://nodejs.org/).
+- **AI Tool**: If you plan to integrate with AI coding agents (like GitHub Copilot, Claude, etc.), make sure you have your preferred tool set up.
 
-## 安装
+## Installation
 
-LeanSpec 可以用 npm 全局安装。
+LeanSpec can be installed globally using npm.
 
 ```bash
 npm install -g lean-spec
 ```
 
-这样可以在系统范围内使用 `lean-spec` 命令。
+This makes the `lean-spec` command available system-wide.
 
-## 验证安装
+## Verify Installation
 
-检查 LeanSpec 是否正确安装：
+Check that LeanSpec is installed correctly:
 
 ```bash
 lean-spec --version
 ```
 
-您应该看到版本号（例如 `0.3.0`）。
+You should see the version number (e.g., `0.3.0`).
 
-## 初始化项目
+## Initialize Your Project
 
-导航到您的项目目录并运行：
+Navigate to your project directory and run:
 
 ```bash
 lean-spec init
 ```
 
-此交互式命令将引导您完成三个设置路径：
+This interactive command will guide you through three setup paths:
 
-### 1. 快速开始（推荐给独立开发者）
+### 1. Quick Start (Recommended for Solo Developers)
 
-零配置使用标准模板。让您在几秒钟内启动并运行。
+Zero configuration using standard template. Gets you up and running in seconds.
 
 ```bash
-? 您希望如何设置？
-  ❯ 快速开始（推荐）
-    选择模板
+? How would you like to set up?
+  ❯ Quick start (recommended)
+    Choose a template
 ```
 
-这将创建：
-- `.lean-spec/config.json` 包含最小配置
-- `specs/` 目录用于存放您的规范文档
-- `AGENTS.md` 包含 AI 代理集成指南（如果不存在）
+This creates:
+- `.lean-spec/config.json` with minimal configuration
+- `specs/` directory for your specs
+- `AGENTS.md` with AI agent integration guidance (if not present)
 
-### 2. 选择模板
+### 2. Choose a Template
 
-为不同团队规模和工作流选择预配置的模板：
+Select from pre-configured templates for different team sizes and workflows:
 
-- **minimal**：仅文件夹结构，无额外内容
-- **standard**：推荐 - 包含 AGENTS.md 和示例（默认）
-- **enterprise**：包含审批和合规性的治理模板
+- **minimal**: Just folder structure, no extras
+- **standard**: Recommended - includes AGENTS.md and examples (default)
+- **enterprise**: Governance with approvals and compliance
 
-每个模板包含：
-- 规范结构和示例
-- AGENTS.md 用于 AI 代理集成
-- 支持文件（CONTRIBUTING.md、检查清单等）
-- 项目特定配置
+Each template includes:
+- Spec structure and examples
+- AGENTS.md for AI agent integration
+- Supporting files (CONTRIBUTING.md, checklists, etc.)
+- Project-specific configuration
 
-## 项目结构
+## Project Structure
 
-初始化后，您的项目将包含：
+After initialization, your project will have:
 
 ```
 your-project/
 ├── .lean-spec/
-│   ├── config.json         # LeanSpec 配置
-│   └── templates/          # 自定义规范模板（可选）
+│   ├── config.json         # LeanSpec configuration
+│   └── templates/          # Custom spec templates (optional)
 │       └── spec-template.md
-├── specs/                  # 所有规范文档存放于此
-│   ├── 001-first-feature/  # 扁平结构与全局编号
+├── specs/                  # All your specs live here
+│   ├── 001-first-feature/  # Flat structure with global numbering
 │   ├── 002-second-feature/
-│   └── archived/           # 已完成的规范
-├── AGENTS.md              # AI 代理集成指南
-└── ... (您的项目文件)
+│   └── archived/           # Completed specs
+├── AGENTS.md              # AI agent integration guidance
+└── ... (your project files)
 ```
 
-## 配置
+## Configuration
 
-`.lean-spec/config.json` 文件控制 LeanSpec 的行为：
+The `.lean-spec/config.json` file controls LeanSpec behavior:
 
-```json
+```json title=".lean-spec/config.json"
 {
   "template": "spec-template.md",
   "specsDir": "specs",
@@ -113,89 +113,89 @@ your-project/
 }
 ```
 
-您可以自定义此配置以适应您的工作流。详情请参阅[配置参考](/docs/reference/config)。
+You can customize this to fit your workflow. See [Configuration Reference](/docs/reference/config) for details.
 
-## 创建您的第一个规范
+## Create Your First Spec
 
-现在您已准备好创建您的第一个规范：
+Now you're ready to create your first spec:
 
 ```bash
 lean-spec create my-feature
 ```
 
-这将创建：
-- `specs/001-my-feature/` 文件夹（扁平结构与全局编号）
-- 内含 `README.md`，包含您的模板内容
-- 带有默认元数据的前置元数据
+This creates:
+- `specs/001-my-feature/` folder (flat structure with global numbering)
+- `README.md` inside with your template content
+- Frontmatter with default metadata
 
-编辑 `README.md` 文件来记录您的功能。
+Edit the `README.md` file to document your feature.
 
-## 基本命令
+## Basic Commands
 
-以下是帮助您入门的基本命令：
+Here are the essential commands to get you started:
 
 ```bash
-# 创建规范
+# Create a spec
 lean-spec create feature-name
 
-# 列出所有规范
+# List all specs
 lean-spec list
 
-# 查看规范
+# View a spec
 lean-spec view 1
 
-# 更新规范元数据（通过编号或名称）
+# Update spec metadata (by number or name)
 lean-spec update 1 --status=in-progress
 lean-spec update feature-name --status=in-progress
 
-# 归档已完成的规范
+# Archive completed specs
 lean-spec archive 1
 ```
 
-完整的命令参考，请参阅 [CLI 命令](/docs/reference/cli)。
+For a complete command reference, see [CLI Commands](/docs/reference/cli).
 
-## 可视化模式（可选）
+## Visual Mode
 
-LeanSpec 包含一个用于可视化规范管理的网页 UI。这非常适合浏览规范、可视化依赖关系和演示。
+LeanSpec includes a web UI for visual spec management. This is great for browsing specs, visualizing dependencies, and presentations.
 
 ```bash
-# 启动网页 UI
+# Start the web UI
 lean-spec ui
 
-# 或在不安装 CLI 的情况下使用
+# Or use without installing the CLI
 npx @leanspec/ui
 ```
 
-UI 提供：
-- **交互式浏览器**：列出和搜索所有具有丰富格式的规范
-- **依赖关系图**：可视化规范之间的关系
-- **看板视图**：按状态组织的看板式视图
-- **项目统计**：规范和进度概览
+The UI provides:
+- **Interactive Browser**: List and search all specs with rich formatting
+- **Dependency Graphs**: Visualize relationships between specs
+- **Board View**: Kanban-style view organized by status
+- **Project Stats**: Overview of your specs and progress
 
-UI 在端口 3000 上本地运行，并自动在浏览器中打开。您的规范直接从文件系统读取，无需设置。
+The UI runs locally on port 3000 and automatically opens in your browser. Your specs are read directly from the filesystem with no setup required.
 
-**屏幕截图：**
+**Screenshot:**
 
 ![LeanSpec UI Screenshot](/img/ui/ui-dashboard.png)
 
-**了解更多**：查看[可视化模式指南](/docs/guide/visual-mode)了解详细功能和使用方法。
+**Learn more**: [Visual Mode Guide](/docs/guide/visual-mode) for detailed features and usage.
 
-## AI 集成（可选）
+## AI Integration
 
-LeanSpec 与 AI 编码代理配合得很好。当您运行 `lean-spec init` 时，它创建了包含 AI 代理指令的 `AGENTS.md`。
+LeanSpec works great with AI coding agents. When you ran `lean-spec init`, it created `AGENTS.md` with instructions for AI agents.
 
-### 快速 AI 设置
+### Quick AI Setup
 
-**通过 MCP 让 AI 访问规范（推荐）：**
+**For AI to access specs through MCP (recommended):**
 
-1. 全局安装 LeanSpec（如果尚未安装）：
+1. Install LeanSpec globally (if not already):
    ```bash
    npm install -g lean-spec
    ```
 
-2. 配置您的 AI 工具：
+2. Configure your AI tool:
 
-   **VS Code (GitHub Copilot)** - 添加到 `.vscode/mcp.json`：
+   **VS Code (GitHub Copilot)** - Add to `.vscode/mcp.json`:
    ```json title=".vscode/mcp.json"
    {
      "servers": {
@@ -207,7 +207,7 @@ LeanSpec 与 AI 编码代理配合得很好。当您运行 `lean-spec init` 时�
    }
    ```
 
-   **Claude Code** - 添加到 `.mcp.json`：
+   **Claude Code** - Add to `.mcp.json`:
    ```json title=".mcp.json"
    {
      "mcpServers": {
@@ -219,40 +219,31 @@ LeanSpec 与 AI 编码代理配合得很好。当您运行 `lean-spec init` 时�
    }
    ```
 
-3. 测试：
+3. Test it:
    ```
-   询问您的 AI："列出此项目中的所有规范"
+   Ask your AI: "List all specs in this project"
    ```
 
-**不使用 MCP（基本方式）：**
-- AI 仍然可以从文件中读取规范
-- 在提示中引用 AGENTS.md："遵循 AGENTS.md 中的指令"
-- 在需要时手动指向 AI 规范文件
+**Without MCP (basic):**
+- AI can still read specs from files
+- Reference AGENTS.md in your prompts: "Follow instructions in AGENTS.md"
+- Manually point AI to spec files when needed
 
-**了解更多**：详细设置和优点请参阅 [MCP 集成](/docs/guide/usage/ai-assisted/mcp-integration)。
+**Learn more**: [MCP Integration](/docs/guide/usage/mcp-integration) for detailed setup and benefits.
 
-## 下一步？
+## What's Next?
 
-现在您已经设置好 LeanSpec，您可以：
+Now that you have LeanSpec set up, you can:
 
-**学习基础知识：**
-- [规范篇](/zh-Hans/docs/guide/terminology/spec) - 关键 SDD 术语
-- [第一原则](/zh-Hans/docs/advanced/first-principles) - 5 个基础原则
-- [理解 LeanSpec](/zh-Hans/docs/guide/understanding-leanspec) - 核心概念和使用场景
-- [上下文工程](/zh-Hans/docs/advanced/context-engineering) - 管理 AI 工作记忆
+**Learn the Fundamentals:**
+- [Spec Concept](/docs/guide/terminology/spec) - Essential SDD terms explained
+- [First Principles](/docs/advanced/first-principles) - The 5 foundational principles
+- [Understanding LeanSpec](/docs/guide/understanding-leanspec) - Core concepts and when to use
+- [Context Engineering](/docs/advanced/context-engineering) - Managing AI working memory
 
-**开始使用 LeanSpec：**
-- [创建和管理规范](/docs/guide/usage/essential-usage/creating-managing) - 基本操作
-- [查找规范](/docs/guide/usage/essential-usage/finding-specs) - 搜索和发现
-- [规范结构](/docs/guide/usage/essential-usage/spec-structure) - 好规范的构成
+**Start Using LeanSpec:**
 
-**AI 集成：**
-- [代理配置](/docs/guide/usage/ai-assisted/agent-configuration) - AGENTS.md 设置
-- [MCP 集成](/docs/guide/usage/ai-assisted/mcp-integration) - 启用语义记忆
-- [编写 AI 可执行的规范](/docs/guide/usage/ai-assisted/ai-executable-patterns) - 12 个实用模式
+**AI Integration:**
 
-## 需要帮助？
+## Need Help?
 
-- 查看 [CLI 参考](/docs/reference/cli) 获取详细的命令文档
-- 访问 [GitHub 仓库](https://github.com/codervisor/lean-spec) 报告问题
-- 阅读[哲学与思维方式](/zh-Hans/docs/advanced/philosophy)获取有效规范编写技巧
