@@ -1,110 +1,109 @@
 ---
-title: Writing Your First Spec with AI
+title: 使用 AI 编写你的第一个规格说明
 sidebar_position: 1
-description: Partner with GitHub Copilot Agent Mode to turn intent into a LeanSpec in under 10 minutes
+description: 与 GitHub Copilot Agent Mode 合作，在 10 分钟内将意图转化为 LeanSpec
 ---
 
-# Writing Your First Spec with AI
+# 使用 AI 编写你的第一个规格说明
 
-**Time**: 10-15 minutes  
-**Goal**: Provide intent, let Copilot Agent Mode draft the spec, and land with a reviewed LeanSpec ready for implementation.
+**时间**：10-15 分钟  
+**目标**：提供意图，让 Copilot Agent Mode 起草规格说明，并完成一个经过审查的、可实施的 LeanSpec。
 
-## Prerequisites
-- VS Code with [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code) enabled
-- LeanSpec CLI installed globally (`npm install -g lean-spec`) or locally (`npx lean-spec`)
-- A workspace containing a `specs/` directory (run `lean-spec init` if you are starting fresh)
+## 前置条件
+- 已启用 [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code) 的 VS Code
+- 已全局安装 LeanSpec CLI（\`npm install -g lean-spec\`）或本地使用（\`npx lean-spec\`）
+- 工作区中包含 \`specs/\` 目录（如果是全新开始，请运行 \`lean-spec init\`）
 
-## Step 1: Share Intent with the Agent
-Open VS Code, focus the agent panel, and paste your intent. Example prompt:
+## 第 1 步：与 Agent 分享意图
+打开 VS Code，聚焦 agent 面板，粘贴你的意图。示例提示：
 
-```
-I want to add passwordless login (magic links) to our SaaS dashboard.
-Help me draft a LeanSpec that states the problem, why it matters,
-constraints (must keep current MFA), and success criteria for both backend
-and UX. Keep it under 2,000 tokens.
-```
+\`\`\`
+我想为我们的 SaaS 仪表板添加免密码登录（魔术链接）。
+帮我起草一个 LeanSpec，说明问题、为什么重要、
+约束条件（必须保留当前的 MFA）以及后端和用户体验的成功标准。
+保持在 2,000 tokens 以内。
+\`\`\`
 
-The agent will request the AGENTS.md instructions if it has not seen them. Approve the file share so it understands project conventions.
+如果 agent 还没有看过 AGENTS.md 指令，它会请求该文件。批准文件共享，以便它理解项目约定。
 
-## Step 2: Let the Agent Outline the Spec
-Ask the agent to produce an outline before writing full text:
+## 第 2 步：让 Agent 勾勒规格说明大纲
+要求 agent 在编写完整文本之前先生成大纲：
 
-```
-Summarize the spec outline first: Overview, Why Now, Requirements,
-Risks, Validation, and Plan. Wait for my approval before expanding sections.
-```
+\`\`\`
+先总结规格说明大纲：概述、为什么现在做、需求、
+风险、验证和计划。等待我的批准后再展开各部分。
+\`\`\`
 
-Review the outline. If something is missing (for example, "Email service limits"), ask the agent to add it before continuing.
+审查大纲。如果缺少某些内容（例如，"电子邮件服务限制"），要求 agent 在继续之前添加。
 
-## Step 3: Generate the Draft
-Give the go-ahead:
+## 第 3 步：生成草稿
+给予许可：
 
-```
-Looks good. Fill in each section with actionable content and include checklists
-for implementation and validation.
-```
+\`\`\`
+看起来不错。为每个部分填写可操作的内容，并包含
+实施和验证的检查清单。
+\`\`\`
 
-The agent writes the spec inline. Copy the content into `specs/###-feature/README.md` (use `lean-spec create passwordless-login` if the spec directory does not exist yet).
+Agent 会内联编写规格说明。将内容复制到 \`specs/###-feature/README.md\`（如果规格说明目录尚不存在，使用 \`lean-spec create passwordless-login\`）。
 
-## Step 4: Review with Lean Principles
-Walk through the draft and check:
+## 第 4 步：按照精简原则审查
+逐步检查草稿：
 
-- **Context Economy** — Is the spec under ~300 lines? If not, ask the agent which sections should move to a sub-spec.
-- **Signal-to-Noise** — Remove repetition and marketing fluff.
-- **Intent Over Implementation** — Ensure "why" is clear before "how".
+- **上下文经济（Context Economy）** — 规格说明是否在约 300 行以内？如果不是，询问 agent 哪些部分应移至子规格说明。
+- **信噪比（Signal-to-Noise）** — 删除重复和营销性描述。
+- **意图优于实现（Intent Over Implementation）** — 确保 "为什么" 在 "如何" 之前清晰表达。
 
-Helpful prompts:
+有用的提示：
 
-```
-Rewrite the Goals section so each bullet explains the user impact in one sentence.
+\`\`\`
+重写目标部分，使每个要点用一句话解释对用户的影响。
 
-Suggest a DESIGN.md extraction if we wanted to include sequence diagrams.
-```
+如果我们想包含时序图，建议提取到 DESIGN.md。
+\`\`\`
 
-## Step 5: Validate and Set Status
-Once the content looks good:
+## 第 5 步：验证并设置状态
+内容看起来不错后：
 
-```bash
+\`\`\`bash
 lean-spec validate passwordless-login
 lean-spec update passwordless-login --status planned
-```
+\`\`\`
 
-Share the validation output with the agent if there are warnings. Example prompt:
+如果有警告，与 agent 共享验证输出。示例提示：
 
-```
-Validation warns that the spec is 2,450 tokens. Reduce the Plan section by
-merging related tasks.
-```
+\`\`\`
+验证警告说规格说明有 2,450 tokens。通过合并相关任务来减少计划部分。
+\`\`\`
 
-## Step 6: Capture AI/Human Responsibilities
-Close the loop by documenting who does what:
+## 第 6 步：记录 AI/人类职责
+通过记录谁做什么来完成循环：
 
-- Add a `## Implementation Plan` with checkboxes for human-owned steps.
-- Add an `## AI Handoff` section summarizing the files the agent should modify later.
+- 添加带有人类负责步骤的检查框的 \`## 实施计划（Implementation Plan）\`。
+- 添加 \`## AI 交接（AI Handoff）\` 部分，总结 agent 稍后应修改的文件。
 
-Prompt idea:
+提示想法：
 
-```
-Add an "AI Handoff" section that lists the repo paths the Copilot agent
-should touch when it implements this spec.
-```
+\`\`\`
+添加 "AI 交接" 部分，列出 Copilot agent 在实施此规格说明时
+应触及的仓库路径。
+\`\`\`
 
-## Final Checklist
-- ☐ Frontmatter set with status `planned`, tags, and priority
-- ☐ Spec < 2,000 tokens or split into sub-specs
-- ☐ Success criteria and validation steps are explicit
-- ☐ AI Handoff section lists next commands/files
-- ☐ `lean-spec validate` passes
+## 最终检查清单
+- ☐ 前置元数据已设置状态 \`planned\`、标签和优先级
+- ☐ 规格说明 < 2,000 tokens 或拆分为子规格说明
+- ☐ 成功标准和验证步骤明确
+- ☐ AI 交接部分列出下一步命令/文件
+- ☐ \`lean-spec validate\` 通过
 
-## What You Learned
-✅ How to use Copilot Agent Mode as a spec co-author  
-✅ How to keep AI output aligned with LeanSpec first principles  
-✅ How to ground the agent with AGENTS.md and validation feedback  
-✅ How to hand the finished spec back to humans/AI for implementation
+## 你学到了什么
+✅ 如何使用 Copilot Agent Mode 作为规格说明合著者  
+✅ 如何使 AI 输出与 LeanSpec 第一原则保持一致  
+✅ 如何用 AGENTS.md 和验证反馈指导 agent  
+✅ 如何将完成的规格说明交回人类/AI 进行实施
 
-## Next Tutorials
-1. [AI-Assisted Feature Development →](./ai-assisted-feature-development)
-2. [Managing Multiple Specs with AI →](./managing-multiple-specs-with-ai)
-<!-- 3. [Team Collaboration with AI Agents →](./team-collaboration-ai-agents) -->
+## 下一步教程
+1. [AI 辅助的功能开发 →](./ai-assisted-feature-development)
+2. [使用 AI 管理多个规格说明 →](./managing-multiple-specs-with-ai)
+<- [Full 3. [与 AI Agent 的团队协作 →](./team-collaboration-ai-agents) -->
 
-Need more context? Revisit [Understanding LeanSpec](/docs/guide/understanding-leanspec) or [SDD Workflow](/docs/guide/terminology/sdd-workflow).
+需要更多上下文？重访 [理解 LeanSpec](/docs/guide/understanding-leanspec) 或 [SDD 工作流](/docs/guide/terminology/sdd-workflow)。
