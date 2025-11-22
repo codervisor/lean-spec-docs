@@ -19,7 +19,7 @@ description: 协调多个规格说明之间的依赖关系、优先级和 AI age
 ## 第 1 步：让 AI 构建关系图（02:00）
 
 \`\`\`bash
-lean-spec list --json > .lean-spec/cache/specs.json
+lean-spec list --json &gt; .lean-spec/cache/specs.json
 \`\`\`
 
 提示：
@@ -58,7 +58,7 @@ lean-spec update product-search --priority low --tags "search,frontend"
 ## 第 3 步：使用 AI 总结看板（08:00）
 
 \`\`\`bash
-lean-spec board --json > .lean-spec/cache/board.json
+lean-spec board --json &gt; .lean-spec/cache/board.json
 \`\`\`
 
 提示：
@@ -85,7 +85,7 @@ lean-spec update product-catalog-api --status in-progress
 每当规格说明状态改变时，运行：
 
 \`\`\`bash
-lean-spec deps shopping-cart --json > .lean-spec/cache/cart-deps.json
+lean-spec deps shopping-cart --json &gt; .lean-spec/cache/cart-deps.json
 \`\`\`
 
 提示想法：
@@ -122,7 +122,7 @@ lean-spec deps shopping-cart --json > .lean-spec/cache/cart-deps.json
 
 \`\`\`bash
 lean-spec update user-authentication --status complete
-lean-spec view user-authentication --json > .lean-spec/cache/auth.json
+lean-spec view user-authentication --json &gt; .lean-spec/cache/auth.json
 \`\`\`
 
 提示：
@@ -140,9 +140,9 @@ lean-spec view user-authentication --json > .lean-spec/cache/auth.json
 | --- | --- | --- |
 | 发现关系 | \`lean-spec list --json\` | "建议依赖关系/关联关系作为命令。" |
 | 优先级排序 | \`lean-spec update --priority ...\` | "根据阻塞因素分配优先级。" |
-| 发现阻塞因素 | \`lean-spec deps <spec> --json\` | "解释是什么阻止了这个规格说明的推进。" |
+| 发现阻塞因素 | \`lean-spec deps &lt;spec&gt; --json\` | "解释是什么阻止了这个规格说明的推进。" |
 | 聚焦站会 | \`lean-spec board --json\` | "总结状态 + 下一步行动。" |
-| 完成循环 | \`lean-spec view <spec> --json\` | "起草结果摘要 + 后续行动。" |
+| 完成循环 | \`lean-spec view &lt;spec&gt; --json\` | "起草结果摘要 + 后续行动。" |
 
 ## 检查清单
 - ☐ 每个依赖关系都用 \`lean-spec link --depends-on\` 记录

@@ -116,6 +116,11 @@ function checkSourceFile(item) {
       const trimmed = line.trim();
       const lineNum = i + 1;
       
+      // Skip HTML comments
+      if (trimmed.startsWith('<!--') || trimmed.includes('-->')) {
+        continue;
+      }
+      
       // Track code blocks
       if (trimmed.startsWith('```') || trimmed.startsWith('~~~')) {
         if (!inCodeBlock) {
@@ -133,8 +138,9 @@ function checkSourceFile(item) {
         continue;
       }
       
-      // Remove inline code for checking
-      const withoutInlineCode = line.replace(/`[^`]+`/g, '');
+      // Remove inline code and HTML comments for checking
+      let withoutInlineCode = line.replace(/`[^`]+`/g, '');
+      withoutInlineCode = withoutInlineCode.replace(/<!--.*?-->/g, '');
       
       // Skip markdown syntax lines
       const isBlockquote = trimmed.startsWith('>');
@@ -194,22 +200,25 @@ function checkSourceFile(item) {
       }
       
       // Check 3: Bold formatting issues in Chinese text
-      const hasChinese = /[\u4e00-\u9fa5]/.test(withoutInlineCode);
-      const hasBold = /\*\*[^*]+\*\*/.test(withoutInlineCode);
+      // DISABLED: Too many false positives with closing ** detection
+      // const hasChinese = /[\u4e00-\u9fa5]/.test(withoutInlineCode);
+      // const hasBold = /\*\*[^*]+\*\*/.test(withoutInlineCode);
       
-      if (hasChinese && hasBold) {
-        // Check for missing space before second ** in pattern like: ）**text**
-        const problematicPattern = /[）\u4e00-\u9fa5]\*\*[^*]+\*\*/;
-        if (problematicPattern.test(withoutInlineCode)) {
-          issues.push({
-            type: 'bold-spacing-chinese',
-            line: lineNum,
-            issue: `Missing space before bold marker in Chinese text`,
-            context: line.trim().substring(0, 100),
-            suggestion: 'Add space: "这与 **term** 形成对比" (note space before **)'
-          });
-        }
-      }
+      // if (hasChinese && hasBold) {
+      //   // Simple check: Chinese/paren directly followed by ** and then non-whitespace
+      //   // This catches: "中文**bold" but not "中文** " or "中文** bold" (with space after **)
+      //   const problematicPattern = /[）\u4e00-\u9fa5]\*\*(?=[^\s*])/;
+      //   if (problematicPattern.test(withoutInlineCode)) {
+      //     issues.push({
+      //       type: 'bold-spacing-chinese',
+      //       line: lineNum,
+      //       issue: `Missing space before bold marker in Chinese text`,
+      //       context: line.trim().substring(0, 100),
+      //       suggestion: 'Add space: "这与 **term** 形成对比" (note space before **)'
+      //     });
+      //   }
+      // }
+      
       
       // Check 4: Bold with quotes without spacing
       const boldQuotePattern = /\*\*"[^"]+"\*\*/;
