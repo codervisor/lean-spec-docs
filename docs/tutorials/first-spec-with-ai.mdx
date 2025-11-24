@@ -4,6 +4,9 @@ sidebar_position: 1
 description: Build a complete feature from idea to working code with AI-assisted spec-driven development
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Your First Spec with AI
 
 Learn how LeanSpec helps you go from intent to implementation in minutes, not hours. You'll build a real feature—dark theme support—with AI doing the heavy lifting.
@@ -18,7 +21,9 @@ Learn how LeanSpec helps you go from intent to implementation in minutes, not ho
 
 ## Quick Start
 
-Want to follow along with a ready-made example project? Scaffold it instantly:
+Want to follow along with a ready-made example project? Start with below instructions:
+
+Initialize the example project:
 
 ```bash
 npx lean-spec init --example dark-theme
@@ -27,7 +32,50 @@ npm install
 npm start
 ```
 
-Then ask your AI: _"Help me add dark theme support to this app using LeanSpec"_
+<Tabs groupId="ai-tool">
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    In your terminal with GitHub Copilot CLI:
+    ```bash
+    # Make sure you have GitHub Copilot CLI installed
+    npm install -g @github/copilot
+
+    # Send the prompt to Copilot CLI
+    copilot -p "Help me add dark theme support with theme switcher" \
+      --allow-all-tools \
+      --add-dir .
+    ```
+  </TabItem>
+  <TabItem value="claude" label="Claude Code">
+    In your terminal with Claude Code:
+    ```bash
+    # Make sure you have Claude Code installed
+    curl -fsSL https://claude.ai/install.sh | bash
+
+    # Reference AGENTS.md to CLAUDE.md
+    ln -s AGENTS.md CLAUDE.md
+
+    # Send the prompt to Claude Code
+    claude "Help me add dark theme support with theme switcher" \
+      --add-dir .
+    ```
+  </TabItem>
+  <TabItem value="gemini" label="Gemini CLI">
+    ```bash
+    # Make sure you have Gemini CLI installed
+    npm install -g @google/gemini-cli
+
+    # Send the prompt to Gemini CLI
+    gemini "Help me add dark theme support with theme switcher"
+    ```
+  </TabItem>
+  <TabItem value="ide" label="IDE" default>
+    Then copy and paste into your AI IDE tool (VS Code, Cursor, Antigravity, etc.) with below prompt:
+    
+    ```
+    Help me add dark theme support with theme switcher
+    ```
+  </TabItem>
+</Tabs>
 
 Or continue with your own project below...
 

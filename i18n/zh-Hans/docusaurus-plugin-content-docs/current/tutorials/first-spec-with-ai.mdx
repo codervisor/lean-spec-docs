@@ -4,6 +4,9 @@ sidebar_position: 1
 description: 通过 AI 辅助的规格驱动开发，从想法到工作代码构建完整功能
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 使用 AI 完成第一个规格
 
 了解 LeanSpec 如何帮助您在几分钟而非几小时内从意图到实现。您将构建一个真实功能——深色主题支持——由 AI 完成繁重工作。
@@ -20,14 +23,39 @@ description: 通过 AI 辅助的规格驱动开发，从想法到工作代码构
 
 想要使用现成的示例项目跟随学习吗？立即搭建脚手架：
 
-```bash
-npx lean-spec init --example dark-theme
-cd dark-theme
-npm install
-npm start
-```
-
-然后询问您的 AI：_"使用 LeanSpec 帮我为这个应用添加深色主题支持"_
+<Tabs groupId="ai-tool">
+  <TabItem value="manual" label="手动设置" default>
+    ```bash
+    npx lean-spec init --example dark-theme
+    cd dark-theme
+    npm install
+    npm start
+    ```
+    
+    然后询问您的 AI：_"使用 LeanSpec 帮我为这个应用添加深色主题支持"_
+  </TabItem>
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    ```bash
+    gh copilot suggest "从 lean-spec 搭建 dark-theme 示例并进行设置"
+    ```
+    
+    或使用自然语言：
+    ```bash
+    ?? 从 lean-spec 搭建 dark-theme 示例
+    ```
+  </TabItem>
+  <TabItem value="claude" label="Claude Code">
+    在终端中使用 Claude Code：
+    ```bash
+    claude "搭建 lean-spec 的 dark-theme 示例：npx lean-spec init --example dark-theme，然后进入目录，安装依赖项并启动开发服务器"
+    ```
+  </TabItem>
+  <TabItem value="gemini" label="Gemini CLI">
+    ```bash
+    gemini "为我设置 LeanSpec dark-theme 示例项目"
+    ```
+  </TabItem>
+</Tabs>
 
 或继续使用您自己的项目...
 
