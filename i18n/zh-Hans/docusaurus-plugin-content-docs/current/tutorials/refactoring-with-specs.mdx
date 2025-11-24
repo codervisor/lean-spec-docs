@@ -64,7 +64,7 @@ your-project/
 将所有 axios 调用移动到单个 ApiClient 类，包括：
 - 请求/响应拦截器
 - 错误处理
-- 令牌管理
+- Token管理
 - 类型安全方法
 
 标记为 "refactoring" 和 "architecture"。
@@ -94,7 +94,7 @@ tags: ['refactoring', 'architecture']
 
 ## 设计
 新的 ApiClient 类，具有类型化的 get/post 方法和用于
-认证令牌注入和错误处理的请求/响应拦截器。
+认证Token注入和错误处理的请求/响应拦截器。
 
 (...图表或代码片段...)
 
@@ -118,7 +118,7 @@ tags: ['refactoring', 'architecture']
 ## 测试
 - [ ] 所有现有测试通过
 - [ ] ApiClient 测试覆盖错误处理
-- [ ] 认证令牌正确注入到请求中
+- [ ] 认证Token正确注入到请求中
 ```
 
 **这里有什么不同？** 这是一个技术规格：
@@ -148,7 +148,7 @@ export class ApiClient {
   
   constructor() {
     this.client = axios.create({ baseURL: process.env.API_BASE_URL });
-    // 认证拦截器向请求添加令牌
+    // 认证拦截器向请求添加Token
   }
   
   async get<T>(path: string): Promise<T> { /* ... */ }

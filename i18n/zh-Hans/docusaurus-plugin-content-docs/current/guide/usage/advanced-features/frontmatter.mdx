@@ -1,15 +1,15 @@
 ---
 id: 'frontmatter'
-title: '前置元数据'
+title: 'frontmatter'
 sidebar_position: 8
 ---
-# 前置元数据
+# frontmatter
 
-LeanSpec 在每个规范顶部使用 YAML 前置元数据作为结构化元数据。
+LeanSpec 在每个Spec顶部使用 YAML frontmatter作为结构化元数据。
 
-## 什么是前置元数据？
+## 什么是frontmatter？
 
-前置元数据是 YAML 格式的机器可读元数据：
+frontmatter是 YAML 格式的机器可读元数据：
 
 ```markdown
 ---
@@ -19,16 +19,16 @@ tags: [api, security]
 priority: high
 ---
 
-# 您的规范标题
+# 您的Spec标题
 
-[规范内容...]
+[Spec内容...]
 ```
 
 ## 核心字段
 
 ### status（必需）
 
-规范的当前状态。
+Spec的当前状态。
 
 **有效值：**
 - `planned` - 尚未开始
@@ -43,7 +43,7 @@ status: in-progress
 
 ### created（必需）
 
-规范创建的日期（ISO 8601 格式）。
+Spec创建的日期（ISO 8601 格式）。
 
 **格式：** `YYYY-MM-DD`
 
@@ -137,7 +137,7 @@ lean-spec list --field epic=PROJ-123
 
 ## 视觉徽章
 
-LeanSpec 从前置元数据自动生成视觉徽章：
+LeanSpec 从frontmatter自动生成视觉徽章：
 
 ```markdown
 > **Status**: ⏳ 进行中 · **Priority**: 高 · **Created**: 2025-11-02 · **Tags**: api, security
@@ -171,10 +171,10 @@ sprint: 42
 > **Status**: ⏳ 进行中 · **Priority**: 高 · **Created**: 2025-11-02  
 > **Tags**: api, authentication, security · **Assignee**: alice · **Reviewer**: bob
 
-[规范内容...]
+[Spec内容...]
 ```
 
-## 编辑前置元数据
+## 编辑frontmatter
 
 ### 通过 CLI
 
@@ -184,11 +184,11 @@ sprint: 42
 lean-spec update 001 --status=complete --priority=critical
 ```
 
-这会更新前置元数据和视觉徽章。
+这会更新frontmatter和视觉徽章。
 
 ### 手动编辑
 
-您也可以直接在文件中编辑前置元数据：
+您也可以直接在文件中编辑frontmatter：
 
 1. 在编辑器中打开 `README.md`
 2. 修改 `---` 标记之间的 YAML

@@ -6,20 +6,20 @@ sidebar_position: 0
 
 # CLI 概览
 
-LeanSpec CLI 提供了管理项目规范的完整工具集。无论您是直接工作的开发者还是自动化工作流的 AI 代理,CLI 都为规范生命周期的每个阶段提供高效的命令。
+LeanSpec CLI 提供了管理项目Spec的完整工具集。无论您是直接工作的开发者还是自动化工作流的 AI 代理,CLI 都为Spec生命周期的每个阶段提供高效的命令。
 
 ## 面向人类开发者
 
-CLI 为您提供对规范的命令行控制:
+CLI 为您提供对Spec的命令行控制:
 
-- **创建和管理** 规范,使用简单的命令
+- **创建和管理** Spec,使用简单的命令
 - **搜索和发现** 相关工作,即时响应
 - **跟踪进度** 通过可视化面板和指标
-- **验证质量** 以维护规范健康
+- **验证质量** 以维护Spec健康
 
 快速示例工作流:
 ```bash
-# 创建新规范
+# 创建新Spec
 lean-spec create auth-refactor --tags security
 
 # 开始工作
@@ -36,10 +36,10 @@ lean-spec validate
 
 CLI 被设计为 **AI 代理的工具集**,使它们能够:
 
-- **发现上下文** - 搜索和检索相关规范以回答问题
+- **发现上下文** - 搜索和检索相关Spec以回答问题
 - **跟踪决策** - 访问过去的架构选择和理由
-- **管理工作** - 以编程方式创建、更新和链接规范
-- **维护质量** - 验证规范结构和令牌计数
+- **管理工作** - 以编程方式创建、更新和链接Spec
+- **维护质量** - 验证Spec结构和Token计数
 
 AI 代理可以直接使用 LeanSpec CLI 命令作为工具:
 
@@ -47,7 +47,7 @@ AI 代理可以直接使用 LeanSpec CLI 命令作为工具:
 # 代理搜索相关上下文
 lean-spec search "authentication decision"
 
-# 代理检索特定规范
+# 代理检索特定Spec
 lean-spec view 042
 
 # 代理检查依赖关系
@@ -64,27 +64,27 @@ lean-spec update 042 --status complete
 CLI 将命令组织成逻辑组:
 
 ### 创建和管理
-规范生命周期的核心操作:
-- `create` - 开始新规范
+Spec生命周期的核心操作:
+- `create` - 开始新Spec
 - `update` - 修改状态、优先级、标签
-- `view` - 读取规范内容
+- `view` - 读取Spec内容
 - `open` - 在您喜欢的编辑器中编辑
 
-**了解更多**: [创建和管理规范](/zh-Hans/docs/guide/usage/cli/creating-managing)
+**了解更多**: [创建和管理Spec](/zh-Hans/docs/guide/usage/cli/creating-managing)
 
-### 查找规范
-发现和导航规范:
-- `list` - 查看所有规范并使用过滤器
+### 查找Spec
+发现和导航Spec:
+- `list` - 查看所有Spec并使用过滤器
 - `search` - 按内容或元数据查找
 - `deps` - 探索关系
 
-**了解更多**: [查找规范](/zh-Hans/docs/guide/usage/cli/finding-specs)
+**了解更多**: [查找Spec](/zh-Hans/docs/guide/usage/cli/finding-specs)
 
 ### 项目管理
 跟踪健康状况并验证质量:
 - `board` - 可视化看板视图
 - `stats` - 项目指标
-- `validate` - 检查规范质量
+- `validate` - 检查Spec质量
 
 **了解更多**: [项目管理](/zh-Hans/docs/guide/usage/cli/project-management) 和 [验证](/zh-Hans/docs/guide/usage/cli/validation)
 
@@ -92,21 +92,21 @@ CLI 将命令组织成逻辑组:
 
 CLI 设计遵循 LeanSpec 的 [第一性原理](/zh-Hans/docs/advanced/first-principles):
 
-1. **上下文经济性** - 命令帮助管理令牌预算(`tokens`、`validate`)
-2. **信噪比最大化** - 快速访问相关信息(`search`、`deps`)
+1. **上下文经济 (Context Economy)性** - 命令帮助管理Token预算(`tokens`、`validate`)
+2. **信噪比 (Signal-to-Noise)最大化** - 快速访问相关信息(`search`、`deps`)
 3. **意图优先于实现** - 专注于什么和为什么,而不仅仅是如何
 4. **桥接鸿沟** - 适用于人类和 AI 代理
-5. **渐进式披露** - 默认简单,需要时功能强大
+5. **渐进式披露 (Progressive Disclosure)** - 默认简单,需要时功能强大
 
 ## 快速参考
 
 **最常用的命令:**
 
 ```bash
-lean-spec create <name>           # 创建新规范
-lean-spec list                    # 查看所有规范
-lean-spec search "query"          # 查找相关规范
-lean-spec view <spec>             # 读取规范内容
+lean-spec create <name>           # 创建新Spec
+lean-spec list                    # 查看所有Spec
+lean-spec search "query"          # 查找相关Spec
+lean-spec view <spec>             # 读取Spec内容
 lean-spec update <spec> --status  # 更新状态
 lean-spec board                   # 可视化概览
 lean-spec validate                # 检查质量
@@ -122,7 +122,7 @@ lean-spec <command> --help        # 命令详情
 
 ### 版本控制
 LeanSpec 与 Git 配合良好:
-- 规范是纯 Markdown 文件
+- Spec是纯 Markdown 文件
 - 所有更改都可追溯
 - 在 PR 中易于审查
 
@@ -134,7 +134,7 @@ LeanSpec 与 Git 配合良好:
 ```
 
 ### 编辑器
-在您喜欢的编辑器中打开规范:
+在您喜欢的编辑器中打开Spec:
 ```bash
 lean-spec open 042
 ```
@@ -150,10 +150,10 @@ lean-spec open 042
 - 用 `lean-spec board` 开始您的一天
 - 使用 `lean-spec search` 而不是 grep
 - 提交前验证
-- 保持规范在 3,500 个令牌以下
+- 保持Spec在 3,500 个Token以下
 
 **面向 AI 代理:**
-- 创建新规范前先搜索
+- 创建新Spec前先搜索
 - 开始工作前检查依赖关系
 - 实现后更新状态
 - 使用 `lean-spec deps` 获取上下文
@@ -162,13 +162,13 @@ lean-spec open 042
 
 深入了解具体工作流:
 
-1. **[创建和管理规范](/zh-Hans/docs/guide/usage/cli/creating-managing)** - 掌握基本操作
-2. **[查找规范](/zh-Hans/docs/guide/usage/cli/finding-specs)** - 学习搜索和发现
+1. **[创建和管理Spec](/zh-Hans/docs/guide/usage/cli/creating-managing)** - 掌握基本操作
+2. **[查找Spec](/zh-Hans/docs/guide/usage/cli/finding-specs)** - 学习搜索和发现
 3. **[项目管理](/zh-Hans/docs/guide/usage/cli/project-management)** - 跟踪项目健康状况
-4. **[验证](/zh-Hans/docs/guide/usage/cli/validation)** - 确保规范质量
+4. **[验证](/zh-Hans/docs/guide/usage/cli/validation)** - 确保Spec质量
 
 **参考**: 查看 [CLI 参考](/zh-Hans/docs/reference/cli) 获取完整的命令文档。
 
 ---
 
-**记住**: CLI 是人类开发者和 AI 代理的工具。无论您是在输入命令还是 AI 在执行命令,目标都是相同的:维护清晰、可操作的规范,推动开发向前发展。
+**记住**: CLI 是人类开发者和 AI 代理的工具。无论您是在输入命令还是 AI 在执行命令,目标都是相同的:维护清晰、可操作的Spec,推动开发向前发展。

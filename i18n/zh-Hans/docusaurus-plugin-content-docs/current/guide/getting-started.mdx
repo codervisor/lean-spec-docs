@@ -35,7 +35,7 @@ lean-spec init -y
 ```
 your-project/
 ├── .lean-spec/        # LeanSpec 配置
-├── specs/             # 所有规格说明都放在这里
+├── specs/             # 所有 Spec 都放在这里
 ├── AGENTS.md          # AI 代理的系统提示
 └── ... （你的项目文件）
 ```
@@ -45,7 +45,7 @@ your-project/
 在你的 AI 工具中，输入提示：
 
 ```
-为 "my-feature" 功能创建新规格说明，需满足以下要求：
+为 "my-feature" 功能创建新 Spec，需满足以下要求：
 - [要求 1]
 - [要求 2]
 - ...
@@ -54,17 +54,17 @@ your-project/
 或者简单地：
 
 ```
-为 "my-feature" 创建新规格说明。
+为 "my-feature" 创建新 Spec。
 ```
 
-AI 将使用 CLI 或 MCP（如果已配置）来创建并填充规格说明。
+AI 将使用 CLI 或 MCP（如果已配置）来创建并填充 Spec。
 
 这将创建：
 - `specs/001-my-feature/` 文件夹（扁平结构与顺序编号）
-- 包含模板内容和前置元数据的 `README.md`
-- **由 AI 填写的规格说明详情**（无需手动编辑）
+- 包含模板内容和 frontmatter 的 `README.md`
+- **由 AI 填写的 Spec 详情**（无需手动编辑）
 
-规格说明内容如下所示：
+Spec 内容如下所示：
 
 ```markdown title="specs/001-my-feature/README.md"
 ---
@@ -77,12 +77,12 @@ priority: medium
 
 > **Status**: 📅 Planned · **Priority**: Medium · **Created**: 2025-11-02
 
-(... 由 AI 填写的规格说明详情 ...)
+(... 由 AI 填写的 Spec 详情 ...)
 ```
 
 ## 开发 Spec
 
-创建规格说明后，审查它并根据规格说明详情实施功能。
+创建 Spec 后，审查它并根据 Spec 详情实施功能。
 
 在你的 AI 工具中，询问：
 
@@ -93,16 +93,16 @@ priority: medium
 或者简单地：
 
 ```
-实施规格说明 1。
+实施 Spec 1。
 ```
 
-AI 将读取规格说明并根据要求开始实施。
+AI 将读取 Spec 并根据要求开始实施。
 
 在典型的代理工作流程中，AI 将：
-1. 读取规格说明详情
+1. 读取 Spec 详情
 2. 分析代码库
 3. 生成代码更改以实施功能
-4. 总结更改并在规格说明中记录进度
+4. 总结更改并在 Spec 中记录进度
 
 :::tip 推荐的 AI 模型
 虽然不是必需的，但我们强烈建议使用高级 LLM，如 [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5)、[GPT-5.1](https://openai.com/index/gpt-5-1/) 或 [Gemini 3](https://aistudio.google.com/models/gemini-3)，以获得 LeanSpec 的最佳效果。
@@ -125,20 +125,20 @@ AI 完成实施后，你可以：
 - [使用规格重构](/docs/tutorials/refactoring-with-specs) - 记录架构变更（15 分钟）
 
 **学习基础知识：**
-- [规格说明概念](/docs/guide/terminology/spec) - 解释基本 SDD 术语
+- [Spec 概念](/docs/guide/terminology/spec) - 解释基本 SDD 术语
 - [第一性原理](/docs/advanced/first-principles) - 5 个基本原则
 - [理解 LeanSpec](/docs/guide/understanding-leanspec) - 核心概念和使用时机
-- [上下文工程](/docs/advanced/context-engineering) - 管理 AI 工作记忆
+- [上下文工程](/docs/advanced/context-engineering) - 管理 AI 工作记忆 (Working Memory)
 
 **开始使用 LeanSpec：**
-- [创建和管理规格说明](/docs/guide/usage/cli/creating-managing) - 基本操作
-- [查找规格说明](/docs/guide/usage/cli/finding-specs) - 搜索和发现
-- [规格说明结构](/docs/guide/usage/spec-structure) - 组织你的规格说明
+- [创建和管理 Spec](/docs/guide/usage/cli/creating-managing) - 基本操作
+- [查找 Spec](/docs/guide/usage/cli/finding-specs) - 搜索和发现
+- [Spec 结构](/docs/guide/usage/spec-structure) - 组织你的 Spec
 
 **AI 集成：**
 - [MCP 集成](/docs/guide/usage/mcp-integration) - 连接 AI 工具
 - [AI 编码工作流程](/docs/guide/usage/ai-coding-workflow) - 最佳实践
-- [AI 辅助规格说明编写](/docs/advanced/ai-assisted-spec-writing) - 与 AI 共同创建
+- [AI 辅助 Spec 编写](/docs/advanced/ai-assisted-spec-writing) - 与 AI 共同创建
 
 ## 需要帮助？
 

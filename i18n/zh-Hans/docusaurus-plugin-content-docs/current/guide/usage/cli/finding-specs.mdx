@@ -1,18 +1,18 @@
 ---
 id: 'finding-specs'
-title: '查找规范'
+title: '查找Spec'
 sidebar_position: 2
 ---
-# 查找规范
+# 查找Spec
 
-学习如何使用搜索、列表命令和 MCP 服务器发现和导航规范以供 AI 代理访问。
+学习如何使用搜索、列表命令和 MCP 服务器发现和导航Spec以供 AI 代理访问。
 
 ## 快速发现
 
-### 列出所有规范
+### 列出所有Spec
 
 ```bash
-# 显示所有规范
+# 显示所有Spec
 lean-spec list
 ```
 
@@ -32,33 +32,33 @@ lean-spec list
 ### 按状态过滤
 
 ```bash
-# 仅显示进行中的规范
+# 仅显示进行中的Spec
 lean-spec list --status in-progress
 
-# 显示计划中的规范
+# 显示计划中的Spec
 lean-spec list --status planned
 
-# 显示已完成的规范
+# 显示已完成的Spec
 lean-spec list --status complete
 ```
 
 ### 按标签过滤
 
 ```bash
-# 显示带特定标签的规范
+# 显示带特定标签的Spec
 lean-spec list --tag api
 
-# 显示带多个标签的规范
+# 显示带多个标签的Spec
 lean-spec list --tag api --tag backend
 ```
 
 ### 按优先级过滤
 
 ```bash
-# 高优先级规范
+# 高优先级Spec
 lean-spec list --priority high
 
-# 低优先级规范
+# 低优先级Spec
 lean-spec list --priority low
 ```
 
@@ -67,15 +67,15 @@ lean-spec list --priority low
 ### 基本搜索
 
 ```bash
-# 搜索所有规范内容
+# 搜索所有Spec内容
 lean-spec search "authentication"
 ```
 
 搜索范围：
-- 规范标题和描述
+- Spec标题和描述
 - 所有 README.md 内容
-- 子规范文件（DESIGN.md、TESTING.md 等）
-- 前置元数据字段
+- 子 Spec文件（DESIGN.md、TESTING.md 等）
+- frontmatter字段
 
 ### 使用过滤器搜索
 
@@ -101,13 +101,13 @@ lean-spec search "JWT"      # 匹配 "jwt"、"JWT"、"Jwt"
 ## 依赖导航
 
 ```bash
-# 显示规范的依赖关系
+# 显示Spec的依赖关系
 lean-spec deps 042
 ```
 
 输出：
 ```
-042-auth-refactor 的依赖图
+042-auth-refactor 的依赖图 (Dependency Graph)
 
 依赖于：
   → 041-jwt-library [complete]       # 开始前需要
@@ -116,13 +116,13 @@ lean-spec deps 042
   ← 043-api-redesign [planned]       # 在 042 完成前被阻塞
   ← 044-dashboard [planned]
 
-相关规范：
+相关Spec：
   ⟷ 045-security-audit [in-progress]  # 协调工作
 ```
 
 导航关系：
-- **依赖于（→）**：此规范在开始前需要什么
-- **被需要（←）**：等待此规范的内容被阻塞
+- **依赖于（→）**：此Spec在开始前需要什么
+- **被需要（←）**：等待此Spec的内容被阻塞
 - **相关（⟷）**：信息连接
 
 **另见**：[依赖关系](/zh-Hans/docs/guide/usage/cli/project-management#dependencies)
@@ -144,7 +144,7 @@ lean-spec list --status complete --tag security
 
 ### 排除已归档
 
-默认情况下，`lean-spec list` 排除已归档的规范：
+默认情况下，`lean-spec list` 排除已归档的Spec：
 
 ```bash
 # 默认：排除已归档
@@ -192,7 +192,7 @@ lean-spec list --status planned
 
 # 检查是否满足依赖关系
 lean-spec deps <spec-id>
-# （验证所需规范已完成）
+# （验证所需Spec已完成）
 ```
 
 ## 导航提示
@@ -206,7 +206,7 @@ lean-spec deps <spec-id>
 **不要做：**
 - ❌ 手动 grep specs/ 目录
 - ❌ 依赖文件系统命名（改用 ID/搜索）
-- ❌ 忘记已归档的规范存在（使用 --archived 包括它们）
+- ❌ 忘记已归档的Spec存在（使用 --archived 包括它们）
 
 ## 键盘驱动工作流程
 
@@ -219,7 +219,7 @@ lean-spec list --status in-progress
 # 2. 我应该做什么？
 lean-spec list --status planned --priority high
 
-# 3. 这个规范是关于什么的？
+# 3. 这个Spec是关于什么的？
 lean-spec view <spec-id>
 
 # 4. 开始工作
@@ -230,24 +230,24 @@ lean-spec open <spec-id>
 ### 研究流程
 
 ```bash
-# 1. 查找相关规范
+# 1. 查找相关Spec
 lean-spec search "authentication"
 
-# 2. 查看有希望的规范
+# 2. 查看有希望的Spec
 lean-spec view 042
 
 # 3. 检查相关工作
 lean-spec deps 042
 
-# 4. 阅读相关规范
+# 4. 阅读相关Spec
 lean-spec view 041
 ```
 
 ## 下一步
 
-- [创建和管理规范](/zh-Hans/docs/guide/usage/cli/creating-managing) - 基本操作
+- [创建和管理Spec](/zh-Hans/docs/guide/usage/cli/creating-managing) - 基本操作
 - [项目管理](/zh-Hans/docs/guide/usage/cli/project-management) - 看板视图和健康跟踪
-- [规范结构](/zh-Hans/docs/guide/usage/spec-structure) - 了解规范解剖
+- [Spec结构](/zh-Hans/docs/guide/usage/spec-structure) - 了解Spec解剖
 
 ---
 

@@ -3,12 +3,12 @@ id: visual-mode
 title: 可视化模式
 sidebar_label: 可视化模式
 sidebar_position: 8
-description: 使用 LeanSpec 网页界面进行可视化规范管理
+description: 使用 LeanSpec 网页界面进行可视化Spec管理
 ---
 
 # 可视化模式
 
-LeanSpec UI 提供了一个可视化的网页界面，用于浏览和管理规范。它非常适合视觉学习者、团队演示和探索性规范浏览。
+LeanSpec UI 提供了一个可视化的网页界面，用于浏览和管理Spec。它非常适合视觉学习者、团队演示和探索性Spec浏览。
 
 ![LeanSpec UI 列表视图，展示搜索和筛选控件](/img/ui/ui-spec-list.png)
 
@@ -16,23 +16,23 @@ LeanSpec UI 提供了一个可视化的网页界面，用于浏览和管理规�
 
 可视化模式是一个本地网页应用程序，提供：
 
-- **交互式规范浏览器**：浏览具有丰富格式和语法高亮的规范
-- **依赖关系可视化**：以交互式图形查看规范之间的关系
+- **交互式Spec浏览器**：浏览具有丰富格式和语法高亮的Spec
+- **依赖关系可视化**：以交互式图形查看Spec之间的关系
 - **项目概览**：一目了然地查看项目统计数据和指标
-- **搜索和筛选**：按状态、标签或内容快速查找规范
+- **搜索和筛选**：按状态、标签或内容快速查找Spec
 - **看板视图**：按状态组织的看板式可视化
 
 ## 何时使用 UI 与 CLI
 
 **使用 UI 的情况：**
-- 可视化探索和发现规范
-- 向利益相关者或团队成员展示规范
+- 可视化探索和发现Spec
+- 向利益相关者或团队成员展示Spec
 - 可视化依赖关系和关联
 - 获取高层次的项目概览
-- 浏览规范而无需记住命令
+- 浏览Spec而无需记住命令
 
 **使用 CLI 的情况：**
-- 快速创建或编辑规范
+- 快速创建或编辑Spec
 - 使用脚本自动化工作流
 - 与 CI/CD 管道集成
 - 在仅终端环境中工作
@@ -49,7 +49,7 @@ lean-spec ui
 ```
 
 此命令将：
-- 自动检测您的规范目录
+- 自动检测您的Spec目录
 - 在 3000 端口启动网页服务器
 - 自动打开您的默认浏览器
 
@@ -71,7 +71,7 @@ npx @leanspec/ui
 两种方法支持相同的选项：
 
 ```bash
-# 自定义规范目录
+# 自定义Spec目录
 lean-spec ui --specs ./my-specs
 
 # 自定义端口
@@ -85,52 +85,52 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 ```
 
 **可用选项：**
-- `-s, --specs <dir>` - 指定规范目录（默认自动检测）
+- `-s, --specs <dir>` - 指定Spec目录（默认自动检测）
 - `-p, --port <port>` - 服务器端口（默认：3000）
 - `--no-open` - 不自动打开浏览器
 
 ## 功能特性
 
-### 规范浏览器
+### Spec浏览器
 
-主界面以列表视图显示所有规范：
+主界面以列表视图显示所有Spec：
 
 - **丰富格式**：带语法高亮的 Markdown 渲染
-- **状态指示器**：规范状态的可视化徽章（planned、active、done 等）
+- **状态指示器**：Spec状态的可视化徽章（planned、active、done 等）
 - **快速筛选**：按状态、标签或优先级筛选
-- **搜索**：跨所有规范的全文搜索
+- **搜索**：跨所有Spec的全文搜索
 
 ![列表视图示例，突出筛选器和搜索框](/img/ui/ui-list-view.png)
 
-### 规范详情视图
+### Spec详情视图
 
-点击任何规范查看：
+点击任何Spec查看：
 
-- **完整内容**：完整规范以适当格式渲染
+- **完整内容**：完整Spec以适当格式渲染
 - **元数据**：清晰显示所有前置字段
-- **相关规范**：依赖关系和相关工作的链接
+- **相关Spec**：依赖关系和相关工作的链接
 - **快速操作**：编辑、查看源代码或在文件系统中打开的链接
 
-![规范详情视图展示元数据、操作按钮和正文内容](/img/ui/ui-spec-detail.png)
+![Spec详情视图展示元数据、操作按钮和正文内容](/img/ui/ui-spec-detail.png)
 
 ### 依赖关系图
 
-可视化规范之间的关联：
+可视化Spec之间的关联：
 
 - **交互式图形**：拖动节点、缩放和平移
-- **关系线**：查看哪些规范依赖于其他规范
-- **点击导航**：点击任何节点查看该规范
-- **按状态筛选**：仅显示活动规范、已完成工作等
+- **关系线**：查看哪些Spec依赖于其他Spec
+- **点击导航**：点击任何节点查看该Spec
+- **按状态筛选**：仅显示活动Spec、已完成工作等
 
-![依赖关系图弹窗，包含当前规范与关联工作的节点](/img/ui/ui-dependency-graph.png)
+![依赖关系图弹窗，包含当前Spec与关联工作的节点](/img/ui/ui-dependency-graph.png)
 
 ### 看板视图
 
-按状态组织规范的看板式视图：
+按状态组织Spec的看板式视图：
 
-- **拖放**：在状态列之间移动规范（如果启用）
+- **拖放**：在状态列之间移动Spec（如果启用）
 - **状态列**：Planned、Active、Done 等
-- **卡片预览**：一目了然地查看规范标题、标签和负责人
+- **卡片预览**：一目了然地查看Spec标题、标签和负责人
 
 ![看板视图包含 Planned、In Progress、Complete、Archived 列](/img/ui/ui-board-view.png)
 
@@ -138,8 +138,8 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 
 显示项目指标的仪表板：
 
-- **总规范数**：整体规范计数
-- **按状态**：每个状态中规范的细分
+- **总Spec数**：整体Spec计数
+- **按状态**：每个状态中Spec的细分
 - **按优先级**：优先级级别的分布
 - **按标签**：最常用的标签
 
@@ -147,7 +147,7 @@ lean-spec ui --specs ./docs/specs --port 3100 --no-open
 
 ### 搜索视图
 
-需要立即定位规范？搜索框输入后实时刷新，列表和看板都会同步过滤。
+需要立即定位Spec？搜索框输入后实时刷新，列表和看板都会同步过滤。
 
 ![搜索关键字 dependency 后仅显示匹配的卡片与列](/img/ui/ui-search-view.png)
 
@@ -159,7 +159,7 @@ flowchart LR
     External[npx @leanspec/ui] --> Package["@leanspec/ui 包"]
     Local --> Server[Next.js standalone 服务器]
     Package --> Server
-    Server -->|读取规范| FS[specs/ 目录]
+    Server -->|读取Spec| FS[specs/ 目录]
     Browser((浏览器)) -->|HTTP :3000| Server
 ```
 
@@ -201,14 +201,14 @@ graph LR
 
 ### 实时更新
 - 60 秒缓存 TTL
-- 规范文件的更改会自动显示
-- 在编辑器中编辑规范，在 UI 中查看更新
+- Spec文件的更改会自动显示
+- 在编辑器中编辑Spec，在 UI 中查看更新
 
 ### 为什么采用这种架构？
 
 **简单性**：无需配置、迁移或维护数据库
 
-**可靠性**：您的规范始终与文件系统同步
+**可靠性**：您的Spec始终与文件系统同步
 
 **可移植性**：在任何有 `specs/` 目录的项目中都可以工作
 
@@ -224,7 +224,7 @@ UI 和 CLI 相互补充：
 # 终端 1：运行 UI
 lean-spec ui
 
-# 终端 2：处理规范
+# 终端 2：处理Spec
 lean-spec create new-feature
 lean-spec update new-feature --status=active
 
@@ -251,16 +251,16 @@ lean-spec ui --port 3000
 
 ### 演示和展示
 
-UI 非常适合向利益相关者展示规范：
+UI 非常适合向利益相关者展示Spec：
 
 1. **简洁界面**：专业、无干扰的视图
 2. **依赖关系图**：可视化项目结构
 3. **看板视图**：显示进度和状态
-4. **交互式**：在讨论期间在相关规范之间导航
+4. **交互式**：在讨论期间在相关Spec之间导航
 
 ## 故障排除
 
-### 找不到规范目录
+### 找不到Spec目录
 
 **问题**：`Error: Could not find specs directory`
 
@@ -319,7 +319,7 @@ npm install -g @leanspec/cli@latest
 
 ### 更改未显示
 
-**问题**：编辑了规范但 UI 仍显示旧内容
+**问题**：编辑了Spec但 UI 仍显示旧内容
 
 **解决方案**：
 - 等待最多 60 秒以使缓存过期
@@ -341,31 +341,31 @@ npm run build
 
 ### 性能
 
-- UI 缓存规范 60 秒 - 大型项目快速加载
+- UI 缓存Spec 60 秒 - 大型项目快速加载
 - 使用搜索和筛选缩小查看范围
 - 如果 UI 感觉慢，关闭其他浏览器标签页
 
 ### 工作流集成
 
 - 在工作时在浏览器标签页中保持 UI 运行
-- 将其用作代码编辑器旁边的"规范仪表板"
-- 在开始实施之前在 UI 中审查规范
+- 将其用作代码编辑器旁边的"Spec仪表板"
+- 在开始实施之前在 UI 中审查Spec
 
 ### 团队采用
 
 - 在团队会议中演示 UI 以提高采用率
-- 在规范审查期间共享 URL
+- 在Spec审查期间共享 URL
 - 在冲刺计划会议中使用看板视图
 
 ## 下一步
 
 - **了解更多**：查看 [CLI 参考](/docs/reference/cli#lean-spec-ui) 以获取所有命令选项
 - **UI 包**：查看 [@leanspec/ui](/docs/reference/ui-package) 以获取技术细节
-- **入门**：阅读[入门指南](/docs/guide/getting-started)以设置您的第一个规范
+- **入门**：阅读[入门指南](/docs/guide/getting-started)以设置您的第一个Spec
 
 ## 相关文档
 
 - [CLI 参考 - `lean-spec ui` 命令](/docs/reference/cli#lean-spec-ui)
 - [UI 包参考](/docs/reference/ui-package)
 - [入门指南](/docs/guide/getting-started)
-- [管理规范](/docs/guide/usage/cli/creating-managing)
+- [管理Spec](/docs/guide/usage/cli/creating-managing)

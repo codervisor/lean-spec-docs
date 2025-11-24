@@ -17,7 +17,7 @@ sidebar_position: 1
 3. **计划/设计** — 阶段、权衡或方法说明
 4. **验证** — 如何确认工作已完成
 
-保持 README 在约 2,000 tokens 以下。当它超出工作记忆限制时，将详细信息拆分到子规格文件中并从计划部分链接它们。
+保持 README 在约 2,000 tokens 以下。当它超出工作记忆 (Working Memory)限制时，将详细信息拆分到子规格文件中并从计划部分链接它们。
 
 ## 子规格：当深度很重要时
 子规格是规格目录内的附加 Markdown 文件（`DESIGN.md`、`IMPLEMENTATION.md`、`TESTING.md` 等）。它们通过保持主 README 可扫描同时存储特定受众的深入细节来保持 Context Economy。
@@ -39,7 +39,7 @@ TESTING.md         # 验证细节
 ## 快速示例
 \`\`\`markdown
 # 042-api-rate-limiting
-实现令牌桶速率限制（每分钟 100 个请求/API 密钥）
+实现Token桶速率限制（每分钟 100 个请求/API 密钥）
 以保护 API 免受 2% 重度用户的滥用。
 \`\`\`
 

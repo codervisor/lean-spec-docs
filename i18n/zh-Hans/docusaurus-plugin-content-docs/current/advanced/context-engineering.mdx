@@ -7,7 +7,7 @@ sidebar_position: 4
 
 > "更大的上下文窗口 ≠ 更好的结果。智能策展 > 原始容量。"
 
-上下文工程是管理 AI 工作记忆以最大化效果的实践。LeanSpec 将上下文工程原则应用于规格说明管理，确保规格说明适应工作记忆并提供高信噪比。
+上下文工程是管理 AI 工作记忆 (Working Memory)以最大化效果的实践。LeanSpec 将上下文工程原则应用于Spec管理，确保Spec适应工作记忆并提供高信噪比 (Signal-to-Noise)。
 
 ## 核心问题
 
@@ -24,7 +24,7 @@ sidebar_position: 4
 ### LeanSpec 的联系
 
 LeanSpec 存在是因为：
-1. **上下文经济** - 规格说明必须适应工作记忆（人类 + AI）
+1. **上下文经济 (Context Economy)** - Spec必须适应工作记忆（人类 + AI）
 2. **信噪比** - 每个字都必须提供决策信息
 3. **上下文失败**发生在我们违反这些原则时
 
@@ -40,7 +40,7 @@ LeanSpec 存在是因为：
 
 **LeanSpec 应用**：
 ```markdown
-# 不是一个 11K-token 的规格说明：
+# 不是一个 11K-token 的Spec：
 specs/045/README.md          (~1,200 tokens - 概述)
 specs/045/DESIGN.md          (~2,200 tokens - 设计)
 specs/045/IMPLEMENTATION.md  (~900 tokens - 计划)
@@ -50,12 +50,12 @@ specs/045/TESTING.md         (~1,100 tokens - 测试)
 ```
 
 **机制**：
-- **子规格说明文件**（README + DESIGN + TESTING + CONFIG）
+- **子 Spec文件**（README + DESIGN + TESTING + CONFIG）
 - **延迟加载**（按需读取文件）
-- **渐进式披露**（概述 → 细节）
+- **渐进式披露 (Progressive Disclosure)**（概述 → 细节）
 
 **何时使用**：
-- ✅ 规格说明 >3,500 tokens
+- ✅ Spec >3,500 tokens
 - ✅ 多个不同关注点（设计 + 测试 + 配置）
 - ✅ 不同关注点独立访问
 
@@ -92,7 +92,7 @@ JWT tokens 的好处是它们不需要服务器端
 **机制**：
 - **重复检测**（多处相同内容）
 - **推断删除**（从上下文显而易见）
-- **引用合并**（一个规范来源，其他引用）
+- **引用合并**（一个Spec来源，其他引用）
 
 **何时使用**：
 - ✅ 跨部分重复解释
@@ -145,11 +145,11 @@ JWT tokens 的好处是它们不需要服务器端
 
 ### 4. 隔离（Isolation，移至单独上下文）
 
-**什么**：将不相关的关注点拆分到单独的规格说明中
+**什么**：将不相关的关注点拆分到单独的Spec中
 
 **LeanSpec 应用**：
 ```markdown
-# 隔离前（一个规格说明）：
+# 隔离前（一个Spec）：
 specs/045-unified-dashboard/README.md
   - 仪表板实现
   - 速度跟踪算法
@@ -158,29 +158,29 @@ specs/045-unified-dashboard/README.md
   - 指标端点的 API 设计
   [约 11K tokens 涵盖 5 个不同关注点]
 
-# 隔离后（多个规格说明）：
+# 隔离后（多个Spec）：
 specs/045-unified-dashboard/       # 仪表板 UI
 specs/060-velocity-algorithm/      # 速度跟踪
 specs/061-health-scoring/          # 健康指标
 specs/062-metrics-api/             # API 端点
-  [每个规格说明 <2,000 tokens，独立生命周期]
+  [每个Spec <2,000 tokens，独立生命周期]
 ```
 
 **机制**：
 - **关注点提取**（识别不相关主题）
 - **依赖关系分析**（什么必须保持在一起？）
-- **规格说明创建**（移至新规格说明并交叉引用）
+- **Spec创建**（移至新Spec并交叉引用）
 
 **何时使用**：
 - ✅ 多个关注点具有不同生命周期
 - ✅ 部分可以是独立功能
 - ✅ 部分由不同人/团队更新
-- ✅ 分区后规格说明仍 >3,500 tokens
+- ✅ 分区后Spec仍 >3,500 tokens
 
 **好处**：
 - ✅ 独立演进（算法更改 ≠ UI 更改）
 - ✅ 清晰所有权（不同关注点，不同所有者）
-- ✅ 更易审查（每个规格说明聚焦范围）
+- ✅ 更易审查（每个Spec聚焦范围）
 
 ## 四种上下文失败模式
 
@@ -196,9 +196,9 @@ specs/062-metrics-api/             # API 端点
 "认证模块使用 Redis 进行会话存储"
   （现实：我们使用 JWT tokens，而非 Redis 会话）
 
-# 幻觉被保存到规格说明
+# 幻觉被保存到Spec
 
-# 稍后，AI 读取规格说明并建立在幻觉之上：
+# 稍后，AI 读取Spec并建立在幻觉之上：
 "Redis 配置应使用集群模式实现高可用性"
   （建立在原始错误之上）
 
@@ -207,7 +207,7 @@ specs/062-metrics-api/             # API 端点
 
 **缓解措施**：
 - ✅ 编程验证（保存前捕获）
-- ✅ 定期规格说明-代码同步检查
+- ✅ 定期Spec-代码同步检查
 - ✅ 立即删除损坏的部分
 
 ### 2. 上下文分心（Context Distraction）
@@ -216,12 +216,12 @@ specs/062-metrics-api/             # API 端点
 
 **LeanSpec 中的症状**：
 ```markdown
-# 规格说明增长超过 4,000 tokens，包含大量历史
+# Spec增长超过 4,000 tokens，包含大量历史
 
 # AI 行为改变：
-- 重复规格说明历史中的过去操作
+- 重复Spec历史中的过去操作
 - 忽略训练知识
-- 建议规格说明中记录的过时方法
+- 建议Spec中记录的过时方法
 - 无法综合新解决方案
 ```
 
@@ -238,7 +238,7 @@ specs/062-metrics-api/             # API 端点
 
 **LeanSpec 中的症状**：
 ```markdown
-# 规格说明包含 20 个集成的 MCP 工具定义
+# Spec包含 20 个集成的 MCP 工具定义
 # (GitHub, Jira, Slack, Linear, Notion, Asana, ...)
 
 # 任务："更新 GitHub issue 状态"
@@ -252,7 +252,7 @@ specs/062-metrics-api/             # API 端点
 
 **缓解措施**：
 - ✅ AI 处理前删除无关部分
-- ✅ 使用选择性加载（仅相关子规格说明）
+- ✅ 使用选择性加载（仅相关子 Spec）
 - ✅ 清晰的关注点分离
 
 **研究**：Berkeley Function-Calling Leaderboard 确认所有模型在 >1 个工具时性能更差
@@ -263,13 +263,13 @@ specs/062-metrics-api/             # API 端点
 
 **LeanSpec 中的症状**：
 ```markdown
-# 规格说明早期：
+# Spec早期：
 "我们将使用 PostgreSQL 进行数据存储"
 
-# 规格说明中间（讨论后）：
+# Spec中间（讨论后）：
 "实际上，MongoDB 对这个用例更好"
 
-# 规格说明后期（忘记更新）：
+# Spec后期（忘记更新）：
 "PostgreSQL 模式设计：..."
 
 # AI 看到冲突信息 - 可能混合方法
@@ -286,21 +286,21 @@ specs/062-metrics-api/             # API 端点
 
 | 情况 | 主要策略 | 次要 | 原因 |
 |-----------|-----------------|-----------|-----|
-| 规格说明 >3,500 tokens，多个关注点 | 分区 | 压实 | 分离关注点，删除冗余 |
-| 规格说明冗长但单一关注点 | 压实 | 压缩 | 删除冗余，仍长则总结 |
-| 历史阶段膨胀规格说明 | 压缩 | - | 保留结果，删除细节 |
-| 同一规格说明中的不相关关注点 | 隔离 | 分区 | 移至单独规格说明，然后分区 |
-| 规格说明接近 3,500 tokens | 压实 | - | 达到限制前主动清理 |
+| Spec >3,500 tokens，多个关注点 | 分区 | 压实 | 分离关注点，删除冗余 |
+| Spec冗长但单一关注点 | 压实 | 压缩 | 删除冗余，仍长则总结 |
+| 历史阶段膨胀Spec | 压缩 | - | 保留结果，删除细节 |
+| 同一Spec中的不相关关注点 | 隔离 | 分区 | 移至单独Spec，然后分区 |
+| Spec接近 3,500 tokens | 压实 | - | 达到限制前主动清理 |
 
 ### 组合策略
 
 通常多种策略一起应用：
 
-**示例：大型规格说明（约 11K tokens）**：
+**示例：大型Spec（约 11K tokens）**：
 1. **分区**：拆分为 README + DESIGN + IMPLEMENTATION + TESTING
 2. **压实**：删除每个文件中的冗余
 3. **压缩**：总结已完成的研究阶段
-4. **隔离**：考虑将算法移至单独规格说明
+4. **隔离**：考虑将算法移至单独Spec
 
 **结果**：
 - 之前：约 11K tokens（3 倍限制）
@@ -308,9 +308,9 @@ specs/062-metrics-api/             # API 端点
 
 ## 底线
 
-上下文工程是 **使用 AI 构建时的 #1 工作**。这些不仅仅是优化技术——它们是使 AI 辅助的规格说明管理工作的基础。
+上下文工程是 **使用 AI 构建时的 #1 工作**。这些不仅仅是优化技术——它们是使 AI 辅助的Spec管理工作的基础。
 
-**关键见解**：LeanSpec 是用于软件规格说明人机协作的上下文工程方法论。
+**关键见解**：LeanSpec 是用于软件Spec人机协作的上下文工程方法论。
 
 **记住**：
 - 更大的上下文窗口并不能解决问题
@@ -320,4 +320,4 @@ specs/062-metrics-api/             # API 端点
 
 ---
 
-**相关**：查看 [第一性原理](/docs/advanced/first-principles) 了解基础约束，或探索 [子规格说明文件](/docs/guide/usage/spec-structure#sub-spec-files) 了解分区的实际实现。
+**相关**：查看 [第一性原理](/docs/advanced/first-principles) 了解基础约束，或探索 [子 Spec文件](/docs/guide/usage/spec-structure#sub-spec-files) 了解分区的实际实现。

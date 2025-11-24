@@ -6,7 +6,7 @@ sidebar_position: 3
 
 # 项目管理
 
-使用 LeanSpec 的项目管理功能跟踪项目健康状况、管理依赖关系和验证规范质量。
+使用 LeanSpec 的项目管理功能跟踪项目健康状况、管理依赖关系和验证Spec质量。
 
 ## 看板与统计 {#board-stats}
 
@@ -14,22 +14,22 @@ sidebar_position: 3
 
 ### 看板命令
 
-规范的可视化看板视图：
+Spec的可视化看板视图：
 
 ```bash
 lean-spec board
 ```
 
-显示按状态列组织的规范：
-- 📅 **计划中（Planned）** - 准备开始的规范
+显示按状态列组织的Spec：
+- 📅 **计划中（Planned）** - 准备开始的Spec
 - ⏳ **进行中（In Progress）** - 活动工作
-- ✅ **完成（Complete）** - 已完成的规范
+- ✅ **完成（Complete）** - 已完成的Spec
 
 #### 项目概览
 
 看板包含项目概览框：
-- 规范总数
-- 活动规范与完成规范数量
+- Spec总数
+- 活动Spec与完成Spec数量
 - 完成百分比
 - 速度指标（周期时间、吞吐量）
 
@@ -38,10 +38,10 @@ lean-spec board
 过滤看板视图：
 
 ```bash
-# 仅显示高优先级规范
+# 仅显示高优先级Spec
 lean-spec board --priority high
 
-# 显示带特定标签的规范
+# 显示带特定标签的Spec
 lean-spec board --tag feature
 
 # 组合过滤器
@@ -57,10 +57,10 @@ lean-spec stats
 ```
 
 显示：
-- **概览**：规范总数、活动数量、完成率
+- **概览**：Spec总数、活动数量、完成率
 - **状态**：状态分布的可视化条形图
 - **优先级焦点**：按优先级细分
-- **需要关注**：未开始的关键/高优先级规范
+- **需要关注**：未开始的关键/高优先级Spec
 - **速度摘要**：周期时间和吞吐量
 
 #### 完整分析
@@ -149,10 +149,10 @@ lean-spec board --status in-progress
 看板和统计命令有助于识别：
 
 **⚠️ 警告信号：**
-- 太多进行中的规范（焦点问题）
-- 没有更新的旧规范（陈旧工作）
-- 计划中规范的百分比高（执行差距）
-- 有未满足依赖关系的规范（使用 `lean-spec deps` 检查）
+- 太多进行中的Spec（焦点问题）
+- 没有更新的旧Spec（陈旧工作）
+- 计划中Spec的百分比高（执行差距）
+- 有未满足依赖关系的Spec（使用 `lean-spec deps` 检查）
 
 **✅ 健康信号：**
 - 稳定的完成率
@@ -162,28 +162,28 @@ lean-spec board --status in-progress
 
 ## 依赖关系 {#dependencies}
 
-使用依赖关系跟踪管理规范之间的关系。
+使用依赖关系跟踪管理Spec之间的关系。
 
 ### 关系类型
 
 LeanSpec 有两种类型的关系：
 
 #### `related` - 双向软引用
-- **含义**：信息关系（规范是连接/相关的）
+- **含义**：信息关系（Spec是连接/相关的）
 - **行为**：自动从两侧显示
 - **符号**：⟷（双向箭头）
 
 #### `depends_on` - 方向性阻塞依赖
-- **含义**：硬依赖 - 规范在依赖关系完成之前无法开始
+- **含义**：硬依赖 - Spec在依赖关系完成之前无法开始
 - **行为**：仅方向性（从每一侧显示不同）
 - **符号**：→（依赖于）和 ←（阻塞）
 
-### 相关规范
+### 相关Spec
 
 使用 `related` 建立信息连接：
 
 ```bash
-# 将规范 042 链接到 043 和 044
+# 将Spec 042 链接到 043 和 044
 lean-spec link 042 --related 043,044
 ```
 
@@ -201,7 +201,7 @@ Related Specs:
 ```
 
 **在以下情况下使用：**
-- 规范涵盖相关主题或功能
+- Spec涵盖相关主题或功能
 - 工作是协调的但不阻塞
 - 上下文有帮助但不是必需的
 
@@ -210,7 +210,7 @@ Related Specs:
 使用 `depends_on` 建立硬依赖关系：
 
 ```bash
-# 规范 A 依赖于规范 B
+# Spec A 依赖于Spec B
 lean-spec link spec-a --depends-on spec-b
 ```
 
@@ -227,22 +227,22 @@ Required By:
 ```
 
 **在以下情况下使用：**
-- 规范在另一个完成之前确实无法开始
+- Spec在另一个完成之前确实无法开始
 - 有明确的依赖链
 - 工作必须按特定顺序完成
 
 ### Deps 命令
 
-查看规范的所有关系：
+查看Spec的所有关系：
 
 ```bash
 lean-spec deps <spec>
 ```
 
 显示：
-- 此规范依赖的规范（→）
-- 依赖此规范的规范（←）
-- 相关规范（⟷）
+- 此Spec依赖的Spec（→）
+- 依赖此Spec的Spec（←）
+- 相关Spec（⟷）
 
 **示例输出：**
 
@@ -269,7 +269,7 @@ Related Specs:
 大多数关系是信息性的，不是阻塞的：
 
 ```bash
-# ✅ 好 - 用于上下文的相关规范
+# ✅ 好 - 用于上下文的相关Spec
 lean-spec link feature-a --related feature-b
 
 # ❌ 过度使用 - 不是真正的阻塞依赖
@@ -306,7 +306,7 @@ LeanSpec 会警告循环依赖。
 # ✅ 好 - 从 A 链接到 B
 lean-spec link spec-a --related spec-b
 
-# 规范 B 自动显示与 A 的关系
+# Spec B 自动显示与 A 的关系
 ```
 
 ### 依赖关系工作流程
@@ -319,7 +319,7 @@ lean-spec link spec-a --related spec-b
 lean-spec deps <spec>
 ```
 
-确保在开始之前所有 `depends_on` 规范都已完成。
+确保在开始之前所有 `depends_on` Spec都已完成。
 
 **在计划期间：**
 
@@ -335,7 +335,7 @@ lean-spec board --status planned
 
 **识别瓶颈：**
 
-查找阻塞其他规范的规范：
+查找阻塞其他Spec的Spec：
 
 ```bash
 # 检查依赖于此的内容
@@ -401,7 +401,7 @@ lean-spec link my-spec --related old-requirement
 
 1. **每日检查** - 用 `lean-spec board` 开始您的一天
 2. **每周审查** - 使用 `lean-spec stats --full` 查看趋势
-3. **限制 WIP** - 控制进行中的规范
+3. **限制 WIP** - 控制进行中的Spec
 4. **定期更新** - 使用 `lean-spec update` 保持状态最新
 5. **使用优先级** - 首先关注高优先级工作
 
@@ -415,8 +415,8 @@ lean-spec link my-spec --related old-requirement
 
 ## 下一步
 
-- **[创建和管理规范](/zh-Hans/docs/guide/usage/cli/creating-managing)** - 基本操作
-- **[查找规范](/zh-Hans/docs/guide/usage/cli/finding-specs)** - 搜索和发现
-- **[验证](/zh-Hans/docs/guide/usage/cli/validation)** - 检查规范质量
-- **[可视化模式](/zh-Hans/docs/guide/visual-mode)** - 在 Web UI 中浏览规范
+- **[创建和管理Spec](/zh-Hans/docs/guide/usage/cli/creating-managing)** - 基本操作
+- **[查找Spec](/zh-Hans/docs/guide/usage/cli/finding-specs)** - 搜索和发现
+- **[验证](/zh-Hans/docs/guide/usage/cli/validation)** - 检查Spec质量
+- **[可视化模式](/zh-Hans/docs/guide/visual-mode)** - 在 Web UI 中浏览Spec
 - **[CLI 参考](/zh-Hans/docs/reference/cli)** - 完整命令文档

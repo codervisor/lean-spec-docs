@@ -5,11 +5,11 @@ sidebar_position: 10
 ---
 # 变量
 
-模板变量允许您在规范中生成动态内容。
+模板变量允许您在Spec中生成动态内容。
 
 ## 概述
 
-变量是规范模板中的占位符，在创建规范时会被实际值替换。
+变量是Spec模板中的占位符，在创建Spec时会被实际值替换。
 
 **示例：**
 ```markdown
@@ -31,7 +31,7 @@ sidebar_position: 10
 
 ### \{name\}
 
-提供给 `lean-spec create` 的规范名称。
+提供给 `lean-spec create` 的Spec名称。
 
 ```bash
 lean-spec create user-authentication
@@ -158,7 +158,7 @@ created: \{date\}
 }
 ```
 
-### 3. 创建规范
+### 3. 创建Spec
 
 ```bash
 lean-spec create user-authentication
@@ -269,7 +269,7 @@ created: 2025-11-02
 
 ### 变量未替换
 
-**问题：** `\{my_var\}` 在规范中按字面显示。
+**问题：** `\{my_var\}` 在Spec中按字面显示。
 
 **原因：**
 1. 配置中未定义变量

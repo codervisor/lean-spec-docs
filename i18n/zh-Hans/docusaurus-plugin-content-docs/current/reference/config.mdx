@@ -38,7 +38,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 ### template
 
-用于新规范的主模板文件。
+用于新Spec的主模板文件。
 
 **类型：** `string`  
 **默认：** `"spec-template.md"`
@@ -53,7 +53,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 ### templates
 
-不同规范类型的命名模板映射。
+不同Spec类型的命名模板映射。
 
 **类型：** `object`  
 **默认：** `{ "default": "spec-template.md" }`
@@ -73,7 +73,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 ### specsDir
 
-存储活动规范的目录。
+存储活动Spec的目录。
 
 **类型：** `string`  
 **默认：** `"specs"`
@@ -91,7 +91,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 **类型：** `boolean`  
 **默认：** `true`
 
-启用后，LeanSpec 在规范创建期间自动检查序列号冲突，如果存在重复则发出警告。
+启用后，LeanSpec 在Spec创建期间自动检查序列号冲突，如果存在重复则发出警告。
 
 ```json
 {
@@ -101,7 +101,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 ### structure
 
-规范文件夹结构和命名的配置。
+Spec文件夹结构和命名的配置。
 
 **类型：** `object`
 
@@ -113,7 +113,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 **值：** `"flat"` | `"custom"` | 旧模式字符串  
 **默认：** `"flat"`
 
-- `"flat"`：规范以扁平结构组织（例如，`specs/001-name/`）
+- `"flat"`：Spec以扁平结构组织（例如，`specs/001-name/`）
 - `"custom"`：使用 `groupExtractor` 字段的自定义分组
 
 ```json
@@ -126,7 +126,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 #### structure.prefix
 
-扁平模式中规范文件夹的前缀。
+扁平模式中Spec文件夹的前缀。
 
 **类型：** `string`（可选）  
 **默认：** `""`（空，使用全局序列号）
@@ -182,7 +182,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 #### structure.defaultFile
 
-每个规范文件夹中的默认文件名。
+每个Spec文件夹中的默认文件名。
 
 **类型：** `string`  
 **默认：** `"README.md"`
@@ -202,7 +202,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 **类型：** `string`（可选）  
 **示例：** `"{YYYYMMDD}"` 或 `"milestone-{milestone}"`
 
-当 `pattern` 为 `"custom"` 时使用，按前置元数据字段动态分组规范。
+当 `pattern` 为 `"custom"` 时使用，按frontmatter字段动态分组Spec。
 
 ```json
 {
@@ -219,7 +219,7 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 **类型：** `string`（可选）
 
-仅用于非日期提取器。当前置元数据字段缺失时，规范被放置在此回退文件夹中。
+仅用于非日期提取器。当frontmatter字段缺失时，Spec被放置在此回退文件夹中。
 
 ```json
 {
@@ -294,13 +294,13 @@ LeanSpec 配置存储在项目根目录的 `.lean-spec/config.json` 中。
 
 ### frontmatter
 
-规范前置元数据字段验证的配置。
+Specfrontmatter字段验证的配置。
 
 **类型：** `object`（可选）
 
 #### frontmatter.required
 
-每个规范中必须存在的字段。
+每个Spec中必须存在的字段。
 
 **类型：** `string[]`（可选）  
 **默认：** `["status", "created"]`
@@ -422,7 +422,7 @@ LeanSpec 在加载时验证配置：
 - 必需的结构字段必须有效
 - 自定义字段类型必须有效（`string`、`number`、`boolean`、`array`）
 - 模板文件必须存在于 `.lean-spec/templates/` 中
-- 如果缺少规范目录，则创建
+- 如果缺少Spec目录，则创建
 
 无效的配置将显示带有详细信息的错误。
 
@@ -431,10 +431,10 @@ LeanSpec 在加载时验证配置：
 更新配置时：
 
 1. 编辑 `.lean-spec/config.json`
-2. 新规范将使用新配置
-3. 现有规范不会自动更新
-4. 如需要手动更新现有规范
+2. 新Spec将使用新配置
+3. 现有Spec不会自动更新
+4. 如需要手动更新现有Spec
 
 ---
 
-**下一步**：查看 [CLI 参考](/zh-Hans/docs/reference/cli)或探索[前置元数据字段](/zh-Hans/docs/reference/frontmatter)。
+**下一步**：查看 [CLI 参考](/zh-Hans/docs/reference/cli)或探索[frontmatter字段](/zh-Hans/docs/reference/frontmatter)。

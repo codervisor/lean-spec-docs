@@ -12,12 +12,12 @@ description: '@leanspec/ui npm 包的参考文档'
 
 ## 概述
 
-`@leanspec/ui` 是一个基于 Next.js 的网页应用程序，为浏览和管理 LeanSpec 规范提供可视化界面。它发布在 npm 上，可以直接使用 `npx` 运行或全局安装。
+`@leanspec/ui` 是一个基于 Next.js 的网页应用程序，为浏览和管理 LeanSpec Spec提供可视化界面。它发布在 npm 上，可以直接使用 `npx` 运行或全局安装。
 
 **主要特性：**
 - 独立包 - 无需安装 CLI
-- 文件系统模式 - 直接从磁盘读取规范
-- 零配置 - 自动检测规范目录
+- 文件系统模式 - 直接从磁盘读取Spec
+- 零配置 - 自动检测Spec目录
 - 快速响应 - 使用 Next.js standalone 输出构建
 
 ## 安装与使用
@@ -32,7 +32,7 @@ npx @leanspec/ui
 
 这将：
 1. 下载最新版本（如果未缓存）
-2. 自动检测您的规范目录
+2. 自动检测您的Spec目录
 3. 在 3000 端口启动网页服务器
 4. 打开您的默认浏览器
 
@@ -87,7 +87,7 @@ leanspec-ui [选项]
 
 | 选项 | 别名 | 描述 | 默认值 |
 |------|------|------|--------|
-| `--specs <dir>` | `-s` | 规范目录路径 | 自动检测 |
+| `--specs <dir>` | `-s` | Spec目录路径 | 自动检测 |
 | `--port <port>` | `-p` | 服务器端口 | 3000 |
 | `--no-open` | - | 不自动打开浏览器 | false |
 | `--help` | `-h` | 显示帮助信息 | - |
@@ -96,10 +96,10 @@ leanspec-ui [选项]
 ### 示例
 
 ```bash
-# 基本用法（自动检测规范）
+# 基本用法（自动检测Spec）
 npx @leanspec/ui
 
-# 自定义规范目录
+# 自定义Spec目录
 npx @leanspec/ui --specs ./documentation/specs
 
 # 自定义端口
@@ -119,7 +119,7 @@ npx @leanspec/ui --specs ./specs --port 3100 --no-open
 | 变量 | 描述 | 设置者 |
 |------|------|--------|
 | `SPECS_MODE` | 操作模式（始终为 "filesystem"） | 包 |
-| `SPECS_DIR` | 规范目录的绝对路径 | 包 |
+| `SPECS_DIR` | Spec目录的绝对路径 | 包 |
 | `PORT` | 服务器端口 | CLI 选项 |
 | `NODE_ENV` | Node 环境 | Node.js |
 
@@ -177,19 +177,19 @@ sequenceDiagram
         Cache-->>Server: 返回缓存数据
     else 缓存未命中
         Server->>Disk: 读取 specs/*.md
-        Disk-->>Server: 规范内容
+        Disk-->>Server: Spec内容
         Server->>Cache: 存储 (TTL 60s)
     end
     Server-->>Browser: JSON 响应
 ```
 
 **直接文件访问：**
-- 从规范目录读取 `README.md` 文件
-- 解析前置元数据和 markdown 内容
+- 从Spec目录读取 `README.md` 文件
+- 解析frontmatter和 markdown 内容
 - 无需数据库或持久存储
 
 **缓存策略：**
-- 规范在内存中缓存 60 秒
+- Spec在内存中缓存 60 秒
 - 缓存在 TTL 过期时失效
 - 后续请求获取新数据
 
@@ -231,21 +231,21 @@ function getCachedSpec(id: string) {
 ### 执行流程
 
 1. **CLI 解析**：`bin/ui.js` 解析命令行参数
-2. **规范检测**：自动检测规范目录或使用 `--specs` 选项
+2. **Spec检测**：自动检测Spec目录或使用 `--specs` 选项
 3. **环境设置**：设置 `SPECS_MODE=filesystem` 和 `SPECS_DIR`
 4. **服务器启动**：启动 Next.js standalone 服务器
 5. **浏览器启动**：打开默认浏览器（除非 `--no-open`）
 
-### 规范目录检测
+### Spec目录检测
 
-包按以下顺序查找规范：
+包按以下顺序查找Spec：
 
 1. `--specs` CLI 选项（如果提供）
 2. 当前目录中的 `specs/`
 3. `../specs/`（父目录）
 4. `../../specs/`（祖父目录）
 
-在第一个找到包含规范文件的目录处停止。
+在第一个找到包含Spec文件的目录处停止。
 
 ### 自动检测算法
 
@@ -265,7 +265,7 @@ function detectSpecsDir() {
   
   for (const dir of dirs) {
     if (fs.existsSync(dir)) {
-      // 验证它包含规范
+      // 验证它包含Spec
       const files = fs.readdirSync(dir);
       if (files.some(f => f.match(/^\d{3}-/))) {
         return dir;
@@ -347,7 +347,7 @@ npx @leanspec/ui
 npx @leanspec/ui --port 3100
 ```
 
-### 找不到规范
+### 找不到Spec
 
 **问题**：`Error: Could not find specs directory`
 
@@ -398,8 +398,8 @@ npx @leanspec/ui 2>&1 | tee ui-error.log
 | 功能 | `@leanspec/ui` | `lean-spec ui`（CLI） |
 |------|----------------|---------------------|
 | 安装 | 无需安装（npx） | 需要 CLI 安装 |
-| 规范创建 | 否 | 是 |
-| 规范编辑 | 否（仅查看） | 是（通过 CLI） |
+| Spec创建 | 否 | 是 |
+| Spec编辑 | 否（仅查看） | 是（通过 CLI） |
 | 可视化浏览 | ✅ 是 | ✅ 是 |
 | 依赖关系图 | ✅ 是 | ✅ 是 |
 | 看板视图 | ✅ 是 | ✅ 是 |

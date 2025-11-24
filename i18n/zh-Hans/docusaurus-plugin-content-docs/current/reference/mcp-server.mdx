@@ -10,8 +10,8 @@ LeanSpec MCP（模型上下文协议）服务器使 Claude Desktop、GitHub Copi
 ## 概述
 
 MCP 服务器为 AI 助手提供：
-- **工具** - 列出、搜索、创建、更新规范的操作
-- **资源** - 可浏览的内容（规范、看板、统计）
+- **工具** - 列出、搜索、创建、更新Spec的操作
+- **资源** - 可浏览的内容（Spec、看板、统计）
 - **提示** - 常见工作流程的快速操作模板
 
 ## 功能
@@ -20,25 +20,25 @@ MCP 服务器为 AI 助手提供：
 
 MCP 服务器向 AI 助手公开这些工具：
 
-- **list** - 列出所有规范，可选过滤
-- **search** - 跨规范的全文搜索
-- **view** - 查看规范内容（格式化、原始 markdown 或 JSON）
-- **create** - 创建新规范
-- **update** - 更新规范元数据（状态、优先级、标签等）
-- **archive** - 将规范移至 archived/ 目录
+- **list** - 列出所有Spec，可选过滤
+- **search** - 跨Spec的全文搜索
+- **view** - 查看Spec内容（格式化、原始 markdown 或 JSON）
+- **create** - 创建新Spec
+- **update** - 更新Spec元数据（状态、优先级、标签等）
+- **archive** - 将Spec移至 archived/ 目录
 - **stats** - 获取项目统计信息
 - **board** - 获取看板视图
-- **deps** - 显示规范依赖关系
-- **files** - 列出规范中的文件（用于探索子规范和资产）
+- **deps** - 显示Spec依赖关系
+- **files** - 列出Spec中的文件（用于探索子 Spec和资产）
 - **check** - 检查序列号冲突
-- **validate** - 验证规范的质量问题（token 数、复杂性）
+- **validate** - 验证Spec的质量问题（token 数、复杂性）
 - **backfill** - 从 git 历史回填时间戳和元数据
 
 ### 资源
 
 AI 助手可访问的可浏览内容：
 
-- **spec://&lt;spec-name&gt;** - 单个规范内容
+- **spec://&lt;spec-name&gt;** - 单个Spec内容
 - **board://kanban** - 当前看板状态
 - **stats://overview** - 项目统计概览
 
@@ -46,7 +46,7 @@ AI 助手可访问的可浏览内容：
 
 常见工作流程的快速操作模板：
 
-- **Create feature spec** - 引导式规范创建
+- **Create feature spec** - 引导式Spec创建
 - **Update spec status** - 快速状态更改
 - **Find related specs** - 依赖发现
 
@@ -158,19 +158,19 @@ npm install -g lean-spec
 
 配置后，您可以通过 AI 助手与 LeanSpec 项目交互：
 
-### 列出规范
+### 列出Spec
 
 ```
 List all specifications in my project
 ```
 
-### 搜索规范
+### 搜索Spec
 
 ```
 Search for all specs related to "authentication"
 ```
 
-### 读取规范
+### 读取Spec
 
 ```
 View the spec for "001-user-authentication"
@@ -182,7 +182,7 @@ View the spec for "001-user-authentication"
 View the spec for "001-user-authentication" in raw format
 ```
 
-### 创建新规范
+### 创建新Spec
 
 ```
 Create a new spec called "api-redesign" with high priority and tags "api, backend"
@@ -200,13 +200,13 @@ Show me the project statistics
 Show me the current Kanban board
 ```
 
-### 归档规范
+### 归档Spec
 
 ```
 Archive the spec "024-flat-structure-migration"
 ```
 
-### 列出规范中的文件
+### 列出Spec中的文件
 
 ```
 Show me all files in spec 045
@@ -218,13 +218,13 @@ Show me all files in spec 045
 Check for sequence number conflicts
 ```
 
-### 验证规范
+### 验证Spec
 
 ```
 Validate all specs for quality issues
 ```
 
-或验证特定规范：
+或验证特定Spec：
 
 ```
 Validate specs 018 and 045 with a 3,500-token warning threshold
