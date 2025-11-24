@@ -17,45 +17,19 @@ LeanSpec 提供可自定义的模板以匹配您的工作流程和团队结构�
 
 ## 可用模板
 
-### 最小化
+### Standard（默认）
 
-基本要素 - 仅文件夹结构，无额外内容。
+大多数项目推荐 - 单文件 Spec 与 AGENTS.md。
 
-**最适合：** 快速原型、个人项目、当您想要绝对简单时
-
-**包括：**
-- 最小的frontmatter（仅状态、创建时间）
-- 轻量级结构
-- 没有 AGENTS.md 或额外文件
-- 专注于速度
-
-**示例frontmatter：**
-```yaml
----
-status: planned
-created: 2025-11-02
----
-```
-
-**章节：**
-- 目标
-- 关键点
-- 非目标
-- 注释
-
-### 标准
-
-大多数项目推荐 - 包括 AGENTS.md 和稳固的结构。
-
-**最适合：** 单人开发者、小团队（2-5 人）、大多数项目
+**最适合：** 单人开发者、小团队、简单到中等复杂度的 Spec
 
 **包括：**
 - 状态、标签、优先级字段
 - 用于 AI 集成的 AGENTS.md
-- 概述、设计、计划、测试章节
-- 复杂功能的子 Spec指导
+- 所有章节在单个 README.md 文件中
+- 何时拆分为子 Spec 的指导
 
-**示例frontmatter：**
+**示例 frontmatter：**
 ```yaml
 ---
 status: planned
@@ -68,47 +42,46 @@ priority: high
 **章节：**
 - 概述
 - 设计
-- 计划（带子 Spec指导）
+- 计划
 - 测试
 - 注释
 
-### 企业
+### Detailed
 
-带审批和合规的治理。
+用于内容很多的复杂 Spec - 使用子 Spec 结构。
 
-**最适合：** 大型组织、受监管行业、>10 人的团队
+**最适合：** 大型功能、架构变更、>3,500 Token 的 Spec
 
 **包括：**
-- 完整元数据（负责人、审查者、问题、史诗、相关）
-- 研究和依赖部分
-- 安全与合规检查清单
-- 风险评估
-- 推出计划
+- 与 standard 相同的元数据
+- README.md 作为概述/导航
+- 独立的子 Spec 文件（DESIGN.md, PLAN.md, TEST.md）
+- 演示真实的子 Spec 模式
+- 帮助管理 AI 上下文的 Token 限制
 
-**示例frontmatter：**
+**示例 frontmatter：**
 ```yaml
 ---
 status: planned
 created: 2025-11-02
-tags: [security, compliance]
-priority: critical
-assignee: alice
-reviewer: bob
-issue: JIRA-1234
-epic: security-hardening
-related: [042, 043]
+tags: [architecture, refactor]
+priority: high
 ---
 ```
 
-**章节：**
-- 概述
-- 研究
-- 设计（带依赖、安全与合规）
-- 计划（带负责人）
-- 测试
-- 风险
-- 推出
-- 注释
+**结构：**
+```
+specs/NNN-feature-name/
+├── README.md      # 概述 + 导航
+├── DESIGN.md      # 设计细节
+├── PLAN.md        # 实施计划
+└── TEST.md        # 测试策略
+```
+
+**使用：**
+```bash
+lean-spec init --template detailed
+```
 
 ## 选择模板
 
@@ -122,12 +95,10 @@ lean-spec init
 ? 您想如何设置？
   ❯ 快速开始（推荐）
     选择模板
-    自定义一切
 
 ? 您想使用哪个模板？
-  ❯ minimal - 仅文件夹结构，无额外内容
-    standard - 推荐 - 包括 AGENTS.md
-    enterprise - 带审批和合规的治理
+  ❯ standard - 推荐 - 单文件 Spec 与 AGENTS.md
+    detailed - 复杂 Spec 与子 Spec 结构（DESIGN, PLAN, TEST）
 ```
 
 ## 自定义模板
@@ -235,7 +206,7 @@ priority: medium
 ## 最佳实践
 
 :::tip 从简单开始
-从最小化或标准模板开始。仅在您感到没有它的痛苦时才添加复杂性。
+从 standard 模板开始。仅当您有 >3,500 Token 的 Spec 或非常复杂的功能时才使用 detailed 模板。
 :::
 
 :::tip 迭代模板

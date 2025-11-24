@@ -17,43 +17,17 @@ Templates are complete working models that include:
 
 ## Available Templates
 
-### Minimal
+### Standard (Default)
 
-Bare essentials - just folder structure, no extras.
+Recommended for most projects - single-file specs with AGENTS.md.
 
-**Best for:** Quick prototypes, personal projects, when you want absolute simplicity
-
-**Includes:**
-- Minimal frontmatter (status, created only)
-- Lightweight structure
-- No AGENTS.md or extra files
-- Focus on speed
-
-**Example frontmatter:**
-```yaml
----
-status: planned
-created: 2025-11-02
----
-```
-
-**Sections:**
-- Goal
-- Key Points
-- Non-Goals
-- Notes
-
-### Standard
-
-Recommended for most projects - includes AGENTS.md and solid structure.
-
-**Best for:** Solo developers, small teams (2-5 people), most projects
+**Best for:** Solo developers, small teams, simple to moderately complex specs
 
 **Includes:**
 - Status, tags, priority fields
 - AGENTS.md for AI integration
-- Overview, Design, Plan, Test sections
-- Sub-spec guidance for complex features
+- All sections in single README.md file
+- Guidance for when to split into sub-specs
 
 **Example frontmatter:**
 ```yaml
@@ -68,47 +42,46 @@ priority: high
 **Sections:**
 - Overview
 - Design
-- Plan (with sub-spec guidance)
+- Plan
 - Test
 - Notes
 
-### Enterprise
+### Detailed
 
-Governance with approvals and compliance.
+For complex specs with lots of content - uses sub-spec structure.
 
-**Best for:** Large organizations, regulated industries, teams >10 people
+**Best for:** Large features, architectural changes, specs with >3,500 tokens
 
 **Includes:**
-- Full metadata (assignee, reviewer, issue, epic, related)
-- Research and Dependencies sections
-- Security & Compliance checklist
-- Risk assessment
-- Rollout planning
+- Same metadata as standard
+- README.md as overview/navigation
+- Separate sub-spec files (DESIGN.md, PLAN.md, TEST.md)
+- Demonstrates real-world sub-spec pattern
+- Helps manage token limits for AI context
 
 **Example frontmatter:**
 ```yaml
 ---
 status: planned
 created: 2025-11-02
-tags: [security, compliance]
-priority: critical
-assignee: alice
-reviewer: bob
-issue: JIRA-1234
-epic: security-hardening
-related: [042, 043]
+tags: [architecture, refactor]
+priority: high
 ---
 ```
 
-**Sections:**
-- Overview
-- Research
-- Design (with Dependencies, Security & Compliance)
-- Plan (with owners)
-- Test
-- Risks
-- Rollout
-- Notes
+**Structure:**
+```
+specs/NNN-feature-name/
+├── README.md      # Overview + navigation
+├── DESIGN.md      # Design details
+├── PLAN.md        # Implementation plan
+└── TEST.md        # Testing strategy
+```
+
+**Usage:**
+```bash
+lean-spec init --template detailed
+```
 
 ## Choosing a Template
 
@@ -122,12 +95,10 @@ lean-spec init
 ? How would you like to set up?
   ❯ Quick start (recommended)
     Choose a template
-    Customize everything
 
 ? Which template would you like to use?
-  ❯ minimal - Just folder structure, no extras
-    standard - Recommended - includes AGENTS.md
-    enterprise - Governance with approvals and compliance
+  ❯ standard - Recommended - single-file specs with AGENTS.md
+    detailed - Complex specs with sub-spec structure (DESIGN, PLAN, TEST)
 ```
 
 ## Custom Templates
@@ -235,7 +206,7 @@ To change templates mid-project:
 ## Best Practices
 
 :::tip Start Simple
-Begin with minimal or standard template. Add complexity only when you feel the pain of not having it.
+Begin with the standard template. Use detailed template only when you have specs with >3,500 tokens or very complex features.
 :::
 
 :::tip Iterate on Templates
