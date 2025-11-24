@@ -23,7 +23,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Tutorials',
       items: [
-        'tutorials/writing-first-spec-with-ai',
+        'tutorials/first-spec-with-ai',
         'tutorials/managing-multiple-features',
         'tutorials/refactoring-with-specs',
       ],
