@@ -23,6 +23,41 @@ Documentation folder structure must exactly match the sidebar hierarchy in `side
 
 Every English `.mdx` file needs a Chinese translation in `i18n/zh-Hans/docusaurus-plugin-content-docs/current/` with identical folder structure.
 
+### Chinese Translation Quality
+
+**CRITICAL**: Translations must be professional, natural, and technically accurate. Avoid literal word-by-word translation.
+
+**Core Rules:**
+
+1. **Keep English Terms for Core Concepts**
+   - Use "Spec" (not "规格"), "LeanSpec", "CLI", "Token", "README", "frontmatter"
+   - Keep all commands in English: `lean-spec create`, `lean-spec update`, etc.
+   - Keep status values: `planned`, `in-progress`, `complete`, `archived`
+   - Keep file extensions: `.md`, `.mdx`, `.json`
+
+2. **Add English References for Technical Terms**
+   ```markdown
+   上下文经济 (Context Economy)  ✅
+   信噪比 (Signal-to-Noise)  ✅
+   依赖图 (Dependency Graph)  ✅
+   ```
+
+3. **Use Natural Chinese Expression**
+   ```markdown
+   ❌ "规格文件" (too literal)
+   ✅ "Spec 文件" (natural, clear)
+   
+   ❌ "为什么这个很重要" (awkward)
+   ✅ "重要性" or contextual phrasing (natural)
+   ```
+
+4. **Translation Glossary Reference**
+   - **Keep English**: Spec, LeanSpec, CLI, Token, README, frontmatter, commands
+   - **Add English ref**: Context Economy, Signal-to-Noise, Progressive Disclosure, Dependency Graph, Working Memory
+   - **Pure Chinese**: 概述 (Overview), 快速开始 (Getting Started), 教程 (Tutorial), 示例 (Examples), 安装 (Installation)
+
+**See**: `specs/115-chinese-translation-quality/` for complete translation guidelines and glossary.
+
 ### MDX Formatting
 
 **Chinese text with multiple bolds:**
