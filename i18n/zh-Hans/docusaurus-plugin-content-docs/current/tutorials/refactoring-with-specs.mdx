@@ -1,0 +1,291 @@
+---
+title: 使用规格重构
+sidebar_position: 3
+description: 记录架构变更并让 AI 协助复杂的重构工作
+---
+
+# 使用规格重构
+
+并非所有规格都是功能。学习如何使用 LeanSpec 进行重构和架构变更，其中文档至关重要。
+
+**时间**：15 分钟  
+**结果**：完成带有清晰文档的重构
+
+:::info 前置条件
+- 完成[管理多个功能](./managing-multiple-features)
+- 了解您的代码库结构
+:::
+
+## 场景
+
+您的 API 客户端分散在整个代码库中。每个组件都直接导入 Axios，这使得难以：
+- 添加请求/响应拦截器
+- 切换 HTTP 库
+- 在测试中模拟 API 调用
+- 跟踪 API 使用情况
+
+您需要提取一个集中的 `ApiClient` 类。这是重构，而不是功能——没有面向用户的变化，但架构得到改善。
+
+起点：
+```
+your-project/
+├── src/
+│   ├── components/
+│   │   ├── UserProfile.tsx     # 直接导入 axios
+│   │   └── Dashboard.tsx       # 直接导入 axios
+│   └── services/
+│       ├── auth.service.ts     # 直接导入 axios
+│       └── data.service.ts     # 直接导入 axios
+└── specs/
+    └── (您现有的规格)
+```
+
+## 创建技术规格
+
+询问您的 AI：
+
+```
+创建一个用于提取集中式 API 客户端的规格。
+将所有 axios 调用移动到单个 ApiClient 类，包括：
+- 请求/响应拦截器
+- 错误处理
+- 令牌管理
+- 类型安全方法
+
+标记为 "refactoring" 和 "architecture"。
+设置优先级为高。
+```
+
+AI 创建 `specs/024-centralize-api-client/`，包含详细的设计理由：
+
+```markdown title="specs/024-centralize-api-client/README.md"
+---
+status: planned
+priority: high
+tags: ['refactoring', 'architecture']
+---
+
+# 集中 API 客户端
+
+> **状态**：📅 已规划 · **优先级**：高
+
+## 概述
+将分散的 Axios 调用提取到单个 ApiClient 类中。
+目标：可维护的 HTTP 层，具有一致的错误处理。
+
+## 为什么这很重要
+**当前痛点：**
+- 整个代码库中有 47 个直接 axios 导入
+- 没有一致的错误处理
+- 无法全局添加认证拦截器
+- 测试模拟 axios，而不是我们的 API 层
+
+**重构后：**
+- 单个导入：ApiClient
+- 全局拦截器用于认证/错误
+- 易于切换 HTTP 库
+- 在测试中模拟 ApiClient，而不是实现
+
+## 设计
+
+**新结构：**
+```typescript
+class ApiClient {
+  get<T>(path: string): Promise<T>
+  post<T>(path: string, data: any): Promise<T>
+  // + 拦截器、错误处理
+}
+```
+
+**迁移策略：**
+1. 创建带有基本方法的 ApiClient
+2. 添加认证拦截器
+3. 首先替换服务层中的 axios
+4. 替换组件中的 axios
+5. 移除 axios 依赖
+
+**非目标：**
+- 不更改 API 端点
+- 不修改响应形状
+- 不添加新功能
+
+## 计划
+- [ ] 创建 src/lib/api-client.ts
+- [ ] 实现核心方法 + 类型
+- [ ] 添加请求/响应拦截器
+- [ ] 迁移服务层（4 个文件）
+- [ ] 迁移组件层（15 个文件）
+- [ ] 更新测试
+- [ ] 移除直接 axios 导入
+
+## 测试
+- [ ] 所有现有测试通过
+- [ ] 新 ApiClient 测试覆盖错误情况
+- [ ] 开发中没有控制台错误
+```
+
+**这里有什么不同？** 这是一个技术规格：
+- 专注于架构，而不是用户功能
+- 包括迁移策略（顺序很重要）
+- 明确的非目标防止范围蔓延
+- 详细计划，因为重构有风险
+
+## 实施
+
+询问您的 AI：
+
+```
+实施规格 024。逐步进行：
+1. 首先创建 ApiClient
+2. 在迁移之前向我展示实现
+3. 然后迁移一个服务作为测试
+4. 等待我的批准后再继续
+```
+
+AI 逐步进行：
+
+**步骤 1：** 创建 `api-client.ts`
+```typescript
+// src/lib/api-client.ts
+import axios, { AxiosInstance } from 'axios';
+
+export class ApiClient {
+  private client: AxiosInstance;
+  
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.API_BASE_URL,
+    });
+    
+    // 认证拦截器
+    this.client.interceptors.request.use((config) => {
+      const token = localStorage.getItem('auth_token');
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
+  }
+  
+  async get<T>(path: string): Promise<T> {
+    const { data } = await this.client.get<T>(path);
+    return data;
+  }
+  
+  // ... post, put, delete
+}
+
+export const apiClient = new ApiClient();
+```
+
+**步骤 2：** 迁移一个服务作为证明
+```typescript
+// src/services/auth.service.ts
+- import axios from 'axios';
++ import { apiClient } from '@/lib/api-client';
+
+export const login = async (email: string, password: string) => {
+-   const { data } = await axios.post('/auth/login', { email, password });
++   const data = await apiClient.post('/auth/login', { email, password });
+    return data;
+};
+```
+
+您审查、测试认证服务、批准：
+```
+看起来不错。继续处理其余服务和组件。
+```
+
+**步骤 3：** AI 迁移其余文件，更新测试，移除 axios 导入。
+
+## 审查和完成
+
+运行测试套件：
+```bash
+npm test
+```
+
+所有测试通过？在开发中验证：
+```bash
+npm run dev
+# 点击查看，检查网络选项卡
+```
+
+一切正常。完成规格：
+```bash
+lean-spec update 024 --status complete
+```
+
+规格现在记录了您进行此更改的 **原因** 以及 **如何** 完成的。未来的开发人员可以阅读它以了解架构决策。
+
+## 刚才发生了什么
+
+您记录并执行了一个复杂的重构：
+
+**没有 LeanSpec：**
+- 重构理由在 PR 描述中丢失
+- 实现细节在 git 历史中（难以找到）
+- 未来的开发人员会问 "我们为什么这样做？"
+- 范围蔓延："在重构时，让我们也..."
+
+**有了 LeanSpec：**
+- 在编码之前清楚地捕获理由
+- 迁移策略已记录
+- AI 逐步遵循计划
+- 非目标防止功能蔓延
+- 完成的规格 = 永久记录
+
+规格成为 **架构文档**，向未来的维护者解释过去的决策。
+
+## 何时为重构编写规格
+
+**编写规格时：**
+- 重构影响  &gt; 5 个文件
+- 架构决策需要解释
+- 迁移顺序很重要
+- 有破坏现有行为的风险
+
+**跳过规格时：**
+- 重命名变量/文件
+- 提取单个函数
+- 修复代码风格
+- 明显的改进
+
+**重构规格检查清单：**
+- [ ] "为什么这很重要"部分解释痛点
+- [ ] 设计显示前后结构
+- [ ] 迁移策略是明确的
+- [ ] 非目标防止范围蔓延
+- [ ] 测试标准确保没有回归
+
+## 关键模式
+
+**技术规格包括：**
+- **理由**：我们为什么这样做（痛点）
+- **设计**：架构变更（图表有帮助）
+- **迁移**：变更顺序（对重构至关重要）
+- **非目标**：我们不做什么（范围控制）
+- **测试**：如何验证没有破坏任何东西
+
+**AI 协助最适合：**
+- 逐步说明（"做 X，等待批准"）
+- 清晰的迁移顺序
+- 每个阶段后测试方法
+- 明确的文件路径
+
+## 下一步
+
+尝试重构代码库中的某些内容：
+- 选择一个分散的关注点（日志记录、错误、配置）
+- 创建带有迁移策略的规格
+- 让 AI 逐步实施
+- 完成并记录决策
+
+**了解更多：**
+- [规格结构](/docs/guide/usage/spec-structure) - 组织复杂规格
+- [AI 编码工作流](/docs/guide/usage/ai-coding-workflow) - 使用 AI 处理大型变更
+- [上下文工程](/docs/advanced/context-engineering) - 管理重构的 AI 内存
+
+**高级：**
+- [第一原则](/docs/advanced/first-principles) - 何时编写规格与不编写
+- [哲学](/docs/advanced/philosophy) - 设计决策和权衡
+
+**有问题？** 查看 [FAQ](/docs/faq) 或[开始讨论](https://github.com/codervisor/lean-spec/discussions)。

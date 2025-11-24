@@ -1,109 +1,169 @@
 ---
-title: Writing Your First Spec with AI
+title: Your First Feature with AI
 sidebar_position: 1
-description: Partner with GitHub Copilot Agent Mode to turn intent into a LeanSpec in under 10 minutes
+description: Build a complete feature from idea to working code with AI-assisted spec-driven development
 ---
 
-# Writing Your First Spec with AI
+# Your First Feature with AI
 
-**Time**: 10-15 minutes  
-**Goal**: Provide intent, let Copilot Agent Mode draft the spec, and land with a reviewed LeanSpec ready for implementation.
+Learn how LeanSpec helps you go from intent to implementation in minutes, not hours. You'll build a real feature—email notifications for password resets—with AI doing the heavy lifting.
 
-## Prerequisites
-- VS Code with [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/github-copilot-in-the-integrated-development-environment/github-copilot-agent-in-visual-studio-code) enabled
-- LeanSpec CLI installed globally (`npm install -g lean-spec`) or locally (`npx lean-spec`)
-- A workspace containing a `specs/` directory (run `lean-spec init` if you are starting fresh)
+**Time**: 10 minutes  
+**Outcome**: Working feature with a completed spec
 
-## Step 1: Share Intent with the Agent
-Open VS Code, focus the agent panel, and paste your intent. Example prompt:
+:::info Prerequisites
+- Completed [Getting Started](/docs/guide/getting-started) guide
+- AI tool with MCP configured (GitHub Copilot, Claude, etc.)
+:::
 
+## The Scenario
+
+You're building a user dashboard. Password resets work, but users don't get confirmation emails. You need to add email notifications when someone resets their password.
+
+Starting point:
 ```
-I want to add passwordless login (magic links) to our SaaS dashboard.
-Help me draft a LeanSpec that states the problem, why it matters,
-constraints (must keep current MFA), and success criteria for both backend
-and UX. Keep it under 2,000 tokens.
-```
-
-The agent will request the AGENTS.md instructions if it has not seen them. Approve the file share so it understands project conventions.
-
-## Step 2: Let the Agent Outline the Spec
-Ask the agent to produce an outline before writing full text:
-
-```
-Summarize the spec outline first: Overview, Why Now, Requirements,
-Risks, Validation, and Plan. Wait for my approval before expanding sections.
+your-project/
+├── src/
+│   ├── auth/
+│   │   └── reset-password.ts    # Existing reset logic
+│   └── services/
+│       └── email-service.ts     # Email service exists
+└── specs/                        # Your specs folder
 ```
 
-Review the outline. If something is missing (for example, "Email service limits"), ask the agent to add it before continuing.
+## Creating the Spec
 
-## Step 3: Generate the Draft
-Give the go-ahead:
-
-```
-Looks good. Fill in each section with actionable content and include checklists
-for implementation and validation.
-```
-
-The agent writes the spec inline. Copy the content into `specs/###-feature/README.md` (use `lean-spec create passwordless-login` if the spec directory does not exist yet).
-
-## Step 4: Review with Lean Principles
-Walk through the draft and check:
-
-- **Context Economy** — Is the spec under ~300 lines? If not, ask the agent which sections should move to a sub-spec.
-- **Signal-to-Noise** — Remove repetition and marketing fluff.
-- **Intent Over Implementation** — Ensure "why" is clear before "how".
-
-Helpful prompts:
+In your AI tool, describe what you want:
 
 ```
-Rewrite the Goals section so each bullet explains the user impact in one sentence.
+Create a new spec for adding email notifications to password resets.
+Users should receive a confirmation email with:
+- Reset confirmation message
+- Security tips
+- Link to sign in
 
-Suggest a DESIGN.md extraction if we wanted to include sequence diagrams.
+Use the existing email service. Keep it simple.
 ```
 
-## Step 5: Validate and Set Status
-Once the content looks good:
+The AI reads your project structure and creates a spec in `specs/014-reset-email-notifications/`. Here's what it generates:
 
+```markdown title="specs/014-reset-email-notifications/README.md"
+---
+status: planned
+created: '2025-11-24'
+priority: medium
+---
+
+# Reset Email Notifications
+
+> **Status**: 📅 Planned · **Priority**: Medium
+
+## Overview
+Add confirmation emails when users reset their passwords.
+Currently they get no feedback after resetting.
+
+## Design
+- Hook into existing `resetPassword()` function
+- Use `EmailService.send()` with "password-reset" template
+- Include: confirmation message, security tips, sign-in link
+
+## Plan
+- [ ] Create email template
+- [ ] Add email call to reset-password.ts
+- [ ] Add tests for email sending
+- [ ] Update user docs
+
+## Test
+- [ ] Email sent after password reset
+- [ ] Email contains all required elements
+- [ ] Error handling if email service fails
+```
+
+**What just happened?** The AI:
+1. Read your intent
+2. Analyzed your codebase structure
+3. Created a focused spec with just enough detail
+4. Set status to `planned` (ready for implementation)
+
+## Implementation
+
+Now ask the AI to implement it:
+
+```
+Implement spec 014.
+```
+
+The AI will:
+- Read the spec to understand requirements
+- Create the email template file
+- Add email sending to `reset-password.ts`
+- Write tests
+- Update the spec's checkboxes as it works
+
+You'll see updates like:
+```
+✓ Created email template: templates/password-reset.html
+✓ Modified: src/auth/reset-password.ts (added email notification)
+✓ Added tests: tests/auth/reset-email.test.ts
+✓ Updated user documentation
+```
+
+## Review and Complete
+
+Test the feature locally:
 ```bash
-lean-spec validate passwordless-login
-lean-spec update passwordless-login --status planned
+npm test
+npm run dev
+# Try password reset flow
 ```
 
-Share the validation output with the agent if there are warnings. Example prompt:
-
+Everything works? Tell your AI:
 ```
-Validation warns that the spec is 2,450 tokens. Reduce the Plan section by
-merging related tasks.
+Mark spec 014 as complete.
 ```
 
-## Step 6: Capture AI/Human Responsibilities
-Close the loop by documenting who does what:
-
-- Add a `## Implementation Plan` with checkboxes for human-owned steps.
-- Add an `## AI Handoff` section summarizing the files the agent should modify later.
-
-Prompt idea:
-
-```
-Add an "AI Handoff" section that lists the repo paths the Copilot agent
-should touch when it implements this spec.
+Or run manually:
+```bash
+lean-spec update 014 --status complete
 ```
 
-## Final Checklist
-- ☐ Frontmatter set with status `planned`, tags, and priority
-- ☐ Spec < 2,000 tokens or split into sub-specs
-- ☐ Success criteria and validation steps are explicit
-- ☐ AI Handoff section lists next commands/files
-- ☐ `lean-spec validate` passes
+The spec now shows:
+```markdown
+---
+status: complete
+completed_at: '2025-11-24T15:32:00.000Z'
+---
+```
 
-## What You Learned
-✅ How to use Copilot Agent Mode as a spec co-author  
-✅ How to keep AI output aligned with LeanSpec first principles  
-✅ How to ground the agent with AGENTS.md and validation feedback  
-✅ How to hand the finished spec back to humans/AI for implementation
+## What Just Happened
 
-## Next Tutorials
-1. [AI-Assisted Feature Development →](./ai-assisted-feature-development)
-2. [Managing Multiple Specs with AI →](./managing-multiple-specs-with-ai)
+You experienced spec-driven development with AI:
 
-Need more context? Revisit [Understanding LeanSpec](/docs/guide/understanding-leanspec) or [SDD Workflow](/docs/guide/terminology/sdd-workflow).
+**Without LeanSpec:**
+- Jump into code, forget requirements
+- Lose context switching between files
+- Hard for others to understand why
+- No record of what was delivered
+
+**With LeanSpec:**
+- Clear intent captured upfront
+- AI implements with full context
+- Documented decisions for future you
+- Complete audit trail of what shipped
+
+The spec becomes your **shared memory** between you, the AI, and your team. Everyone knows what was built and why.
+
+## Next Steps
+
+Try it yourself:
+- Pick a small feature from your backlog
+- Ask your AI to create a spec
+- Let it implement with the spec as context
+- Review and complete
+
+**Learn more:**
+- [Managing Multiple Features →](./managing-multiple-features) - Handle 2-3 related specs
+- [AI Coding Workflow](/docs/guide/usage/ai-coding-workflow) - Best practices
+- [Spec Structure](/docs/guide/usage/spec-structure) - Organizing specs
+
+**Need help?** Check [FAQ](/docs/faq) or [file an issue](https://github.com/codervisor/lean-spec/issues).

@@ -24,8 +24,8 @@ const sidebars: SidebarsConfig = {
       label: 'Tutorials',
       items: [
         'tutorials/writing-first-spec-with-ai',
-        'tutorials/ai-assisted-feature-development',
-        'tutorials/managing-multiple-specs-with-ai',
+        'tutorials/managing-multiple-features',
+        'tutorials/refactoring-with-specs',
       ],
     },
     {
