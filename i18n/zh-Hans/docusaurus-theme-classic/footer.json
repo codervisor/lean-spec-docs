@@ -21,11 +21,11 @@
   },
   "link.item.label.MCP Server": {
     "message": "MCP 服务器",
-    "description": "The label of footer link with label=MCP Server linking to /docs/guide/usage/ai-assisted/mcp-integration"
+    "description": "The label of footer link with label=MCP Server linking to /docs/guide/usage/mcp-integration"
   },
   "link.item.label.AI Integration": {
     "message": "AI 集成",
-    "description": "The label of footer link with label=AI Integration linking to /docs/guide/usage/ai-assisted/agent-configuration"
+    "description": "The label of footer link with label=AI Integration linking to /docs/guide/usage/advanced-features/agent-configuration"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",

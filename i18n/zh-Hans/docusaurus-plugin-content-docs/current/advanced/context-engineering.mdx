@@ -41,10 +41,10 @@ LeanSpec 存在是因为：
 **LeanSpec 应用**：
 ```markdown
 # 不是一个 11K-token 的Spec：
-specs/045/README.md          (~1,200 tokens - 概述)
-specs/045/DESIGN.md          (~2,200 tokens - 设计)
-specs/045/IMPLEMENTATION.md  (~900 tokens - 计划)
-specs/045/TESTING.md         (~1,100 tokens - 测试)
+specs/045/README.md          (~1,200 Token - 概述)
+specs/045/DESIGN.md          (~2,200 Token - 设计)
+specs/045/IMPLEMENTATION.md  (~900 Token - 计划)
+specs/045/TESTING.md         (~1,100 Token - 测试)
 
 # AI 仅加载当前任务需要的内容
 ```
@@ -55,12 +55,12 @@ specs/045/TESTING.md         (~1,100 tokens - 测试)
 - **渐进式披露 (Progressive Disclosure)**（概述 → 细节）
 
 **何时使用**：
-- ✅ Spec >3,500 tokens
+- ✅ Spec >3,500 Token
 - ✅ 多个不同关注点（设计 + 测试 + 配置）
 - ✅ 不同关注点独立访问
 
 **好处**：
-- ✅ 每个文件 &lt;2,000 tokens（适应工作记忆）
+- ✅ 每个文件 &lt;2,000 Token（适应工作记忆）
 - ✅ 减少无关上下文（仅加载需要的部分）
 - ✅ 并行工作（编辑 DESIGN 不影响 TESTING）
 
@@ -120,7 +120,7 @@ JWT tokens 的好处是它们不需要服务器端
 - 使用 .prettierrc 配置 Prettier
 - 添加 npm 脚本用于构建、测试、检查
 - 使用 GitHub Actions 设置 CI 管道
-[约 1,000 tokens 的详细步骤...]
+[约 1,000 Token 的详细步骤...]
 
 # 压缩后（已完成阶段）：
 ## ✅ 阶段 1：基础设施设置（已完成 2025-10-15）
@@ -163,7 +163,7 @@ specs/045-unified-dashboard/       # 仪表板 UI
 specs/060-velocity-algorithm/      # 速度跟踪
 specs/061-health-scoring/          # 健康指标
 specs/062-metrics-api/             # API 端点
-  [每个Spec <2,000 tokens，独立生命周期]
+  [每个Spec <2,000 Token，独立生命周期]
 ```
 
 **机制**：
@@ -175,7 +175,7 @@ specs/062-metrics-api/             # API 端点
 - ✅ 多个关注点具有不同生命周期
 - ✅ 部分可以是独立功能
 - ✅ 部分由不同人/团队更新
-- ✅ 分区后Spec仍 >3,500 tokens
+- ✅ 分区后Spec仍 >3,500 Token
 
 **好处**：
 - ✅ 独立演进（算法更改 ≠ UI 更改）
@@ -216,7 +216,7 @@ specs/062-metrics-api/             # API 端点
 
 **LeanSpec 中的症状**：
 ```markdown
-# Spec增长超过 4,000 tokens，包含大量历史
+# Spec增长超过 4,000 Token，包含大量历史
 
 # AI 行为改变：
 - 重复Spec历史中的过去操作
@@ -226,7 +226,7 @@ specs/062-metrics-api/             # API 端点
 ```
 
 **缓解措施**：
-- ✅ 在 3,500 tokens 之前拆分（上下文经济）
+- ✅ 在 3,500 Token 之前拆分（上下文经济）
 - ✅ 压缩历史部分
 - ✅ 按关注点分区
 
@@ -286,11 +286,11 @@ specs/062-metrics-api/             # API 端点
 
 | 情况 | 主要策略 | 次要 | 原因 |
 |-----------|-----------------|-----------|-----|
-| Spec >3,500 tokens，多个关注点 | 分区 | 压实 | 分离关注点，删除冗余 |
+| Spec >3,500 Token，多个关注点 | 分区 | 压实 | 分离关注点，删除冗余 |
 | Spec冗长但单一关注点 | 压实 | 压缩 | 删除冗余，仍长则总结 |
 | 历史阶段膨胀Spec | 压缩 | - | 保留结果，删除细节 |
 | 同一Spec中的不相关关注点 | 隔离 | 分区 | 移至单独Spec，然后分区 |
-| Spec接近 3,500 tokens | 压实 | - | 达到限制前主动清理 |
+| Spec接近 3,500 Token | 压实 | - | 达到限制前主动清理 |
 
 ### 组合策略
 
@@ -304,7 +304,7 @@ specs/062-metrics-api/             # API 端点
 
 **结果**：
 - 之前：约 11K tokens（3 倍限制）
-- 之后：最大文件约 2,200 tokens（在限制内）
+- 之后：最大文件约 2,200 Token（在限制内）
 
 ## 底线
 
@@ -316,7 +316,7 @@ specs/062-metrics-api/             # API 端点
 - 更大的上下文窗口并不能解决问题
 - 智能策展（分区、压实、压缩、隔离）可以
 - 主动应用策略以防止上下文失败
-- 监控警告信号（>3,500 tokens、重复、混淆、冲突）
+- 监控警告信号（>3,500 Token、重复、混淆、冲突）
 
 ---
 

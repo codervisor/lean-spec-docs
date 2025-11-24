@@ -46,5 +46,9 @@
   "sidebar.examplesSidebar.category.Real-World Examples": {
     "message": "实战案例",
     "description": "The label for category 'Real-World Examples' in sidebar 'examplesSidebar'"
+  },
+  "sidebar.guideSidebar.category.CLI Usage": {
+    "message": "CLI 使用",
+    "description": "The label for category 'CLI Usage' in sidebar 'guideSidebar'"
   }
 }
