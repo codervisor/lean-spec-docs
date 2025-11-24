@@ -16,6 +16,21 @@ description: 记录架构变更并让 AI 协助复杂的重构工作
 - 了解您的代码库结构
 :::
 
+## 快速开始
+
+想要使用准备好重构的项目跟随学习吗？立即搭建脚手架：
+
+```bash
+npx lean-spec init --example api-refactor
+cd api-refactor
+npm install
+npm start
+```
+
+然后询问您的 AI：_"使用 LeanSpec 帮我重构这个应用，提取一个可重用的 API 客户端"_
+
+或继续使用您自己的项目...
+
 ## 场景
 
 您的 API 客户端分散在整个代码库中。每个组件都直接导入 Axios，这使得难以：
