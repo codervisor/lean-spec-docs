@@ -93,19 +93,6 @@ const sidebars: SidebarsConfig = {
     'roadmap',
     'faq',
   ],
-  examplesSidebar: [
-    {
-      type: 'category',
-      label: 'Real-World Examples',
-      items: [
-        'examples/overview',
-        'examples/simple-feature-token-validation',
-        'examples/complex-feature-web-sync',
-        'examples/refactoring-monorepo-core',
-        'examples/cross-team-official-launch',
-      ],
-    },
-  ],
   referenceSidebar: [
     'reference/cli',
     'reference/config',

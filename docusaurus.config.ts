@@ -90,12 +90,6 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'examplesSidebar',
-          position: 'left',
-          label: 'Examples',
-        },
-        {
-          type: 'docSidebar',
           sidebarId: 'referenceSidebar',
           position: 'left',
           label: 'Reference',
