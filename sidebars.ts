@@ -26,6 +26,7 @@ const sidebars: SidebarsConfig = {
         'tutorials/first-spec-with-ai',
         'tutorials/managing-multiple-features',
         'tutorials/refactoring-with-specs',
+        'tutorials/large-project-management',
       ],
     },
     {
