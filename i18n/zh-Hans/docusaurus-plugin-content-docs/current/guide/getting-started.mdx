@@ -5,16 +5,16 @@ sidebar_position: 2
 ---
 # 快速开始
 
-本指南将帮助你安装 LeanSpec 并设置第一个项目。
+本指南将帮助你设置 LeanSpec 并采用 SDD 工作流程。大约需要 5 分钟。
 
-## 前置要求
-
-- **Node.js**：确保安装了 Node.js（版本 20 或更高）。你可以从 [nodejs.org](https://nodejs.org/) 下载。
-- **AI 工具**：如果你计划与 AI 编码代理集成（如 [GitHub Copilot](https://github.com/features/copilot)、[Claude Code](https://www.claude.com/product/claude-code) 等），请确保已设置好你喜欢的工具。
+:::warning 前置条件
+- **Node.js**：版本 20 或更高。从 [nodejs.org](https://nodejs.org/) 下载。
+- **AI 编码工具**：设置你喜欢的工具（例如 [VS Code GitHub Copilot](https://github.com/features/copilot)、[Claude Code](https://www.claude.com/product/claude-code) 等）
+:::
 
 ## 安装
 
-LeanSpec 可以使用 npm 全局安装。
+使用 npm 全局安装 LeanSpec：
 
 ```bash
 npm install -g lean-spec
@@ -22,214 +22,98 @@ npm install -g lean-spec
 
 这会使 `lean-spec` 命令在全系统可用。
 
-## 验证安装
-
-检查 LeanSpec 是否安装正确：
-
-```bash
-lean-spec --version
-```
-
-你应该看到版本号（例如 `0.3.0`）。
-
 ## 初始化项目
 
 导航到你的项目目录并运行：
 
 ```bash
-lean-spec init
+lean-spec init -y
 ```
-
-这个交互式命令将引导你完成三种设置路径：
-
-### 1. 快速开始（推荐给个人开发者）
-
-使用标准模板的零配置。几秒钟内即可启动和运行。
-
-```bash
-? 你想如何设置？
-  ❯ 快速开始（推荐）
-    选择模板
-```
-
-这将创建：
-- 带最小配置的 `.lean-spec/config.json`
-- 用于存放规格说明的 `specs/` 目录
-- 包含 AI 代理集成指导的 `AGENTS.md`（如果尚不存在）
-
-### 2. 选择模板
-
-从为不同团队规模和工作流程预配置的模板中选择：
-
-- **minimal**：只有文件夹结构，没有额外内容
-- **standard**：推荐 - 包含 AGENTS.md 和示例（默认）
-- **enterprise**：带审批和合规的治理
-
-每个模板包括：
-- 规格说明结构和示例
-- 用于 AI 代理集成的 AGENTS.md
-- 支持文件（CONTRIBUTING.md、检查清单等）
-- 项目特定配置
-
-## 项目结构
 
 初始化后，你的项目将包含：
 
 ```
 your-project/
-├── .lean-spec/
-│   ├── config.json         # LeanSpec 配置
-│   └── templates/          # 自定义规格说明模板（可选）
-│       └── spec-template.md
-├── specs/                  # 所有规格说明都放在这里
-│   ├── 001-first-feature/  # 扁平结构与全局编号
-│   ├── 002-second-feature/
-│   └── archived/           # 已完成的规格说明
-├── AGENTS.md              # AI 代理集成指导
+├── .lean-spec/        # LeanSpec 配置
+├── specs/             # 所有规格说明都放在这里
+├── AGENTS.md          # AI 代理的系统提示
 └── ... （你的项目文件）
 ```
 
-## 配置
+## 创建第一个 Spec
 
-`.lean-spec/config.json` 文件控制 LeanSpec 行为：
+在你的 AI 工具中，输入提示：
 
-```json title=".lean-spec/config.json"
-{
-  "template": "spec-template.md",
-  "specsDir": "specs",
-  "structure": {
-    "pattern": "flat",
-    "prefix": "",
-    "dateFormat": "YYYYMMDD",
-    "sequenceDigits": 3,
-    "defaultFile": "README.md"
-  },
-  "frontmatter": {
-    "required": ["status", "created"],
-    "optional": ["tags", "priority", "assignee", "reviewer"],
-    "custom": {}
-  },
-  "variables": {}
-}
+```
+为 "my-feature" 功能创建新规格说明，需满足以下要求：
+- [要求 1]
+- [要求 2]
+- ...
 ```
 
-你可以自定义此配置以适应你的工作流程。详见[配置参考](/docs/reference/config)。
+或者简单地：
 
-## 创建第一个规格说明
-
-现在你已准备好创建第一个规格说明：
-
-```bash
-lean-spec create my-feature
 ```
+为 "my-feature" 创建新规格说明。
+```
+
+AI 将使用 CLI 或 MCP（如果已配置）来创建并填充规格说明。
 
 这将创建：
-- `specs/001-my-feature/` 文件夹（扁平结构与全局编号）
-- 内含模板内容的 `README.md`
-- 带默认元数据的前置元数据
+- `specs/001-my-feature/` 文件夹（扁平结构与顺序编号）
+- 包含模板内容和前置元数据的 `README.md`
+- **由 AI 填写的规格说明详情**（无需手动编辑）
 
-编辑 `README.md` 文件以记录你的功能。
+规格说明内容如下所示：
 
-## 基本命令
+```markdown title="specs/001-my-feature/README.md"
+---
+status: planned
+created: '2025-11-02'
+priority: medium
+---
 
-以下是一些入门基本命令：
+# My Feature
 
-```bash
-# 创建规格说明
-lean-spec create feature-name
+> **Status**: 📅 Planned · **Priority**: Medium · **Created**: 2025-11-02
 
-# 列出所有规格说明
-lean-spec list
-
-# 查看规格说明
-lean-spec view 1
-
-# 更新规格说明元数据（按编号或名称）
-lean-spec update 1 --status=in-progress
-lean-spec update feature-name --status=in-progress
-
-# 归档已完成的规格说明
-lean-spec archive 1
+(... 由 AI 填写的规格说明详情 ...)
 ```
 
-完整的命令参考请参见 [CLI 命令](/docs/reference/cli)。
+## 开发 Spec
 
-## 可视化模式
+创建规格说明后，审查它并根据规格说明详情实施功能。
 
-LeanSpec 包含用于可视化规格说明管理的 Web UI。这对于浏览规格说明、可视化依赖关系和演示非常有用。
+在你的 AI 工具中，询问：
 
-```bash
-# 启动 Web UI
-lean-spec ui
-
-# 或者在不安装 CLI 的情况下使用
-npx @leanspec/ui
+```
+实施 "my-feature" 功能。
 ```
 
-UI 提供：
-- **交互式浏览器**：列出和搜索所有带丰富格式的规格说明
-- **依赖关系图**：可视化规格说明之间的关系
-- **看板视图**：按状态组织的看板风格视图
-- **项目统计**：规格说明和进度概览
+或者简单地：
 
-UI 在本地 3000 端口运行，并自动在浏览器中打开。你的规格说明直接从文件系统读取，无需设置。
+```
+实施规格说明 1。
+```
 
-**截图：**
+AI 将读取规格说明并根据要求开始实施。
 
-![LeanSpec UI 截图](/img/ui/ui-dashboard.png)
+在典型的代理工作流程中，AI 将：
+1. 读取规格说明详情
+2. 分析代码库
+3. 生成代码更改以实施功能
+4. 总结更改并在规格说明中记录进度
 
-**了解更多**：[可视化模式指南](/docs/guide/visual-mode) 了解详细功能和用法。
+:::tip 推荐的 AI 模型
+虽然不是必需的，但我们强烈建议使用高级 LLM，如 [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5)、[GPT-5.1](https://openai.com/index/gpt-5-1/) 或 [Gemini 3](https://aistudio.google.com/models/gemini-3)，以获得 LeanSpec 的最佳效果。
+:::
 
-## AI 集成
+## 开发之后
 
-LeanSpec 与 AI 编码代理配合得很好。当你运行 `lean-spec init` 时，它会创建包含 AI 代理指令的 `AGENTS.md`。
-
-### 快速 AI 设置
-
-**让 AI 通过 MCP 访问规格说明（推荐）：**
-
-1. 全局安装 LeanSpec（如果尚未安装）：
-   ```bash
-   npm install -g lean-spec
-   ```
-
-2. 配置你的 AI 工具：
-
-   **VS Code（GitHub Copilot）** - 添加到 `.vscode/mcp.json`：
-   ```json title=".vscode/mcp.json"
-   {
-     "servers": {
-       "lean-spec": {
-         "command": "npx",
-         "args": ["-y", "@leanspec/mcp"],
-       }
-     }
-   }
-   ```
-
-   **Claude Code** - 添加到 `.mcp.json`：
-   ```json title=".mcp.json"
-   {
-     "mcpServers": {
-       "lean-spec": {
-         "command": "npx",
-         "args": ["-y", "@leanspec/mcp"],
-       }
-     }
-   }
-   ```
-
-3. 测试它：
-   ```
-   询问你的 AI："列出此项目中的所有规格说明"
-   ```
-
-**不使用 MCP（基础）：**
-- AI 仍然可以从文件读取规格说明
-- 在提示中引用 AGENTS.md："遵循 AGENTS.md 中的指令"
-- 在需要时手动指向 AI 到规格说明文件
-
-**了解更多**：[MCP 集成](/docs/guide/usage/mcp-integration) 了解详细设置和优势。
+AI 完成实施后，你可以：
+1. **审核**: 审查进度（由 AI 报告）并测试功能
+2. **继续**: 如果未完成，开始新的聊天会话并要求 AI 继续
+3. **反馈**: 如果对实施不满意，向 AI 提供反馈以改进
 
 ## 下一步
 

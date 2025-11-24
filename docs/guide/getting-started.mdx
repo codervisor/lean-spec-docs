@@ -5,16 +5,16 @@ sidebar_position: 2
 ---
 # Getting Started
 
-This guide will help you install LeanSpec and set up your first project.
+This guide will help you set up LeanSpec and adopt the SDD workflow for your project. It takes about 5 minutes.
 
-## Pre-requisites
-
-- **Node.js**: Ensure you have Node.js (version 20 or higher) installed. You can download it from [nodejs.org](https://nodejs.org/).
-- **AI Tool**: If you plan to integrate with AI coding agents (like [GitHub Copilot](https://github.com/features/copilot), [Claude Code](https://www.claude.com/product/claude-code), etc.), make sure you have your preferred tool set up.
+:::warning Prerequisites
+- **Node.js**: Version 20 or higher. Download from [nodejs.org](https://nodejs.org/).
+- **AI Coding Tool**: Set up your preferred tool (e.g., [VS Code GitHub Copilot](https://github.com/features/copilot), [Claude Code](https://www.claude.com/product/claude-code), etc.)
+:::
 
 ## Installation
 
-LeanSpec can be installed globally using npm.
+Install LeanSpec globally using npm:
 
 ```bash
 npm install -g lean-spec
@@ -22,214 +22,98 @@ npm install -g lean-spec
 
 This makes the `lean-spec` command available system-wide.
 
-## Verify Installation
-
-Check that LeanSpec is installed correctly:
-
-```bash
-lean-spec --version
-```
-
-You should see the version number (e.g., `0.3.0`).
-
 ## Initialize Your Project
 
 Navigate to your project directory and run:
 
 ```bash
-lean-spec init
+lean-spec init -y
 ```
-
-This interactive command will guide you through three setup paths:
-
-### 1. Quick Start (Recommended for Solo Developers)
-
-Zero configuration using standard template. Gets you up and running in seconds.
-
-```bash
-? How would you like to set up?
-  ❯ Quick start (recommended)
-    Choose a template
-```
-
-This creates:
-- `.lean-spec/config.json` with minimal configuration
-- `specs/` directory for your specs
-- `AGENTS.md` with AI agent integration guidance (if not present)
-
-### 2. Choose a Template
-
-Select from pre-configured templates for different team sizes and workflows:
-
-- **minimal**: Just folder structure, no extras
-- **standard**: Recommended - includes AGENTS.md and examples (default)
-- **enterprise**: Governance with approvals and compliance
-
-Each template includes:
-- Spec structure and examples
-- AGENTS.md for AI agent integration
-- Supporting files (CONTRIBUTING.md, checklists, etc.)
-- Project-specific configuration
-
-## Project Structure
 
 After initialization, your project will have:
 
 ```
 your-project/
-├── .lean-spec/
-│   ├── config.json         # LeanSpec configuration
-│   └── templates/          # Custom spec templates (optional)
-│       └── spec-template.md
-├── specs/                  # All your specs live here
-│   ├── 001-first-feature/  # Flat structure with global numbering
-│   ├── 002-second-feature/
-│   └── archived/           # Completed specs
-├── AGENTS.md              # AI agent integration guidance
+├── .lean-spec/        # LeanSpec configuration
+├── specs/             # All your specs live here
+├── AGENTS.md          # System prompts for AI agents
 └── ... (your project files)
 ```
 
-## Configuration
-
-The `.lean-spec/config.json` file controls LeanSpec behavior:
-
-```json title=".lean-spec/config.json"
-{
-  "template": "spec-template.md",
-  "specsDir": "specs",
-  "structure": {
-    "pattern": "flat",
-    "prefix": "",
-    "dateFormat": "YYYYMMDD",
-    "sequenceDigits": 3,
-    "defaultFile": "README.md"
-  },
-  "frontmatter": {
-    "required": ["status", "created"],
-    "optional": ["tags", "priority", "assignee", "reviewer"],
-    "custom": {}
-  },
-  "variables": {}
-}
-```
-
-You can customize this to fit your workflow. See [Configuration Reference](/docs/reference/config) for details.
-
 ## Create Your First Spec
 
-Now you're ready to create your first spec:
+In your AI tool, prompt:
 
-```bash
-lean-spec create my-feature
 ```
+Create a new spec for the feature "my-feature" following these requirements:
+- [Requirement 1]
+- [Requirement 2]
+- ...
+```
+
+Or simply:
+
+```
+Create a new spec for "my-feature".
+```
+
+The AI will use the CLI or MCP (if configured) to create and populate the spec.
 
 This creates:
-- `specs/001-my-feature/` folder (flat structure with global numbering)
-- `README.md` inside with your template content
-- Frontmatter with default metadata
+- `specs/001-my-feature/` folder (flat structure with sequential numbering)
+- `README.md` with template content and frontmatter metadata
+- **Spec details filled out by AI** (no manual editing needed)
 
-Edit the `README.md` file to document your feature.
+The spec content looks like this:
 
-## Basic Commands
+```markdown title="specs/001-my-feature/README.md"
+---
+status: planned
+created: '2025-11-02'
+priority: medium
+---
 
-Here are the essential commands to get you started:
+# My Feature
 
-```bash
-# Create a spec
-lean-spec create feature-name
+> **Status**: 📅 Planned · **Priority**: Medium · **Created**: 2025-11-02
 
-# List all specs
-lean-spec list
-
-# View a spec
-lean-spec view 1
-
-# Update spec metadata (by number or name)
-lean-spec update 1 --status=in-progress
-lean-spec update feature-name --status=in-progress
-
-# Archive completed specs
-lean-spec archive 1
+(... spec details filled out by AI ...)
 ```
 
-For a complete command reference, see [CLI Commands](/docs/reference/cli).
+## Implement the Spec
 
-## Visual Mode
+Once the spec is created, review it and implement the feature according to the spec details.
 
-LeanSpec includes a web UI for visual spec management. This is great for browsing specs, visualizing dependencies, and presentations.
+In your AI tool, ask:
 
-```bash
-# Start the web UI
-lean-spec ui
-
-# Or use without installing the CLI
-npx @leanspec/ui
+```
+Implement the feature "my-feature".
 ```
 
-The UI provides:
-- **Interactive Browser**: List and search all specs with rich formatting
-- **Dependency Graphs**: Visualize relationships between specs
-- **Board View**: Kanban-style view organized by status
-- **Project Stats**: Overview of your specs and progress
+Or simply:
 
-The UI runs locally on port 3000 and automatically opens in your browser. Your specs are read directly from the filesystem with no setup required.
+```
+Implement spec 1.
+```
 
-**Screenshot:**
+The AI will read the spec and start implementing based on the requirements.
 
-![LeanSpec UI Screenshot](/img/ui/ui-dashboard.png)
+In a typical agentic workflow, the AI will:
+1. Read the spec details
+2. Analyze the codebase
+3. Generate code changes to implement the feature
+4. Summarize changes and document progress in the spec
 
-**Learn more**: [Visual Mode Guide](/docs/guide/visual-mode) for detailed features and usage.
+:::tip Recommended AI Models
+While not required, we strongly recommend using advanced LLMs like [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5), [GPT-5.1](https://openai.com/index/gpt-5-1/), or [Gemini 3](https://aistudio.google.com/models/gemini-3) for the best results with LeanSpec.
+:::
 
-## AI Integration
+## After Implementation
 
-LeanSpec works great with AI coding agents. When you ran `lean-spec init`, it created `AGENTS.md` with instructions for AI agents.
-
-### Quick AI Setup
-
-**For AI to access specs through MCP (recommended):**
-
-1. Install LeanSpec globally (if not already):
-   ```bash
-   npm install -g lean-spec
-   ```
-
-2. Configure your AI tool:
-
-   **VS Code (GitHub Copilot)** - Add to `.vscode/mcp.json`:
-   ```json title=".vscode/mcp.json"
-   {
-     "servers": {
-       "lean-spec": {
-         "command": "npx",
-         "args": ["-y", "@leanspec/mcp"],
-       }
-     }
-   }
-   ```
-
-   **Claude Code** - Add to `.mcp.json`:
-   ```json title=".mcp.json"
-   {
-     "mcpServers": {
-       "lean-spec": {
-         "command": "npx",
-         "args": ["-y", "@leanspec/mcp"],
-       }
-     }
-   }
-   ```
-
-3. Test it:
-   ```
-   Ask your AI: "List all specs in this project"
-   ```
-
-**Without MCP (basic):**
-- AI can still read specs from files
-- Reference AGENTS.md in your prompts: "Follow instructions in AGENTS.md"
-- Manually point AI to spec files when needed
-
-**Learn more**: [MCP Integration](/docs/guide/usage/mcp-integration) for detailed setup and benefits.
+Once the AI completes implementation, you can:
+- **Review**: Review the progress (reported by AI) and test the feature
+- **Continue**: If incomplete, start a new chat session and ask the AI to continue
+- **Feedback**: If unsatisfied with the implementation, provide feedback to the AI for improvements
 
 ## What's Next?
 
@@ -242,8 +126,18 @@ Now that you have LeanSpec set up, you can:
 - [Context Engineering](/docs/advanced/context-engineering) - Managing AI working memory
 
 **Start Using LeanSpec:**
+- [Creating and Managing Specs](/docs/guide/usage/cli/creating-managing) - Basic operations
+- [Finding Specs](/docs/guide/usage/cli/finding-specs) - Search and discovery
+- [Spec Structure](/docs/guide/usage/spec-structure) - Organizing your specs
 
 **AI Integration:**
+- [MCP Integration](/docs/guide/usage/mcp-integration) - Connect AI tools
+- [AI Coding Workflow](/docs/guide/usage/ai-coding-workflow) - Best practices
+- [AI-Assisted Spec Writing](/docs/advanced/ai-assisted-spec-writing) - Co-create with AI
 
 ## Need Help?
+
+- [FAQ](/docs/faq) - Frequently asked questions
+- [GitHub Issues](https://github.com/codervisor/lean-spec/issues) - Report bugs or request features
+- [Community Discussions](https://github.com/codervisor/lean-spec/discussions) - Ask questions and share ideas
 
