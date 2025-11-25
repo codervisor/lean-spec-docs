@@ -21,39 +21,55 @@ import TabItem from '@theme/TabItem';
 
 ## 快速开始
 
-想要使用现成的示例项目跟随学习吗？立即搭建脚手架：
+想要使用现成的示例项目跟随学习吗？按照以下说明开始：
+
+初始化示例项目：
+
+```bash
+npx lean-spec init --example dark-theme
+cd dark-theme
+npm install
+npm start
+```
 
 <Tabs groupId="ai-tool">
-  <TabItem value="manual" label="手动设置" default>
-    ```bash
-    npx lean-spec init --example dark-theme
-    cd dark-theme
-    npm install
-    npm start
-    ```
-    
-    然后询问您的 AI：_"使用 LeanSpec 帮我为这个应用添加深色主题支持"_
-  </TabItem>
   <TabItem value="copilot" label="GitHub Copilot CLI">
+    在终端中使用 GitHub Copilot CLI：
     ```bash
-    gh copilot suggest "从 lean-spec 搭建 dark-theme 示例并进行设置"
-    ```
-    
-    或使用自然语言：
-    ```bash
-    ?? 从 lean-spec 搭建 dark-theme 示例
+    # 确保已安装 GitHub Copilot CLI
+    npm install -g @github/copilot
+
+    # 向 Copilot CLI 发送提示
+    copilot -p "使用 LeanSpec 帮我为这个应用添加深色主题支持" \
+      --files specs/ \
+      --add-dir .
     ```
   </TabItem>
   <TabItem value="claude" label="Claude Code">
     在终端中使用 Claude Code：
     ```bash
-    claude "搭建 lean-spec 的 dark-theme 示例：npx lean-spec init --example dark-theme，然后进入目录，安装依赖项并启动开发服务器"
+    # 确保已安装 Claude Code
+    curl -fsSL https://claude.ai/install.sh | bash
+
+    # 向 Claude Code 发送提示
+    claude prompt \
+      "使用 LeanSpec 帮我为这个应用添加深色主题支持" \
+      --include-files specs/ \
+      --include-dir .
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
+    在终端中使用 Gemini CLI：
     ```bash
-    gemini "为我设置 LeanSpec dark-theme 示例项目"
+    gemini -p "使用 LeanSpec 帮我为这个应用添加深色主题支持"
     ```
+  </TabItem>
+  <TabItem value="ide" label="IDE" default>
+    在 IDE 中使用 AI 编码助手（GitHub Copilot、Claude、Cursor 等）：
+    
+    1. 在 IDE 中打开项目
+    2. 打开 AI 助手聊天面板
+    3. 发送提示：_"使用 LeanSpec 帮我为这个应用添加深色主题支持"_
   </TabItem>
 </Tabs>
 

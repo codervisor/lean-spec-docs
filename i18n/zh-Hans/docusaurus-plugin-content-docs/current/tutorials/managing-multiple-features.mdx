@@ -4,6 +4,9 @@ sidebar_position: 2
 description: 使用搜索、依赖关系和项目可见性，自信地处理多个相关Spec
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 管理多个功能
 
 真实项目有多个功能同时进行。学习如何在不失去上下文或重复工作的情况下管理它们。
@@ -18,7 +21,9 @@ description: 使用搜索、依赖关系和项目可见性，自信地处理多�
 
 ## 快速开始
 
-想要使用现成的仪表板项目跟随学习吗？立即搭建脚手架：
+想要使用现成的仪表板项目跟随学习吗？按照以下说明开始：
+
+初始化示例项目：
 
 ```bash
 npx lean-spec init --example dashboard-widgets
@@ -27,7 +32,46 @@ npm install
 npm run dev
 ```
 
-然后询问您的 AI：_"使用 LeanSpec 帮我为这个仪表板添加三个新组件"_
+<Tabs groupId="ai-tool">
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    在终端中使用 GitHub Copilot CLI：
+    ```bash
+    # 确保已安装 GitHub Copilot CLI
+    npm install -g @github/copilot
+
+    # 向 Copilot CLI 发送提示
+    copilot -p "使用 LeanSpec 帮我为这个仪表板添加三个新组件" \
+      --files specs/ \
+      --add-dir .
+    ```
+  </TabItem>
+  <TabItem value="claude" label="Claude Code">
+    在终端中使用 Claude Code：
+    ```bash
+    # 确保已安装 Claude Code
+    curl -fsSL https://claude.ai/install.sh | bash
+
+    # 向 Claude Code 发送提示
+    claude prompt \
+      "使用 LeanSpec 帮我为这个仪表板添加三个新组件" \
+      --include-files specs/ \
+      --include-dir .
+    ```
+  </TabItem>
+  <TabItem value="gemini" label="Gemini CLI">
+    在终端中使用 Gemini CLI：
+    ```bash
+    gemini -p "使用 LeanSpec 帮我为这个仪表板添加三个新组件"
+    ```
+  </TabItem>
+  <TabItem value="ide" label="IDE" default>
+    在 IDE 中使用 AI 编码助手（GitHub Copilot、Claude、Cursor 等）：
+    
+    1. 在 IDE 中打开项目
+    2. 打开 AI 助手聊天面板
+    3. 发送提示：_"使用 LeanSpec 帮我为这个仪表板添加三个新组件"_
+  </TabItem>
+</Tabs>
 
 或继续使用您自己的项目...
 
