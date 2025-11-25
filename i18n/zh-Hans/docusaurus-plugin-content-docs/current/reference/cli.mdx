@@ -107,6 +107,7 @@ lean-spec list [options]
 - `--field <name=value>` - 按自定义字段过滤（可指定多个）
 - `--sort <field>` - 按字段排序（`id`、`created`、`name`、`status`、`priority`）（默认：`id`）
 - `--order <order>` - 排序顺序（`asc`、`desc`）（默认：`desc`）
+- `--json` - 以 JSON 格式输出
 
 **示例：**
 
@@ -132,6 +133,10 @@ lean-spec list --status planned --priority high --tag api
 
 # 按自定义字段过滤
 lean-spec list --field epic=PROJ-123
+
+# JSON 输出用于程序化使用
+lean-spec list --json
+lean-spec list --status planned --json
 ```
 
 **输出：**

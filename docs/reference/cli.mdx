@@ -777,6 +777,264 @@ Summary:
 
 ---
 
+### `lean-spec files`
+
+List files in a spec directory.
+
+```bash
+lean-spec files <spec> [options]
+```
+
+**Arguments:**
+- `<spec>` - Spec identifier (required). Can be:
+  - Spec number: `42` or `042`
+  - Spec name: `unified-dashboard`
+  - Full folder: `045-unified-dashboard`
+
+**Options:**
+- `--type <type>` - Filter by type: `docs`, `assets`
+- `--tree` - Show tree structure
+- `--json` - Output as JSON
+
+**Examples:**
+
+```bash
+# List all files
+lean-spec files 045
+
+# Filter by type
+lean-spec files 045 --type docs
+
+# JSON output
+lean-spec files 045 --json
+```
+
+**Output:**
+```
+📄 Files in 045-unified-dashboard
+
+Required:
+  ✓ README.md              (11.5 KB, ~2,847 tokens)  Main spec
+
+Documents:
+  ✓ DESIGN.md              (6.2 KB, ~654 tokens)
+  ✓ TESTING.md             (2.8 KB, ~270 tokens)
+
+Assets:
+  ✓ architecture.png       (45.3 KB)
+
+Total: 4 files, 65.8 KB
+```
+
+---
+
+### `lean-spec check`
+
+Check for sequence conflicts in spec numbering.
+
+```bash
+lean-spec check [options]
+```
+
+**Options:**
+- `-q, --quiet` - Brief output
+- `--json` - Output as JSON
+
+**Examples:**
+
+```bash
+# Check for conflicts
+lean-spec check
+
+# JSON output for CI/CD
+lean-spec check --json
+```
+
+**Output (no conflicts):**
+```
+✓ No sequence conflicts detected
+```
+
+**Output (with conflicts):**
+```
+⚠️  Sequence conflicts detected:
+
+  Sequence 042:
+    - 042-user-auth
+    - 042-api-gateway
+
+Tip: Use date prefix to prevent conflicts:
+  Edit .lean-spec/config.json → structure.prefix: "{YYYYMMDD}-"
+
+Or rename folders manually to resolve.
+```
+
+**Use Cases:**
+- Pre-commit validation
+- CI/CD pipeline checks
+- Ensuring unique spec numbering
+
+---
+
+### `lean-spec backfill`
+
+Backfill timestamps from git history.
+
+```bash
+lean-spec backfill [specs...] [options]
+```
+
+**Arguments:**
+- `[specs...]` - Specific specs to backfill (optional). If omitted, processes all specs.
+
+**Options:**
+- `--dry-run` - Show what would be updated without making changes
+- `--force` - Overwrite existing timestamp values
+- `--assignee` - Include assignee from first commit author
+- `--transitions` - Include full status transition history
+- `--all` - Include all optional fields (assignee + transitions)
+- `--json` - Output as JSON
+
+**Examples:**
+
+```bash
+# Backfill all specs (dry run)
+lean-spec backfill --dry-run
+
+# Backfill specific specs
+lean-spec backfill 045 unified-dashboard
+
+# Backfill with all metadata
+lean-spec backfill --all
+
+# JSON output
+lean-spec backfill --json
+```
+
+**Output:**
+```
+Analyzing git history for 118 specs...
+
+✓ 045-unified-dashboard
+  created_at: 2025-11-02T10:30:00.000Z (from git)
+  completed_at: 2025-11-05T14:20:00.000Z (from git)
+
+✓ 046-dashboard-widgets
+  created_at: 2025-11-03T09:15:00.000Z (from git)
+  (no completed_at - spec still in progress)
+
+Summary:
+  Updated: 2 specs
+  Skipped: 116 specs (already have timestamps)
+```
+
+**Use Cases:**
+- Migrating to LeanSpec from other systems
+- Recovering missing timestamp data
+- Ensuring accurate spec history
+
+---
+
+### `lean-spec timeline`
+
+Show creation/completion timeline over time.
+
+```bash
+lean-spec timeline [options]
+```
+
+**Options:**
+- `--days <n>` - Show last N days (default: 30)
+- `--by-tag` - Group by tag
+- `--by-assignee` - Group by assignee
+- `--json` - Output as JSON
+
+**Examples:**
+
+```bash
+# Show last 30 days
+lean-spec timeline
+
+# Show last 90 days
+lean-spec timeline --days 90
+
+# Group by tag
+lean-spec timeline --by-tag
+
+# JSON output
+lean-spec timeline --json
+```
+
+**Output:**
+```
+📈 Spec Timeline
+
+Activity (Last 30 Days)
+
+Date          Created  Completed
+────────────  ───────  ─────────
+2025-11-24    ████ 4   ███ 3
+2025-11-23    ██ 2     █ 1
+2025-11-22    ███ 3    ██ 2
+2025-11-21    █ 1      █ 1
+```
+
+**Use Cases:**
+- Track team velocity
+- Monitor project activity
+- Identify productivity patterns
+
+---
+
+### `lean-spec gantt`
+
+Show timeline with dependencies (Gantt chart style).
+
+```bash
+lean-spec gantt [options]
+```
+
+**Options:**
+- `--weeks <n>` - Show N weeks (default: 4)
+- `--show-complete` - Include completed specs
+- `--critical-path` - Highlight critical path
+- `--json` - Output as JSON
+
+**Examples:**
+
+```bash
+# Show next 4 weeks
+lean-spec gantt
+
+# Show next 8 weeks with completed specs
+lean-spec gantt --weeks 8 --show-complete
+
+# JSON output
+lean-spec gantt --json
+```
+
+**Output:**
+```
+📅 Gantt Chart (Next 4 Weeks)
+
+Spec                          Week 1  Week 2  Week 3  Week 4
+────────────────────────────  ──────  ──────  ──────  ──────
+🔴 042-user-auth               ████████████
+🟠 043-api-gateway                     ████████████
+🟡 044-dashboard-ui                            ████████████
+
+Legend:
+  🔴 Critical  🟠 High  🟡 Medium  🟢 Low
+  ████ In Progress  ░░░░ Planned
+```
+
+**Use Cases:**
+- Sprint planning
+- Project timeline visualization
+- Dependency management
+
+---
+
 ### `lean-spec ui`
 
 Start a local web UI for visual spec management.
