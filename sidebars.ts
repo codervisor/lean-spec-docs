@@ -27,6 +27,7 @@ const sidebars: SidebarsConfig = {
         'tutorials/managing-multiple-features',
         'tutorials/refactoring-with-specs',
         'tutorials/large-project-management',
+        'tutorials/sdd-without-toolkit',
       ],
     },
     {
