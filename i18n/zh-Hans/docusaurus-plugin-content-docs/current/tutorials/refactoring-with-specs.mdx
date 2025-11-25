@@ -1,12 +1,12 @@
 ---
-title: 使用规格重构
+title: 使用Spec重构
 sidebar_position: 3
 description: 记录架构变更并让 AI 协助复杂的重构工作
 ---
 
-# 使用规格重构
+# 使用Spec重构
 
-并非所有规格都是功能。学习如何使用 LeanSpec 进行重构和架构变更，其中文档至关重要。
+并非所有Spec都是功能。学习如何使用 LeanSpec 进行重构和架构变更，其中文档至关重要。
 
 **时间**：15 分钟  
 **结果**：完成带有清晰文档的重构
@@ -52,15 +52,15 @@ your-project/
 │       ├── auth.service.ts     # 直接导入 axios
 │       └── data.service.ts     # 直接导入 axios
 └── specs/
-    └── (您现有的规格)
+    └── (您现有的Spec)
 ```
 
-## 创建技术规格
+## 创建技术Spec
 
 询问您的 AI：
 
 ```
-创建一个用于提取集中式 API 客户端的规格。
+创建一个用于提取集中式 API 客户端的Spec。
 将所有 axios 调用移动到单个 ApiClient 类，包括：
 - 请求/响应拦截器
 - 错误处理
@@ -121,7 +121,7 @@ tags: ['refactoring', 'architecture']
 - [ ] 认证Token正确注入到请求中
 ```
 
-**这里有什么不同？** 这是一个技术规格：
+**这里有什么不同？** 这是一个技术Spec：
 - 专注于架构，而不是用户功能
 - 包括迁移策略（顺序很重要）
 - 明确的非目标防止范围蔓延
@@ -132,7 +132,7 @@ tags: ['refactoring', 'architecture']
 询问您的 AI：
 
 ```
-实施规格 024。逐步进行：
+实施Spec 024。逐步进行：
 1. 首先创建 ApiClient
 2. 在迁移之前向我展示实现
 3. 然后迁移一个服务作为测试
@@ -183,12 +183,12 @@ npm run dev
 # 点击查看，检查网络选项卡
 ```
 
-一切正常。完成规格：
+一切正常。完成Spec：
 ```bash
 lean-spec update 024 --status complete
 ```
 
-规格现在记录了您进行此更改的 **原因** 以及 **如何** 完成的。未来的开发人员可以阅读它以了解架构决策。
+Spec现在记录了您进行此更改的 **原因** 以及 **如何** 完成的。未来的开发人员可以阅读它以了解架构决策。
 
 ## 刚才发生了什么
 
@@ -205,25 +205,25 @@ lean-spec update 024 --status complete
 - 迁移策略已记录
 - AI 逐步遵循计划
 - 非目标防止功能蔓延
-- 完成的规格 = 永久记录
+- 完成的Spec = 永久记录
 
-规格成为 **架构文档**，向未来的维护者解释过去的决策。
+Spec成为 **架构文档**，向未来的维护者解释过去的决策。
 
-## 何时为重构编写规格
+## 何时为重构编写Spec
 
-**编写规格时：**
+**编写Spec时：**
 - 重构影响 &gt;5 个文件
 - 架构决策需要解释
 - 迁移顺序很重要
 - 有破坏现有行为的风险
 
-**跳过规格时：**
+**跳过Spec时：**
 - 重命名变量/文件
 - 提取单个函数
 - 修复代码风格
 - 明显的改进
 
-**重构规格检查清单：**
+**重构Spec检查清单：**
 - [ ] "为什么这很重要"部分解释痛点
 - [ ] 设计显示前后结构
 - [ ] 迁移策略是明确的
@@ -232,7 +232,7 @@ lean-spec update 024 --status complete
 
 ## 关键模式
 
-**技术规格包括：**
+**技术Spec包括：**
 - **理由**：我们为什么这样做（痛点）
 - **设计**：架构变更（图表有帮助）
 - **迁移**：变更顺序（对重构至关重要）
@@ -249,17 +249,17 @@ lean-spec update 024 --status complete
 
 尝试重构代码库中的某些内容：
 - 选择一个分散的关注点（日志记录、错误、配置）
-- 创建带有迁移策略的规格
+- 创建带有迁移策略的Spec
 - 让 AI 逐步实施
 - 完成并记录决策
 
 **了解更多：**
-- [规格结构](/docs/guide/usage/spec-structure) - 组织复杂规格
+- [Spec结构](/docs/guide/usage/spec-structure) - 组织复杂Spec
 - [AI 编码工作流](/docs/guide/usage/ai-coding-workflow) - 使用 AI 处理大型变更
 - [上下文工程](/docs/advanced/context-engineering) - 管理重构的 AI 内存
 
 **高级：**
-- [第一原则](/docs/advanced/first-principles) - 何时编写规格与不编写
+- [第一原则](/docs/advanced/first-principles) - 何时编写Spec与不编写
 - [哲学](/docs/advanced/philosophy) - 设计决策和权衡
 
 **有问题？** 查看 [FAQ](/docs/faq) 或[开始讨论](https://github.com/codervisor/lean-spec/discussions)。

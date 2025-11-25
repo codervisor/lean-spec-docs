@@ -1,7 +1,7 @@
 ---
 title: 管理多个功能
 sidebar_position: 2
-description: 使用搜索、依赖关系和项目可见性，自信地处理多个相关规格
+description: 使用搜索、依赖关系和项目可见性，自信地处理多个相关Spec
 ---
 
 # 管理多个功能
@@ -9,7 +9,7 @@ description: 使用搜索、依赖关系和项目可见性，自信地处理多�
 真实项目有多个功能同时进行。学习如何在不失去上下文或重复工作的情况下管理它们。
 
 **时间**：15 分钟  
-**结果**：理解项目级规格管理
+**结果**：理解项目级Spec管理
 
 :::info 前置条件
 - 完成[使用 AI 完成第一个功能](./first-spec-with-ai)
@@ -52,12 +52,12 @@ your-project/
     └── (空 - 让我们填充它)
 ```
 
-## 创建多个规格
+## 创建多个Spec
 
 询问您的 AI：
 
 ```
-为仪表板功能创建三个规格：
+为仪表板功能创建三个Spec：
 1. 在表格中列出联系人（只读，分页）
 2. 创建联系人表单（姓名、电子邮件、电话验证）
 3. 从 CSV 批量导入联系人（验证、错误处理）
@@ -77,7 +77,7 @@ specs/
 
 ## 看到全局
 
-列出所有规格：
+列出所有Spec：
 ```bash
 lean-spec list
 ```
@@ -104,7 +104,7 @@ lean-spec board
 
 **为什么这很重要：** 一目了然，您就知道什么在排队、什么在活动、什么已完成。不需要电子表格。
 
-## 查找相关规格
+## 查找相关Spec
 
 按标签搜索：
 ```bash
@@ -113,7 +113,7 @@ lean-spec list --tags contacts
 
 或询问您的 AI：
 ```
-显示所有仪表板规格。
+显示所有仪表板Spec。
 ```
 
 AI 运行搜索并向您显示带有上下文的结果。
@@ -123,18 +123,18 @@ AI 运行搜索并向您显示带有上下文的结果。
 lean-spec search "validation"
 ```
 
-在所有内容中查找提到验证的规格。非常适合避免重复工作。
+在所有内容中查找提到验证的Spec。非常适合避免重复工作。
 
 ## 并行工作
 
 开始列表功能的工作：
 ```
-实施规格 021。
+实施Spec 021。
 ```
 
 AI 实施联系人列表。在审查时，您开始另一个：
 ```
-实施规格 022。
+实施Spec 022。
 ```
 
 随时检查状态：
@@ -148,14 +148,14 @@ lean-spec list --status in-progress
 │ 022 │ contact-create      │ in-progress │
 ```
 
-**最佳实践：** 保持 2-3 个规格同时进行中。超过这个数量表明工作受阻或上下文切换开销。
+**最佳实践：** 保持 2-3 个Spec同时进行中。超过这个数量表明工作受阻或上下文切换开销。
 
 ## 管理依赖关系
 
 批量导入依赖于创建表单中的联系人模型和验证。记录这一点：
 
 ```
-将规格 023 链接为依赖于规格 022（首先需要验证逻辑）。
+将Spec 023 链接为依赖于Spec 022（首先需要验证逻辑）。
 ```
 
 或手动：
@@ -163,7 +163,7 @@ lean-spec list --status in-progress
 lean-spec link 023 --depends-on 022
 ```
 
-现在查看规格 023：
+现在查看Spec 023：
 ```markdown
 ---
 depends_on: [022]
@@ -174,7 +174,7 @@ depends_on: [022]
 > **依赖关系**：[022-contact-create](../022-contact-create)
 ```
 
-AI 知道在实施 023 之前检查规格 022。它不会在联系人创建完成之前开始批量导入。
+AI 知道在实施 023 之前检查Spec 022。它不会在联系人创建完成之前开始批量导入。
 
 **查看依赖关系：**
 ```bash
@@ -220,7 +220,7 @@ lean-spec stats
 
 ## 刚才发生了什么
 
-您管理了一个多规格项目而没有混乱：
+您管理了一个多Spec项目而没有混乱：
 
 **没有 LeanSpec：**
 - 便签或问题跟踪器用于跟踪
@@ -248,24 +248,24 @@ CLI 命令 + AI 集成为您提供项目可见性，无需离开编辑器。
 - `lean-spec deps` - 显示依赖关系
 - `lean-spec link --depends-on` - 记录阻塞工作
 - `lean-spec stats` - 项目健康检查
-- 多个规格 `in-progress` 可以，如果独立
+- 多个Spec `in-progress` 可以，如果独立
 
 **AI 集成：**
-- 询问 "显示仪表板规格" → AI 运行搜索
-- 询问 "什么阻塞规格 X？" → AI 检查依赖关系
-- 询问 "更新规格状态" → AI 运行命令
+- 询问 "显示仪表板Spec" → AI 运行搜索
+- 询问 "什么阻塞Spec X？" → AI 检查依赖关系
+- 询问 "更新Spec状态" → AI 运行命令
 
 ## 下一步
 
 在您的项目中练习：
-- 创建 2-3 个相关规格
+- 创建 2-3 个相关Spec
 - 按功能区域标记它们
 - 尝试 `lean-spec list`、`board`、`search`
 - 记录一个依赖关系
 
 **了解更多：**
-- [使用规格重构 →](./refactoring-with-specs) - 架构工作的技术规格
-- [查找规格](/docs/guide/usage/cli/finding-specs) - 高级搜索模式
+- [使用Spec重构 →](./refactoring-with-specs) - 架构工作的技术Spec
+- [查找Spec](/docs/guide/usage/cli/finding-specs) - 高级搜索模式
 - [项目管理](/docs/guide/usage/cli/project-management) - 看板、统计、依赖关系
 
 **有问题？** 查看 [FAQ](/docs/faq) 或[询问社区](https://github.com/codervisor/lean-spec/discussions)。

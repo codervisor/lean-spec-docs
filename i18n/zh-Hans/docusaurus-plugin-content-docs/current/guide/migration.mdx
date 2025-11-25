@@ -41,13 +41,13 @@ lean-spec validate
 lean-spec board
 ```
 
-**时间**：20 个规格约 5 分钟
+**时间**：20 个 Spec 约 5 分钟
 
 ### OpenSpec（中等）⚠️
 
 **源**：`openspec/specs/` + `openspec/changes/archive/`
 
-**挑战**：合并当前规格和归档变更的单独目录。
+**挑战**：合并当前 Spec 和归档变更的单独目录。
 
 **迁移步骤**：
 ```bash
@@ -55,7 +55,7 @@ lean-spec board
 cp -r openspec/specs/* specs/
 cp -r openspec/changes/archive/* specs/
 
-# 2. 按顺序重新编号规格
+# 2. 按顺序重新编号 Spec
 mv specs/auth specs/001-user-authentication
 mv specs/api-gateway specs/002-api-gateway
 
@@ -70,7 +70,7 @@ lean-spec validate
 lean-spec board
 ```
 
-**时间**：20 个规格约 15-30 分钟
+**时间**：20 个 Spec 约 15-30 分钟
 
 ### ADR/RFC 集合（复杂）🔴
 
@@ -97,7 +97,7 @@ lean-spec validate
 lean-spec board
 ```
 
-**时间**：20 个规格约 30-60 分钟
+**时间**：20 个 Spec 约 30-60 分钟
 
 ## `lean-spec backfill` 命令
 
@@ -164,7 +164,7 @@ lean-spec migrate ./docs/adr/
 这会生成一个提示，你可以复制到 ChatGPT、Claude、Copilot 或任何 AI 助手：
 
 ```
-你正在帮助将规格文档迁移到 LeanSpec 格式。
+你正在帮助将 Spec 文档迁移到 LeanSpec 格式。
 
 源：./docs/adr/（找到 23 个文档）
 
@@ -177,7 +177,7 @@ lean-spec migrate ./docs/adr/
    - 运行：lean-spec update <name> --priority <priority>
    - 编辑内容以匹配 LeanSpec 结构
 4. 保留决策理由和关系
-5. 保持规格在 400 行以下
+5. 保持 Spec 在 400 行以下
 
 现在执行迁移命令。
 ```
@@ -238,7 +238,7 @@ lean-spec migrate ./docs/adr/ --backfill
 
 - [ ] 运行 `lean-spec validate` 检查问题
 - [ ] 运行 `lean-spec board` 可视化迁移
-- [ ] 测试规格发现：`lean-spec list`、`lean-spec search`
+- [ ] 测试 Spec 发现：`lean-spec list`、`lean-spec search`
 - [ ] 更新任何损坏的关系（`depends_on`、`related`）
 - [ ] 迁移系统提示（AGENTS.md、.cursorrules）
 
@@ -289,7 +289,7 @@ AGENTS.md（在项目根目录）
 
 **选项**：
 
-**选项 A：保留子规格**（推荐用于复杂功能）
+**选项 A：保留子 Spec**（推荐用于复杂功能）
 ```bash
 mv .specify/specs specs/
 mv specs/001-task-management/spec.md specs/001-task-management/README.md
@@ -386,7 +386,7 @@ LeanSpec 有意不与外部系统 API 集成，因为：
 
 **解决方案**：手动设置时间戳或使用当前日期
 ```bash
-# backfill 将为没有 git 历史的规格使用当前时间戳
+# backfill 将为没有 git 历史的 Spec使用当前时间戳
 lean-spec backfill --assignee --all
 
 # 或手动设置
@@ -405,13 +405,13 @@ lean-spec check
 
 **好消息**：LeanSpec 很灵活！保留你现有的格式。
 
-你不需要重写内容来匹配特定结构。LeanSpec 的首要原则是"意图重于实现"——只要规格清晰地传达意图，确切的格式并不重要。
+你不需要重写内容来匹配特定结构。LeanSpec 的首要原则是"意图重于实现"——只要 Spec 清晰地传达意图，确切的格式并不重要。
 
 ### 问题：迁移后关系损坏
 
 **解决方案**：手动更新 `depends_on` 和 `related` 字段
 ```bash
-# 为每个规格编辑 README.md 中的 frontmatter
+# 为每个 Spec 编辑 README.md 中的 frontmatter
 ---
 depends_on: [002, 005]
 related: [010, 012]
@@ -425,7 +425,7 @@ lean-spec deps 001
 
 基于实际迁移：
 
-| 源工具 | 规格数 | 时间 | 复杂度 |
+| 源工具 | Spec 数 | 时间 | 复杂度 |
 |-------------|-------|------|------------|
 | spec-kit | 20 | 5 分钟 | ✅ 简单 |
 | spec-kit | 100 | 15 分钟 | ✅ 简单 |
@@ -448,7 +448,7 @@ lean-spec deps 001
 
 迁移后：
 
-1. **学习工作流**：[创建和管理规格](/docs/guide/usage/cli/creating-managing)
+1. **学习工作流**：[创建和管理 Spec](/docs/guide/usage/cli/creating-managing)
 2. **设置 AI 集成**：[MCP 集成](/docs/guide/usage/mcp-integration)
 3. **理解原则**：[第一性原理](/docs/advanced/first-principles)
 4. **为团队配置**：[配置参考](/docs/reference/config)
