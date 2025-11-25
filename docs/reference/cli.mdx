@@ -107,6 +107,7 @@ lean-spec list [options]
 - `--field <name=value>` - Filter by custom field (can specify multiple)
 - `--sort <field>` - Sort by field (`id`, `created`, `name`, `status`, `priority`) (default: `id`)
 - `--order <order>` - Sort order (`asc`, `desc`) (default: `desc`)
+- `--json` - Output as JSON
 
 **Examples:**
 
@@ -132,6 +133,10 @@ lean-spec list --status planned --priority high --tag api
 
 # Filter by custom field
 lean-spec list --field epic=PROJ-123
+
+# JSON output for programmatic use
+lean-spec list --json
+lean-spec list --status planned --json
 ```
 
 **Output:**
@@ -225,6 +230,7 @@ lean-spec search <query> [options]
 - `--tag <tag>` - Filter results by tag
 - `--assignee <name>` - Filter results by assignee
 - `--field <name=value>` - Filter results by custom field (can specify multiple)
+- `--json` - Output as JSON
 
 **Examples:**
 
@@ -236,6 +242,9 @@ lean-spec search "authentication"
 lean-spec search "JWT token" --status=in-progress
 lean-spec search "API" --tag=security
 lean-spec search "password" --field epic=PROJ-123
+
+# JSON output for programmatic use
+lean-spec search "authentication" --json
 ```
 
 **Output:**
@@ -457,8 +466,16 @@ Then choose "Choose a template" option
 Show statistics about specs.
 
 ```bash
-lean-spec stats
+lean-spec stats [options]
 ```
+
+**Options:**
+- `--tag <tag>` - Filter by tag
+- `--assignee <name>` - Filter by assignee
+- `--json` - Output as JSON
+- `--full` - Show full detailed analytics
+- `--timeline` - Show only timeline section
+- `--velocity` - Show only velocity section
 
 **Output:**
 ```
@@ -488,8 +505,16 @@ By Tag:
 View specs organized by status (Kanban-style).
 
 ```bash
-lean-spec board
+lean-spec board [options]
 ```
+
+**Options:**
+- `--complete` - Include complete specs (hidden by default)
+- `--simple` - Hide completion summary
+- `--completion-only` - Show only completion summary
+- `--tag <tag>` - Filter by tag
+- `--assignee <name>` - Filter by assignee
+- `--json` - Output as JSON
 
 **Output:**
 ```
@@ -594,19 +619,57 @@ Content Breakdown:
 
 ### `lean-spec deps`
 
-Show dependencies for a spec (coming soon).
+Show dependency graph for a spec.
 
 ```bash
-lean-spec deps <spec>
+lean-spec deps <spec> [options]
 ```
 
 **Arguments:**
-- `<spec>` - Spec identifier. Can be:
+- `<spec>` - Spec identifier (required). Can be:
   - Spec number: `42` or `042`
   - Spec name: `unified-dashboard`
   - Full folder: `045-unified-dashboard`
 
-**Note:** This feature is planned but not yet implemented.
+**Options:**
+- `--depth <n>` - Show N levels deep (default: 3)
+- `--graph` - ASCII graph visualization
+- `--json` - Output as JSON
+- `--complete` - Show complete graph (all relationships)
+- `--upstream` - Show only upstream dependencies
+- `--downstream` - Show only downstream dependents
+- `--impact` - Show impact radius (all affected specs)
+
+**Examples:**
+
+```bash
+# Show all relationships
+lean-spec deps 085
+
+# Show only upstream dependencies
+lean-spec deps 085 --upstream
+
+# Show impact radius
+lean-spec deps 085 --impact
+
+# JSON output for programmatic use
+lean-spec deps 085 --json
+```
+
+**Output:**
+```
+📦 Dependencies for 085-cli-relationship-commands
+
+Depends On:
+  → 042-spec-frontmatter-metadata ✅
+  → 035-mcp-tools-expansion ✅
+
+Required By:
+  ← 099-enhanced-dependency-commands-cli-mcp ✅
+
+Related Specs:
+  ⟷ 076-programmatic-spec-relationships ✅
+```
 
 ---
 
@@ -625,6 +688,7 @@ lean-spec validate [specs...] [options]
 - `--verbose` - Show passing specs in addition to warnings/errors
 - `--quiet` - Suppress warnings, only show errors
 - `--format <format>` - Output format: `default`, `json`, `compact` (default: `default`)
+- `--json` - Output as JSON (shorthand for `--format json`)
 - `--rule <rule>` - Filter by specific rule name (e.g., `complexity`, `frontmatter`, `structure`)
 
 **Examples:**
