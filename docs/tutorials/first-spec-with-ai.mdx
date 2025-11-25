@@ -19,11 +19,9 @@ Learn how LeanSpec helps you go from intent to implementation in minutes, not ho
 - AI coding tool (GitHub Copilot, Claude, etc.)
 :::
 
-## Quick Start
+## Try It Now
 
-Want to follow along with a ready-made example project? Start with below instructions:
-
-Initialize the example project:
+Get hands-on with a pre-configured example project:
 
 ```bash
 npx lean-spec init --example dark-theme
@@ -31,6 +29,8 @@ cd dark-theme
 npm install
 npm start
 ```
+
+Then prompt your AI tool:
 
 <Tabs groupId="ai-tool">
   <TabItem value="copilot" label="GitHub Copilot CLI">
@@ -84,7 +84,7 @@ npm start
   </TabItem>
 </Tabs>
 
-Or continue with your own project below...
+**Want to understand what happens under the hood?** The sections below walk through each step in detail.
 
 ## The Scenario
 
@@ -110,6 +110,7 @@ In your AI tool, describe what you want:
 Create a new spec for adding dark theme support to this task manager.
 The theme should:
 - Automatically detect system preference
+- Include a manual theme switcher button
 - Use accessible color contrast
 - Smooth transition between themes
 - Preserve the current design aesthetic
@@ -135,7 +136,8 @@ Add dark theme that automatically switches based on user's system preferences.
 Currently only light theme available, causing eye strain in low-light.
 
 ## Design
-- Use CSS `prefers-color-scheme` media query
+- Use CSS `prefers-color-scheme` media query for auto-detection
+- Add manual theme switcher button in UI
 - Define dark theme color palette (accessible contrast)
 - Smooth transitions between themes
 - Test with both light/dark system preferences
@@ -143,6 +145,7 @@ Currently only light theme available, causing eye strain in low-light.
 ## Plan
 - [ ] Define dark theme color variables
 - [ ] Add media query for dark theme
+- [ ] Create theme switcher button component
 - [ ] Update all color references to use variables
 - [ ] Test color contrast for accessibility
 
@@ -233,10 +236,10 @@ The spec becomes your **shared memory** between you, the AI, and your team. Ever
 ## Next Steps
 
 Try it yourself with these enhancements:
-- Add manual theme toggle button
 - Save user preference in localStorage
 - Add more theme variants (high contrast, etc.)
 - Extract theme colors to config file
+- Add theme preview before switching
 
 Or pick a different feature from your backlog and follow the same workflow.
 

@@ -19,11 +19,9 @@ import TabItem from '@theme/TabItem';
 - AI 编程工具（GitHub Copilot、Claude 等）
 :::
 
-## 快速开始
+## 立即尝试
 
-想要使用现成的示例项目跟随学习吗？按照以下说明开始：
-
-初始化示例项目：
+使用预配置的示例项目快速上手：
 
 ```bash
 npx lean-spec init --example dark-theme
@@ -32,23 +30,21 @@ npm install
 npm start
 ```
 
+然后向 AI 工具发送提示：
+
 <Tabs groupId="ai-tool">
   <TabItem value="copilot" label="GitHub Copilot CLI">
-    在终端中使用 GitHub Copilot CLI：
-
     ```bash
     # 确保已安装 GitHub Copilot CLI
     npm install -g @github/copilot
 
     # 向 Copilot CLI 发送提示
     copilot -p "帮我为这个应用添加带主题切换的深色主题支持" \
-      --files specs/ \
+      --allow-all-tools \
       --add-dir .
     ```
   </TabItem>
   <TabItem value="claude" label="Claude Code">
-    在终端中使用 Claude Code：
-
     ```bash
     # 确保已安装 Claude Code
     curl -fsSL https://claude.ai/install.sh | bash
@@ -57,15 +53,11 @@ npm start
     ln -s AGENTS.md CLAUDE.md
 
     # 向 Claude Code 发送提示
-    claude prompt \
-      "帮我为这个应用添加带主题切换的深色主题支持" \
-      --include-files specs/ \
-      --include-dir .
+    claude "帮我为这个应用添加带主题切换的深色主题支持" \
+      --add-dir .
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
-    在终端中使用 Gemini CLI：
-
     ```bash
     # 确保已安装 Gemini CLI
     npm install -g @google/gemini-cli
@@ -86,7 +78,7 @@ npm start
   </TabItem>
 </Tabs>
 
-或继续使用您自己的项目...
+**想了解底层发生了什么？** 下面的章节将详细介绍每个步骤。
 
 ## 场景
 
@@ -112,6 +104,7 @@ your-project/
 为这个任务管理器创建一个添加深色主题支持的新Spec。
 主题应该：
 - 自动检测系统偏好
+- 包含手动主题切换按钮
 - 使用可访问的颜色对比度
 - 主题之间平滑过渡
 - 保留当前的设计美学
@@ -137,7 +130,8 @@ priority: high
 目前仅有浅色主题，在弱光下会导致眼睛疲劳。
 
 ## 设计
-- 使用 CSS `prefers-color-scheme` 媒体查询
+- 使用 CSS `prefers-color-scheme` 媒体查询进行自动检测
+- 在 UI 中添加手动主题切换按钮
 - 定义深色主题调色板（可访问对比度）
 - 主题之间平滑过渡
 - 测试浅色/深色系统偏好
@@ -145,6 +139,7 @@ priority: high
 ## 计划
 - [ ] 定义深色主题颜色变量
 - [ ] 为深色主题添加媒体查询
+- [ ] 创建主题切换按钮组件
 - [ ] 更新所有颜色引用以使用变量
 - [ ] 测试可访问性的颜色对比度
 
@@ -235,10 +230,10 @@ Spec成为您、AI 和团队之间的 **共享内存**。每个人都知道构�
 ## 下一步
 
 尝试这些增强功能：
-- 添加手动主题切换按钮
 - 在 localStorage 中保存用户偏好
 - 添加更多主题变体（高对比度等）
 - 将主题颜色提取到配置文件
+- 添加切换前的主题预览
 
 或从您的待办事项中选择不同的功能并遵循相同的工作流程。
 
