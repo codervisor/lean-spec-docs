@@ -40,7 +40,7 @@ npm run dev
     npm install -g @github/copilot
 
     # 向 Copilot CLI 发送提示
-    copilot -p "使用 LeanSpec 帮我为这个仪表板添加三个新组件" \
+    copilot -p "帮我为这个仪表板添加三个新组件" \
       --files specs/ \
       --add-dir .
     ```
@@ -51,9 +51,12 @@ npm run dev
     # 确保已安装 Claude Code
     curl -fsSL https://claude.ai/install.sh | bash
 
+    # 为系统提示 AGENTS.md 创建软链 CLAUDE.md
+    ln -s AGENTS.md CLAUDE.md
+
     # 向 Claude Code 发送提示
     claude prompt \
-      "使用 LeanSpec 帮我为这个仪表板添加三个新组件" \
+      "帮我为这个仪表板添加三个新组件" \
       --include-files specs/ \
       --include-dir .
     ```
@@ -61,7 +64,11 @@ npm run dev
   <TabItem value="gemini" label="Gemini CLI">
     在终端中使用 Gemini CLI：
     ```bash
-    gemini -p "使用 LeanSpec 帮我为这个仪表板添加三个新组件"
+    # 确保已安装 Gemini CLI
+    npm install -g @google/gemini-cli
+
+    # 向 Gemini CLI 发送提示
+    gemini -p "帮我为这个仪表板添加三个新组件" -y
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
@@ -69,7 +76,7 @@ npm run dev
     
     1. 在 IDE 中打开项目
     2. 打开 AI 助手聊天面板
-    3. 发送提示：_"使用 LeanSpec 帮我为这个仪表板添加三个新组件"_
+    3. 发送提示：_"帮我为这个仪表板添加三个新组件"_
   </TabItem>
 </Tabs>
 

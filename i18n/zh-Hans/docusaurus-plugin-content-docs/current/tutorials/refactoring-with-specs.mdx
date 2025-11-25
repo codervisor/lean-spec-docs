@@ -40,20 +40,24 @@ npm start
     npm install -g @github/copilot
 
     # 向 Copilot CLI 发送提示
-    copilot -p "使用 LeanSpec 帮我重构这个应用，提取一个可重用的 API 客户端" \
+    copilot -p "帮我重构这个应用，提取一个可重用的 API 客户端" \
       --files specs/ \
       --add-dir .
     ```
   </TabItem>
   <TabItem value="claude" label="Claude Code">
     在终端中使用 Claude Code：
+
     ```bash
     # 确保已安装 Claude Code
     curl -fsSL https://claude.ai/install.sh | bash
+    
+    # 为系统提示 AGENTS.md 创建软链 CLAUDE.md
+    ln -s AGENTS.md CLAUDE.md
 
     # 向 Claude Code 发送提示
     claude prompt \
-      "使用 LeanSpec 帮我重构这个应用，提取一个可重用的 API 客户端" \
+      "帮我重构这个应用，提取一个可重用的 API 客户端" \
       --include-files specs/ \
       --include-dir .
     ```
@@ -61,7 +65,7 @@ npm start
   <TabItem value="gemini" label="Gemini CLI">
     在终端中使用 Gemini CLI：
     ```bash
-    gemini -p "使用 LeanSpec 帮我重构这个应用，提取一个可重用的 API 客户端"
+    gemini -p "帮我重构这个应用，提取一个可重用的 API 客户端"
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
@@ -69,7 +73,7 @@ npm start
     
     1. 在 IDE 中打开项目
     2. 打开 AI 助手聊天面板
-    3. 发送提示：_"使用 LeanSpec 帮我重构这个应用，提取一个可重用的 API 客户端"_
+    3. 发送提示：_"帮我重构这个应用，提取一个可重用的 API 客户端"_
   </TabItem>
 </Tabs>
 

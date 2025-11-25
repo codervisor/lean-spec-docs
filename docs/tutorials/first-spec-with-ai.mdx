@@ -35,6 +35,7 @@ npm start
 <Tabs groupId="ai-tool">
   <TabItem value="copilot" label="GitHub Copilot CLI">
     In your terminal with GitHub Copilot CLI:
+
     ```bash
     # Make sure you have GitHub Copilot CLI installed
     npm install -g @github/copilot
@@ -47,11 +48,12 @@ npm start
   </TabItem>
   <TabItem value="claude" label="Claude Code">
     In your terminal with Claude Code:
+
     ```bash
     # Make sure you have Claude Code installed
     curl -fsSL https://claude.ai/install.sh | bash
 
-    # Reference AGENTS.md to CLAUDE.md
+    # Create soft link to CLAUDE.md from the system prompt AGENTS.md
     ln -s AGENTS.md CLAUDE.md
 
     # Send the prompt to Claude Code
@@ -60,20 +62,25 @@ npm start
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
+    In your terminal with Gemini CLI:
+
     ```bash
     # Make sure you have Gemini CLI installed
     npm install -g @google/gemini-cli
 
+    # Create soft link to GEMINI.md from the system prompt AGENTS.md
+    ln -s AGENTS.md GEMINI.md
+
     # Send the prompt to Gemini CLI
-    gemini "Help me add dark theme support with theme switcher"
+    gemini -p "Help me add dark theme support with theme switcher" -y
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
-    Then copy and paste into your AI IDE tool (VS Code, Cursor, Antigravity, etc.) with below prompt:
-    
-    ```
-    Help me add dark theme support with theme switcher
-    ```
+    In your IDE with an AI coding assistant (GitHub Copilot, Claude, Cursor, etc.):
+
+    1. Open the project in your IDE
+    2. Open your AI assistant chat panel
+    3. Send the prompt: _"Help me add dark theme support with theme switcher"_
   </TabItem>
 </Tabs>
 

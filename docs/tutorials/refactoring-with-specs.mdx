@@ -35,33 +35,46 @@ npm start
 <Tabs groupId="ai-tool">
   <TabItem value="copilot" label="GitHub Copilot CLI">
     In your terminal with GitHub Copilot CLI:
+
     ```bash
     # Make sure you have GitHub Copilot CLI installed
     npm install -g @github/copilot
 
     # Send the prompt to Copilot CLI
-    copilot -p "Help me refactor this app using LeanSpec to extract a reusable API client" \
+    copilot -p "Help me refactor this app to extract a reusable API client" \
       --files specs/ \
       --add-dir .
     ```
   </TabItem>
   <TabItem value="claude" label="Claude Code">
     In your terminal with Claude Code:
+
     ```bash
     # Make sure you have Claude Code installed
     curl -fsSL https://claude.ai/install.sh | bash
 
+    # Create soft link to CLAUDE.md from the system prompt AGENTS.md
+    ln -s AGENTS.md CLAUDE.md
+
     # Send the prompt to Claude Code
     claude prompt \
-      "Help me refactor this app using LeanSpec to extract a reusable API client" \
+      "Help me refactor this app to extract a reusable API client" \
       --include-files specs/ \
       --include-dir .
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
     In your terminal with Gemini CLI:
+
     ```bash
-    gemini -p "Help me refactor this app using LeanSpec to extract a reusable API client"
+    # Make sure you have Gemini CLI installed
+    npm install -g @google/gemini-cli
+
+    # Create soft link to GEMINI.md from the system prompt AGENTS.md
+    ln -s AGENTS.md GEMINI.md
+
+    # Send the prompt to Gemini CLI
+    gemini -p "Help me refactor this app to extract a reusable API client" -y
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
@@ -69,7 +82,7 @@ npm start
     
     1. Open the project in your IDE
     2. Open your AI assistant chat panel
-    3. Send the prompt: _"Help me refactor this app using LeanSpec to extract a reusable API client"_
+    3. Send the prompt: _"Help me refactor this app to extract a reusable API client"_
   </TabItem>
 </Tabs>
 
