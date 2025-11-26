@@ -9,13 +9,119 @@ sidebar_position: 2
 
 ## AGENTS.md 概述
 
-`AGENTS.md` 作为您的仓库中 AI 编码代理的永久指令。当您运行 `lean-spec init` 时，会创建此文件并包含 LeanSpec 指导。
+`AGENTS.md` 作为您仓库中 AI 编码代理的永久指令。当您运行 `lean-spec init` 时，会创建此文件并包含 LeanSpec 指导。
 
-**目的：**
-- 提供关于您项目的上下文
-- 定义何时使用Spec
+**用途：**
+- 提供项目上下文
+- 定义何时使用 Spec
 - 指定工作流程和命令
 - 设置质量标准
+
+## 多工具支持
+
+不同的 AI 工具期望不同的指令文件名。LeanSpec 自动创建符号链接以确保所有工具都能找到指令：
+
+| AI 工具 | 期望的文件 | LeanSpec 处理方式 |
+|---------|-----------|------------------|
+| Claude Code / Claude Desktop | `CLAUDE.md` | 符号链接 → AGENTS.md |
+| Gemini CLI | `GEMINI.md` | 符号链接 → AGENTS.md |
+| GitHub Copilot | `AGENTS.md` | 主文件 |
+| Cursor | `AGENTS.md` | 主文件 |
+| Windsurf | `AGENTS.md` | 主文件 |
+| Cline | `AGENTS.md` | 主文件 |
+| Warp Terminal | `AGENTS.md` | 主文件 |
+
+### 初始化选项
+
+```bash
+# 默认：创建 CLAUDE.md 符号链接（最常见用例）
+lean-spec init -y
+
+# 为特定工具创建符号链接
+lean-spec init -y --agent-tools claude,gemini
+
+# 为所有支持的工具创建符号链接
+lean-spec init -y --agent-tools all
+
+# 跳过符号链接（旧行为）
+lean-spec init -y --agent-tools none
+```
+
+**注意：** 在 Windows 上，由于符号链接需要管理员权限，会创建副本而非符号链接。
+
+## MCP 优先的 AGENTS.md
+
+生成的 AGENTS.md 强调 **MCP 工具作为主要方法** 进行 Spec 管理：
+
+### 关键章节
+
+#### 1. 关键发现步骤
+
+```markdown
+## 🚨 关键：任何任务之前
+
+**先停下来检查这些：**
+
+1. **发现上下文** → 使用 `board` 工具查看项目状态
+2. **搜索相关工作** → 创建新 Spec 之前使用 `search` 工具
+3. **永远不要手动创建文件** → 始终使用 `create` 工具创建新 Spec
+```
+
+#### 2. MCP 工具作为主要方法
+
+```markdown
+## 🔧 如何管理 Spec
+
+### 主要方法：MCP 工具（推荐）
+
+如果您有 LeanSpec MCP 工具可用，**始终使用它们**：
+
+| 操作 | MCP 工具 | 描述 |
+|------|----------|------|
+| 查看项目状态 | `board` | 看板视图 + 项目健康指标 |
+| 列出所有 Spec | `list` | 可过滤的带元数据列表 |
+| 搜索 Spec | `search` | 跨所有内容的语义搜索 |
+| 查看 Spec | `view` | 带格式的完整内容 |
+| 创建新 Spec | `create` | 自动编号，正确结构 |
+| 更新 Spec | `update` | 验证状态转换，时间戳 |
+| 检查依赖 | `deps` | 可视化依赖图 |
+```
+
+#### 3. SDD 工作流检查点
+
+```markdown
+## ⚠️ SDD 工作流检查点
+
+### 开始任何任务之前
+1. 📋 **运行 `board`** - 当前项目状态是什么？
+2. 🔍 **运行 `search`** - 是否已有相关 Spec？
+3. 📝 **检查现有 Spec** - 这项工作是否已有 Spec？
+
+### 实现过程中
+4. 📊 **编码前将状态更新为 `in-progress`**
+5. 📝 **在 Spec 中记录决策**
+6. 🔗 **如果发现关联，链接相关 Spec**
+
+### 完成工作后
+7. ✅ **完成后将状态更新为 `complete`**
+8. 📄 **在 Spec 中记录学到的内容**
+9. 🤔 **如需后续工作，创建新 Spec**
+```
+
+#### 4. 常见错误表
+
+```markdown
+### 🚫 避免常见错误
+
+| ❌ 不要 | ✅ 应该 |
+|--------|--------|
+| 手动创建 Spec 文件 | 使用 `create` 工具 |
+| 跳过发现直接开始新工作 | 先运行 `board` 和 `search` |
+| 开始后保持状态为 "planned" | 立即更新为 `in-progress` |
+| 完成工作但不更新 Spec | 记录决策，更新状态 |
+| 手动编辑 frontmatter | 使用 `update` 工具 |
+| 对话中忘记 Spec | 定期检查 Spec 状态 |
+```
 
 ## 完整的 AGENTS.md 模板
 
@@ -26,83 +132,143 @@ sidebar_position: 2
 
 [项目功能的简要描述]
 
+## 🚨 关键：任何任务之前
+
+**先停下来检查这些：**
+
+1. **发现上下文** → 使用 `board` 工具查看项目状态
+2. **搜索相关工作** → 创建新 Spec 之前使用 `search` 工具
+3. **永远不要手动创建文件** → 始终使用 `create` 工具创建新 Spec
+
+> **为什么？** 跳过发现会导致重复工作。手动创建文件会破坏 LeanSpec 工具链。
+
+## 🔧 如何管理 Spec
+
+### 主要方法：MCP 工具（推荐）
+
+如果您有 LeanSpec MCP 工具可用，**始终使用它们**：
+
+| 操作 | MCP 工具 | 描述 |
+|------|----------|------|
+| 查看项目状态 | `board` | 看板视图 + 项目健康指标 |
+| 列出所有 Spec | `list` | 可过滤的带元数据列表 |
+| 搜索 Spec | `search` | 跨所有内容的语义搜索 |
+| 查看 Spec | `view` | 带格式的完整内容 |
+| 创建新 Spec | `create` | 自动编号，正确结构 |
+| 更新 Spec | `update` | 验证状态转换，时间戳 |
+| 检查依赖 | `deps` | 可视化依赖图 |
+
+**为什么 MCP 优于 CLI？**
+- ✅ 直接工具集成（无需执行 shell 命令）
+- ✅ 结构化响应（更适合 AI 推理）
+- ✅ 实时验证（即时反馈）
+- ✅ 上下文感知（理解项目状态）
+
+### 备选方案：CLI 命令
+
+如果 MCP 工具不可用，使用 CLI 命令：
+
+    lean-spec board              # 项目概览
+    lean-spec list               # 查看所有 Spec
+    lean-spec search "query"     # 查找相关 Spec
+    lean-spec create <name>      # 创建新 Spec
+    lean-spec update <spec> --status <status>  # 更新状态
+    lean-spec deps <spec>        # 显示依赖
+
+**提示：** 使用 CLI 前先检查是否有 LeanSpec MCP 工具可用。
+
+## ⚠️ SDD 工作流检查点
+
+### 开始任何任务之前
+1. 📋 **运行 `board`** - 当前项目状态是什么？
+2. 🔍 **运行 `search`** - 是否已有相关 Spec？
+3. 📝 **检查现有 Spec** - 这项工作是否已有 Spec？
+
+### 实现过程中
+4. 📊 **编码前将状态更新为 `in-progress`**
+5. 📝 **在 Spec 中记录决策**
+6. 🔗 **如果发现关联，链接相关 Spec**
+
+### 完成工作后
+7. ✅ **完成后将状态更新为 `complete`**
+8. 📄 **在 Spec 中记录学到的内容**
+9. 🤔 **如需后续工作，创建新 Spec**
+
+### 🚫 避免常见错误
+
+| ❌ 不要 | ✅ 应该 |
+|--------|--------|
+| 手动创建 Spec 文件 | 使用 `create` 工具 |
+| 跳过发现直接开始新工作 | 先运行 `board` 和 `search` |
+| 开始后保持状态为 "planned" | 立即更新为 `in-progress` |
+| 完成工作但不更新 Spec | 记录决策，更新状态 |
+| 手动编辑 frontmatter | 使用 `update` 工具 |
+| 对话中忘记 Spec | 定期检查 Spec 状态 |
+
 ## 核心规则
 
 1. **首先阅读 README.md** - 了解项目上下文
-2. **检查 specs/** - 开始前审查现有Spec
-3. **遵循 LeanSpec 原则** - 清晰度优于文档
-4. **保持最小** - 如果不增加清晰度，就删除它
+2. **检查 specs/** - 开始前审查现有 Spec
+3. **使用 MCP 工具** - 可用时优先使用 MCP 而非 CLI
+4. **遵循 LeanSpec 原则** - 清晰度优于文档
+5. **保持最小** - 如果不增加清晰度，就删除它
+6. **永不手动编辑 frontmatter** - 使用 `update`、`link`、`unlink` 工具
+7. **在 Spec 中跟踪进度** - 更新状态并记录决策
 
-## 何时使用Spec
+## 何时使用 Spec
 
-为以下内容编写Spec：
+**为以下内容编写 Spec：**
 - 影响系统多个部分的功能
 - 破坏性更改或重大重构
 - 需要团队对齐的设计决策
 
-跳过Spec：
+**跳过 Spec：**
 - 错误修复
 - 琐碎更改
 - 不言自明的重构
 
-## 基本命令
-
-**发现：**
-- `lean-spec list` - 查看所有Spec
-- `lean-spec search "<query>"` - 查找相关Spec
-- `lean-spec board` - 带项目健康的看板视图
-- `lean-spec stats` - 快速项目指标
-
-**查看Spec：**
-- `lean-spec view <spec>` - 查看Spec（格式化）
-- `lean-spec view <spec> --raw` - 获取原始 markdown
-- `lean-spec view <spec> --json` - 获取结构化 JSON
-- `lean-spec open <spec>` - 在编辑器中打开Spec
-- `lean-spec files <spec>` - 列出Spec中的所有文件
-
-**使用Spec：**
-- `lean-spec create <name>` - 创建新Spec
-- `lean-spec update <spec> --status <status>` - 更新状态
-- `lean-spec deps <spec>` - 显示依赖关系
-
-## Specfrontmatter
-
-创建或更新Spec时，包括 YAML frontmatter：
-
-```yaml
----
-status: planned|in-progress|blocked|complete|archived
-created: YYYY-MM-DD
-tags: [tag1, tag2]  # 可选
-priority: low|medium|high  # 可选
----
-```
-
-**重要**：始终使用 `lean-spec update` 修改状态、优先级、标签和负责人。永远不要手动编辑这些系统管理字段的frontmatter。
-
-## SDD 工作流程
-
-1. **发现** - 使用 `lean-spec list` 检查现有Spec
-2. **计划** - 需要时使用 `lean-spec create <name>` 创建Spec
-3. **实现** - 编写代码，随着学习保持Spec同步
-4. **更新** - 使用 `lean-spec update <spec> --status <status>` 标记进度
-5. **完成** - 完成后标记完成
-
 ## 质量标准
 
-- 代码清晰且可维护
-- 测试覆盖关键路径
-- Spec与实现保持同步
-- 完成工作前始终验证：
-  - 运行 `lean-spec validate` 检查Spec结构
-  - 标记完成前修复任何验证错误
+- **状态跟踪是必须的：**
+  - `planned` → 创建后
+  - `in-progress` → 开始实现之前
+  - `complete` → 完成实现之后
+- Spec 与实现保持同步
+- 永不留下过时状态的 Spec
 
-## [项目特定规则]
+## Spec 复杂度指南
 
-[在此处添加您的项目特定指南]
+| Token 数 | 状态 |
+|---------|------|
+| <2,000 | ✅ 最佳 |
+| 2,000-3,500 | ✅ 良好 |
+| 3,500-5,000 | ⚠️ 考虑拆分 |
+| >5,000 | 🔴 应该拆分 |
+
+使用 `tokens` 工具检查 Spec 大小。
 ```
 
 ## 配置不同的 AI 工具
+
+### Claude Code
+
+Claude Code 默认读取 `CLAUDE.md`。LeanSpec 自动创建此符号链接：
+
+```bash
+# lean-spec init 后
+ls -la CLAUDE.md
+# CLAUDE.md -> AGENTS.md
+```
+
+**使用 MCP（推荐）：** 配置 LeanSpec MCP 服务器以获得完整功能。参见 [MCP 集成](/zh-Hans/docs/guide/usage/mcp-integration)。
+
+### Gemini CLI
+
+Gemini CLI 读取 `GEMINI.md`。创建方式：
+
+```bash
+lean-spec init -y --agent-tools gemini
+```
 
 ### GitHub Copilot
 
@@ -127,24 +293,26 @@ ln -s AGENTS.md .cursorrules
 
 ### Windsurf
 
-添加到您的 Windsurf 配置：
+Windsurf 默认读取 `AGENTS.md`。无需额外设置。
+
+### Claude Desktop / ChatGPT / 其他聊天界面
+
+这些工具配合 MCP 集成效果最佳。配置 LeanSpec MCP 服务器：
 
 ```json
 {
-  "systemPrompt": "Read and follow instructions in AGENTS.md"
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
 }
 ```
 
-### Claude、ChatGPT、其他聊天界面
+参见 [MCP 集成](/zh-Hans/docs/guide/usage/mcp-integration) 了解完整设置说明。
 
-在您的初始提示中引用 AGENTS.md：
-
-```
-Read the AGENTS.md file in this repository and follow 
-its instructions for working with LeanSpec specs.
-```
-
-## AI 可读Spec的最佳实践
+## AI 可读 Spec 的最佳实践
 
 ### 1. 明确和具体
 
@@ -157,7 +325,7 @@ its instructions for working with LeanSpec specs.
 ```markdown
 实现 JWT 认证，包括：
 - bcrypt 密码哈希（最少 10 轮）
-- 24 小时Token过期
+- 24 小时 Token 过期
 - 速率限制（每分钟每 IP 5 次尝试）
 ```
 
@@ -204,7 +372,7 @@ AI 代理更好地理解示例而不是抽象描述。
 ## 不在范围内
 
 - 社交登录（Google、GitHub）- 单独的史诗
-- 密码重置 - 单独的Spec
+- 密码重置 - 单独的 Spec
 - 2FA - MVP 不需要
 - 记住我功能 - 未来增强
 ```
@@ -245,27 +413,28 @@ AI 代理（和人类）在阅读前扫描：
 
 ## 仓库组织
 
-### 使Spec可发现
+### 使 Spec 可发现
 
 ```
 your-project/
-├── AGENTS.md           ← AI 首先读取这个
+├── AGENTS.md           ← 主要 AI 指令
+├── CLAUDE.md → AGENTS.md   ← Claude Code 的符号链接
 ├── README.md           ← 项目概述
-├── specs/              ← 所有Spec在这里
+├── specs/              ← 所有 Spec 在这里
 │   ├── 001-feature-a/
 │   │   └── README.md
 │   ├── 002-feature-b/
 │   │   ├── README.md
 │   │   ├── DESIGN.md
 │   │   └── TESTING.md
-│   └── archived/       ← 旧Spec
+│   └── archived/       ← 旧 Spec
 ├── src/                ← 源代码
 └── tests/              ← 测试
 ```
 
-### 保持Spec靠近代码
+### 保持 Spec 靠近代码
 
-仓库中的Spec（不是外部 wiki）：
+仓库中的 Spec（不是外部 wiki）：
 - ✅ 版本控制
 - ✅ 分支特定
 - ✅ AI 易于查找
@@ -275,31 +444,37 @@ your-project/
 
 ### 测试 AI 理解
 
-询问您的 AI 代理：
+向您的 AI 代理提出这些问题以验证 LeanSpec 集成：
 
-**测试 1：它能找到Spec吗？**
+**测试 1：它能发现项目吗？**
 ```
-List all specs in this repository.
+显示项目看板。
 ```
-预期：代理使用 `lean-spec list`
+预期：代理使用 MCP `board` 工具（或 `lean-spec board` CLI）
 
-**测试 2：它能读取Spec吗？**
+**测试 2：它能搜索 Spec 吗？**
 ```
-What does spec 001 describe?
+查找与认证相关的 Spec。
 ```
-预期：代理使用 `lean-spec view 001`
+预期：代理使用 MCP `search` 工具
 
-**测试 3：它能遵循工作流程吗？**
+**测试 3：它能正确创建 Spec 吗？**
 ```
-Create a spec for user authentication.
+为用户认证创建一个 Spec。
 ```
-预期：代理使用 `lean-spec create user-authentication`
+预期：代理使用 MCP `create` 工具（而非手动创建文件）
 
 **测试 4：它能更新状态吗？**
 ```
-Mark spec 001 as in-progress.
+将 Spec 001 标记为进行中。
 ```
-预期：代理使用 `lean-spec update 001 --status in-progress`
+预期：代理使用 MCP `update` 工具
+
+**测试 5：它遵循 SDD 工作流吗？**
+```
+我想实现一个新的缓存功能。
+```
+预期：代理先运行 `board` 和 `search`，然后在编码前创建 Spec
 
 ## 常见陷阱
 
@@ -316,7 +491,7 @@ AI 代理应该仔细阅读所有可用的文档
 ✅ **好：**
 ```markdown
 1. 首先阅读 README.md
-2. 使用 `lean-spec list` 检查现有Spec
+2. 使用 `lean-spec list` 检查现有 Spec
 3. 遵循 LeanSpec 原则（见 AGENTS.md）
 ```
 
@@ -347,9 +522,9 @@ AI 代理应该仔细阅读所有可用的文档
 ## 下一步
 
 - [MCP 集成](/zh-Hans/docs/guide/usage/mcp-integration) - 模型上下文协议设置
-- [编写 AI 可执行的Spec](/zh-Hans/docs/advanced/ai-assisted-spec-writing) - 12 个实用模式
+- [编写 AI 可执行的 Spec](/zh-Hans/docs/advanced/ai-assisted-spec-writing) - 实用模式
 - [入门](/zh-Hans/docs/guide/getting-started) - 初始设置指南
 
 ---
 
-**相关**：[CLI 参考](/zh-Hans/docs/reference/cli)了解完整的命令文档
+**相关**：[CLI 参考](/zh-Hans/docs/reference/cli) 了解完整的命令文档

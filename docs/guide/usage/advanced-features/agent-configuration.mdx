@@ -17,6 +17,112 @@ Configure AI coding agents to work effectively with LeanSpec through AGENTS.md i
 - Specify workflow and commands
 - Set quality standards
 
+## Multi-Tool Support
+
+Different AI tools expect different instruction file names. LeanSpec automatically creates symlinks to ensure all tools find instructions:
+
+| AI Tool | Expected File | How LeanSpec Handles It |
+|---------|--------------|------------------------|
+| Claude Code / Claude Desktop | `CLAUDE.md` | Symlink → AGENTS.md |
+| Gemini CLI | `GEMINI.md` | Symlink → AGENTS.md |
+| GitHub Copilot | `AGENTS.md` | Primary file |
+| Cursor | `AGENTS.md` | Primary file |
+| Windsurf | `AGENTS.md` | Primary file |
+| Cline | `AGENTS.md` | Primary file |
+| Warp Terminal | `AGENTS.md` | Primary file |
+
+### Init Options
+
+```bash
+# Default: creates CLAUDE.md symlink (most common use case)
+lean-spec init -y
+
+# Create symlinks for specific tools
+lean-spec init -y --agent-tools claude,gemini
+
+# Create symlinks for all supported tools
+lean-spec init -y --agent-tools all
+
+# Skip symlinks (legacy behavior)
+lean-spec init -y --agent-tools none
+```
+
+**Note:** On Windows, copies are created instead of symlinks (requires admin privileges).
+
+## MCP-First AGENTS.md
+
+The generated AGENTS.md emphasizes **MCP tools as the primary method** for spec management:
+
+### Key Sections
+
+#### 1. Critical Discovery Steps
+
+```markdown
+## 🚨 CRITICAL: Before ANY Task
+
+**STOP and check these first:**
+
+1. **Discover context** → Use `board` tool to see project state
+2. **Search for related work** → Use `search` tool before creating new specs
+3. **Never create files manually** → Always use `create` tool for new specs
+```
+
+#### 2. MCP Tools as Primary Method
+
+```markdown
+## 🔧 How to Manage Specs
+
+### Primary Method: MCP Tools (Recommended)
+
+If you have LeanSpec MCP tools available, **ALWAYS use them**:
+
+| Action | MCP Tool | Description |
+|--------|----------|-------------|
+| See project status | `board` | Kanban view + project health metrics |
+| List all specs | `list` | Filterable list with metadata |
+| Search specs | `search` | Semantic search across all content |
+| View a spec | `view` | Full content with formatting |
+| Create new spec | `create` | Auto-sequences, proper structure |
+| Update spec | `update` | Validates transitions, timestamps |
+| Check dependencies | `deps` | Visual dependency graph |
+```
+
+#### 3. SDD Workflow Checkpoints
+
+```markdown
+## ⚠️ SDD Workflow Checkpoints
+
+### Before Starting ANY Task
+1. 📋 **Run `board`** - What's the current project state?
+2. 🔍 **Run `search`** - Are there related specs already?
+3. 📝 **Check existing specs** - Is there one for this work?
+
+### During Implementation
+4. 📊 **Update status to `in-progress`** BEFORE coding
+5. 📝 **Document decisions** in the spec as you work
+6. 🔗 **Link related specs** if you discover connections
+
+### After Completing Work
+7. ✅ **Update status to `complete`** when done
+8. 📄 **Document what you learned** in the spec
+9. 🤔 **Create follow-up specs** if needed
+```
+
+#### 4. Common Mistakes Table
+
+```markdown
+### 🚫 Common Mistakes to Avoid
+
+| ❌ Don't | ✅ Do Instead |
+|----------|---------------|
+| Create spec files manually | Use `create` tool |
+| Skip discovery before new work | Run `board` and `search` first |
+| Leave status as "planned" after starting | Update to `in-progress` immediately |
+| Finish work without updating spec | Document decisions, update status |
+| Edit frontmatter manually | Use `update` tool |
+| Forget about specs mid-conversation | Check spec status periodically |
+```
+
 ## Complete AGENTS.md Template
 
 ```markdown
@@ -26,119 +132,143 @@ Configure AI coding agents to work effectively with LeanSpec through AGENTS.md i
 
 [Brief description of what the project does]
 
-## First Principles (Decision Framework)
+## 🚨 CRITICAL: Before ANY Task
 
-When making spec decisions, apply these principles in priority order:
+**STOP and check these first:**
 
-### 1. Context Economy - Fit in working memory
-**Specs must fit in working memory—both human and AI.**
-- **Target**: <2,000 tokens per spec file
-- **Warning**: 2,000-3,500 tokens (acceptable but watch complexity)
-- **Problem**: >3,500 tokens (consider splitting)
+1. **Discover context** → Use `board` tool to see project state
+2. **Search for related work** → Use `search` tool before creating new specs
+3. **Never create files manually** → Always use `create` tool for new specs
 
-### 2. Signal-to-Noise Maximization - Every word informs decisions
-**Every word must inform decisions or be cut.**
-- **Test**: "What decision does this sentence inform?"
-- **Cut**: Obvious, inferable, or "maybe future" content
+> **Why?** Skipping discovery creates duplicate work. Manual file creation breaks LeanSpec tooling.
 
-### 3. Intent Over Implementation - Capture why, not just how
-**Capture "why" and "what," let "how" emerge.**
-- **Must have**: Problem, intent, success criteria
-- **Should have**: Design rationale, trade-offs
+## 🔧 How to Manage Specs
 
-### 4. Bridge the Gap - Both human and AI must understand
-**Specs exist to align human intent with machine execution.**
-- **For humans**: Overview, context, rationale
-- **For AI**: Unambiguous requirements, clear structure, examples
+### Primary Method: MCP Tools (Recommended)
 
-### 5. Progressive Disclosure - Add complexity when pain is felt
-**Start simple, add structure only when pain is felt.**
-- **Solo dev**: Just status + created
-- **Feel pain?**: Add tags, priority, custom fields
+If you have LeanSpec MCP tools available, **ALWAYS use them**:
+
+| Action | MCP Tool | Description |
+|--------|----------|-------------|
+| See project status | `board` | Kanban view + project health metrics |
+| List all specs | `list` | Filterable list with metadata |
+| Search specs | `search` | Semantic search across all content |
+| View a spec | `view` | Full content with formatting |
+| Create new spec | `create` | Auto-sequences, proper structure |
+| Update spec | `update` | Validates transitions, timestamps |
+| Check dependencies | `deps` | Visual dependency graph |
+
+**Why MCP over CLI?**
+- ✅ Direct tool integration (no shell execution needed)
+- ✅ Structured responses (better for AI reasoning)
+- ✅ Real-time validation (immediate feedback)
+- ✅ Context-aware (understands project state)
+
+### Fallback: CLI Commands
+
+If MCP tools are not available, use CLI commands:
+
+    lean-spec board              # Project overview
+    lean-spec list               # See all specs
+    lean-spec search "query"     # Find relevant specs
+    lean-spec create <name>      # Create new spec
+    lean-spec update <spec> --status <status>  # Update status
+    lean-spec deps <spec>        # Show dependencies
+
+**Tip:** Check if you have LeanSpec MCP tools available before using CLI.
+
+## ⚠️ SDD Workflow Checkpoints
+
+### Before Starting ANY Task
+1. 📋 **Run `board`** - What's the current project state?
+2. 🔍 **Run `search`** - Are there related specs already?
+3. 📝 **Check existing specs** - Is there one for this work?
+
+### During Implementation
+4. 📊 **Update status to `in-progress`** BEFORE coding
+5. 📝 **Document decisions** in the spec as you work
+6. 🔗 **Link related specs** if you discover connections
+
+### After Completing Work
+7. ✅ **Update status to `complete`** when done
+8. 📄 **Document what you learned** in the spec
+9. 🤔 **Create follow-up specs** if needed
+
+### 🚫 Common Mistakes to Avoid
+
+| ❌ Don't | ✅ Do Instead |
+|----------|---------------|
+| Create spec files manually | Use `create` tool |
+| Skip discovery before new work | Run `board` and `search` first |
+| Leave status as "planned" after starting | Update to `in-progress` immediately |
+| Finish work without updating spec | Document decisions, update status |
+| Edit frontmatter manually | Use `update` tool |
+| Forget about specs mid-conversation | Check spec status periodically |
 
 ## Core Rules
 
 1. **Read README.md first** - Understand project context
 2. **Check specs/** - Review existing specs before starting
-3. **Use `lean-spec --help`** - When unsure about commands
+3. **Use MCP tools** - Prefer MCP over CLI when available
 4. **Follow LeanSpec principles** - Clarity over documentation
 5. **Keep it minimal** - If it doesn't add clarity, cut it
-6. **NEVER manually edit system-managed frontmatter** - Use CLI commands instead
+6. **NEVER manually edit frontmatter** - Use `update`, `link`, `unlink` tools
+7. **Track progress in specs** - Update status and document decisions
 
 ## When to Use Specs
 
-Write a spec for:
+**Write a spec for:**
 - Features affecting multiple parts of the system
 - Breaking changes or significant refactors
 - Design decisions needing team alignment
 
-Skip specs for:
+**Skip specs for:**
 - Bug fixes
 - Trivial changes
 - Self-explanatory refactors
 
-## Essential Commands
-
-**Discovery:**
-- `lean-spec list` - See all specs
-- `lean-spec search "<query>"` - Find relevant specs
-- `lean-spec board` - Kanban view with project health
-- `lean-spec stats` - Quick project metrics
-
-**Working with specs:**
-- `lean-spec create <name>` - Create new spec
-- `lean-spec update <spec> --status <status>` - Update status (REQUIRED)
-- `lean-spec link <spec> --related <other>` - Link specs
-- `lean-spec deps <spec>` - Show dependency graph
-- `lean-spec tokens <spec>` - Count tokens for context management
-
-## Spec Relationships
-
-### `related` - Bidirectional Soft Reference
-Informational relationship between specs. Automatically shown from both sides.
-**Use when:** Specs cover related topics, work is coordinated but not blocking.
-
-### `depends_on` - Directional Blocking Dependency
-Hard dependency - spec cannot start until dependencies complete.
-**Use when:** Spec truly cannot start until another completes, work order matters.
-
-## SDD Workflow
-
-1. **Discover** - Check existing specs with `lean-spec list`
-2. **Plan** - Create spec with `lean-spec create <name>` (status: `planned`)
-3. **Start Work** - Run `lean-spec update <spec> --status in-progress` before implementing
-4. **Implement** - Write code/docs, keep spec in sync as you learn
-5. **Complete** - Run `lean-spec update <spec> --status complete` after implementation done
-
-**CRITICAL - What "Work" Means:**
-- ❌ **NOT**: Creating/writing the spec document itself
-- ✅ **YES**: Implementing what the spec describes (code, docs, features, etc.)
-
 ## Quality Standards
 
-- Code is clear and maintainable
-- Tests cover critical paths
-- Specs stay in sync with implementation
 - **Status tracking is mandatory:**
-  - Specs start as `planned` after creation
-  - Mark `in-progress` BEFORE starting implementation work
-  - Mark `complete` AFTER implementation is finished
-- **Always validate before completing work:**
-  - Run `lean-spec validate` to check spec structure
-  - Fix any validation errors before marking work complete
+  - `planned` → after creation
+  - `in-progress` → BEFORE starting implementation
+  - `complete` → AFTER finishing implementation
+- Specs stay in sync with implementation
+- Never leave specs with stale status
 
 ## Spec Complexity Guidelines
 
-**Token Thresholds:**
-- **<2,000 tokens**: ✅ Optimal
-- **2,000-3,500 tokens**: ✅ Good
-- **3,500-5,000 tokens**: ⚠️ Warning - Consider splitting
-- **>5,000 tokens**: 🔴 Should split
+| Tokens | Status |
+|--------|--------|
+| <2,000 | ✅ Optimal |
+| 2,000-3,500 | ✅ Good |
+| 3,500-5,000 | ⚠️ Consider splitting |
+| >5,000 | 🔴 Should split |
 
-**Check with:** `lean-spec tokens <spec>`
+Use `tokens` tool to check spec size.
 ```
 
 ## Configuring Different AI Tools
+
+### Claude Code
+
+Claude Code reads `CLAUDE.md` by default. LeanSpec automatically creates this symlink:
+
+```bash
+# After lean-spec init
+ls -la CLAUDE.md
+# CLAUDE.md -> AGENTS.md
+```
+
+**With MCP (Recommended):** Configure the LeanSpec MCP server for full functionality. See [MCP Integration](/docs/guide/usage/mcp-integration).
+
+### Gemini CLI
+
+Gemini CLI reads `GEMINI.md`. Create with:
+
+```bash
+lean-spec init -y --agent-tools gemini
+```
 
 ### GitHub Copilot
 
@@ -163,22 +293,24 @@ ln -s AGENTS.md .cursorrules
 
 ### Windsurf
 
-Add to your Windsurf config:
+Windsurf reads `AGENTS.md` by default. No additional setup needed.
+
+### Claude Desktop / ChatGPT / Other Chat Interfaces
+
+These tools work best with MCP integration. Configure the LeanSpec MCP server:
 
 ```json
 {
-  "systemPrompt": "Read and follow instructions in AGENTS.md"
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
 }
 ```
 
-### Claude, ChatGPT, Other Chat Interfaces
-
-Reference AGENTS.md in your initial prompt:
-
-```
-Read the AGENTS.md file in this repository and follow 
-its instructions for working with LeanSpec specs.
-```
+See [MCP Integration](/docs/guide/usage/mcp-integration) for full setup instructions.
 
 ## Best Practices for AI-Readable Specs
 
@@ -285,7 +417,8 @@ So we need to build this feature and it should do X, Y, Z...
 
 ```
 your-project/
-├── AGENTS.md           ← AI reads this first
+├── AGENTS.md           ← Primary AI instructions
+├── CLAUDE.md → AGENTS.md   ← Symlink for Claude Code
 ├── README.md           ← Project overview
 ├── specs/              ← All specs here
 │   ├── 001-feature-a/
@@ -311,31 +444,37 @@ Specs in the repo (not external wiki):
 
 ### Test AI Understanding
 
-Ask your AI agent:
+Ask your AI agent these questions to verify LeanSpec integration:
 
-**Test 1: Can it find specs?**
+**Test 1: Can it discover the project?**
 ```
-List all specs in this repository.
+Show me the project board.
 ```
-Expected: Agent uses `lean-spec list`
+Expected: Agent uses MCP `board` tool (or `lean-spec board` CLI)
 
-**Test 2: Can it read specs?**
+**Test 2: Can it search specs?**
 ```
-What does spec 001 describe?
+Find specs related to authentication.
 ```
-Expected: Agent uses `lean-spec view 001`
+Expected: Agent uses MCP `search` tool
 
-**Test 3: Can it follow workflow?**
+**Test 3: Can it create specs properly?**
 ```
 Create a spec for user authentication.
 ```
-Expected: Agent uses `lean-spec create user-authentication`
+Expected: Agent uses MCP `create` tool (NOT manual file creation)
 
 **Test 4: Can it update status?**
 ```
 Mark spec 001 as in-progress.
 ```
-Expected: Agent uses `lean-spec update 001 --status in-progress`
+Expected: Agent uses MCP `update` tool
+
+**Test 5: Does it follow SDD workflow?**
+```
+I want to implement a new caching feature.
+```
+Expected: Agent first runs `board` and `search`, then creates spec before coding
 
 ## Common Pitfalls
 
