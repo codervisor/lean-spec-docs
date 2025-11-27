@@ -476,22 +476,92 @@ lean-spec open 001-user-auth --editor=vim
 
 ### `lean-spec templates`
 
-List available project templates.
+Manage spec templates.
+
+```bash
+lean-spec templates [command]
+```
+
+**Subcommands:**
+
+#### `lean-spec templates` or `lean-spec templates list`
+
+List available templates.
 
 ```bash
 lean-spec templates
+lean-spec templates list
 ```
 
 **Output:**
 ```
-=== Available Templates ===
+=== Project Templates ===
 
-standard       Recommended - single-file specs with AGENTS.md (default)
-detailed       Complex specs with sub-spec structure (DESIGN, PLAN, TEST)
+Registered:
+  default: spec-template.md ✓ (default)
+  detailed: detailed/
+    Files: README.md, DESIGN.md, PLAN.md, TEST.md
 
-Use: lean-spec init
-Then choose "Choose a template" option
+Available files:
+  spec-template.md (1.2 KB)
+
+Available directories (multi-file templates):
+  detailed/ (4 files: README.md, DESIGN.md, PLAN.md, TEST.md)
+
+Use templates with: lean-spec create <name> --template=<template-name>
 ```
+
+#### `lean-spec templates show <name>`
+
+Show template content.
+
+```bash
+lean-spec templates show default
+lean-spec templates show detailed
+```
+
+For directory-based templates, shows all files in the template.
+
+#### `lean-spec templates add <name> <file>`
+
+Register a template.
+
+```bash
+# Single-file template
+lean-spec templates add api api-spec.md
+
+# Directory-based multi-file template
+lean-spec templates add enterprise enterprise/
+```
+
+For directory templates, the directory must contain a `README.md` file as the main template.
+
+#### `lean-spec templates remove <name>`
+
+Unregister a template (does not delete the file).
+
+```bash
+lean-spec templates remove api
+```
+
+#### `lean-spec templates copy <source> <target>`
+
+Copy a template to create a new one.
+
+```bash
+lean-spec templates copy default api-spec
+```
+
+**Template Types:**
+
+1. **Single-file templates** (e.g., `spec-template.md`)
+   - Only that file is used when creating specs
+   - Best for simple, consistent spec structures
+
+2. **Directory-based templates** (e.g., `detailed/`)
+   - All `.md` files in the directory are copied when creating specs
+   - Must contain `README.md` as the main template
+   - Best for complex specs with multiple sub-spec files
 
 ---
 

@@ -105,7 +105,9 @@ lean-spec init
 
 您可以在 `.lean-spec/templates/` 中创建自己的模板。
 
-### 创建自定义模板
+### 单文件模板
+
+适用于简单、一致的 Spec 结构：
 
 1. 创建模板文件：
 ```bash
@@ -130,12 +132,63 @@ created: {date}
 [您的自定义章节...]
 ```
 
-3. 在 `.lean-spec/config.json` 中配置：
+3. 在 `.lean-spec/config.json` 中注册：
 ```json
 {
-  "template": "my-template.md"
+  "template": "my-template.md",
+  "templates": {
+    "default": "spec-template.md",
+    "my-template": "my-template.md"
+  }
 }
 ```
+
+或使用 CLI：
+```bash
+lean-spec templates add my-template my-template.md
+```
+
+### 目录模板（多文件）
+
+适用于需要多个文件的复杂 Spec（如 DESIGN.md、PLAN.md、TEST.md）：
+
+1. 创建模板目录：
+```bash
+mkdir -p .lean-spec/templates/api-spec
+```
+
+2. 创建主模板（必须包含 `README.md`）：
+```bash
+touch .lean-spec/templates/api-spec/README.md
+touch .lean-spec/templates/api-spec/ENDPOINTS.md
+touch .lean-spec/templates/api-spec/SCHEMAS.md
+```
+
+3. 注册目录：
+```json
+{
+  "templates": {
+    "default": "spec-template.md",
+    "api": "api-spec"
+  }
+}
+```
+
+或使用 CLI：
+```bash
+lean-spec templates add api api-spec
+```
+
+4. 使用模板：
+```bash
+lean-spec create my-api --template=api
+# 创建：specs/NNN-my-api/
+#   ├── README.md
+#   ├── ENDPOINTS.md
+#   └── SCHEMAS.md
+```
+
+使用目录模板时，所有 `.md` 文件都会被复制到新的 Spec 文件夹。
 
 ### 可用变量
 

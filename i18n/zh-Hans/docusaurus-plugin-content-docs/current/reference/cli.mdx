@@ -472,22 +472,92 @@ lean-spec open 001-user-auth --editor=vim
 
 ### `lean-spec templates`
 
-列出可用的项目模板。
+管理 Spec 模板。
+
+```bash
+lean-spec templates [command]
+```
+
+**子命令：**
+
+#### `lean-spec templates` 或 `lean-spec templates list`
+
+列出可用模板。
 
 ```bash
 lean-spec templates
+lean-spec templates list
 ```
 
 **输出：**
 ```
-=== 可用模板 ===
+=== Project Templates ===
 
-standard       推荐 - 单文件 Spec 与 AGENTS.md（默认）
-detailed       复杂 Spec 与子 Spec 结构（DESIGN, PLAN, TEST）
+Registered:
+  default: spec-template.md ✓ (default)
+  detailed: detailed/
+    Files: README.md, DESIGN.md, PLAN.md, TEST.md
 
-使用：lean-spec init
-然后选择"选择模板"选项
+Available files:
+  spec-template.md (1.2 KB)
+
+Available directories (multi-file templates):
+  detailed/ (4 files: README.md, DESIGN.md, PLAN.md, TEST.md)
+
+Use templates with: lean-spec create <name> --template=<template-name>
 ```
+
+#### `lean-spec templates show <name>`
+
+显示模板内容。
+
+```bash
+lean-spec templates show default
+lean-spec templates show detailed
+```
+
+对于目录模板，显示模板中的所有文件。
+
+#### `lean-spec templates add <name> <file>`
+
+注册模板。
+
+```bash
+# 单文件模板
+lean-spec templates add api api-spec.md
+
+# 目录多文件模板
+lean-spec templates add enterprise enterprise/
+```
+
+目录模板必须包含 `README.md` 文件作为主模板。
+
+#### `lean-spec templates remove <name>`
+
+取消注册模板（不删除文件）。
+
+```bash
+lean-spec templates remove api
+```
+
+#### `lean-spec templates copy <source> <target>`
+
+复制模板以创建新模板。
+
+```bash
+lean-spec templates copy default api-spec
+```
+
+**模板类型：**
+
+1. **单文件模板**（如 `spec-template.md`）
+   - 创建 Spec 时只使用该文件
+   - 适合简单、一致的 Spec 结构
+
+2. **目录模板**（如 `detailed/`）
+   - 创建 Spec 时复制目录中的所有 `.md` 文件
+   - 必须包含 `README.md` 作为主模板
+   - 适合包含多个子 Spec 文件的复杂 Spec
 
 ---
 
