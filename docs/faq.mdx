@@ -253,6 +253,42 @@ Can you list the specs in this project?
 
 ## Using LeanSpec
 
+### How do I upgrade or re-initialize LeanSpec without losing my specs?
+
+**LeanSpec has safe re-initialization built in.** You don't need to delete anything manually.
+
+**Scenario 1: Upgrade to latest config (safest)**
+```bash
+lean-spec init -y
+```
+This merges your existing config with latest defaults. All specs and AGENTS.md are preserved.
+
+**Scenario 2: Reset config but keep specs**
+```bash
+lean-spec init -f
+```
+This resets `.lean-spec/` configuration but keeps your `specs/` directory intact.
+
+**Scenario 3: Interactive choice**
+```bash
+lean-spec init
+```
+When LeanSpec is already initialized, you'll see options:
+- **Upgrade configuration** (recommended) - Update config, keep everything
+- **Reset configuration** - Fresh config, keep specs
+- **Full reset** - Start completely fresh (requires confirmation)
+- **Cancel** - Exit without changes
+
+**What each option preserves:**
+
+| Option | `.lean-spec/` | `specs/` | `AGENTS.md` |
+|--------|---------------|----------|-------------|
+| Upgrade | Merged | ✅ Kept | ✅ Kept |
+| Reset config | Fresh | ✅ Kept | Re-created |
+| Full reset | Deleted | ❌ Deleted | ❌ Deleted |
+
+**Pro tip:** Always use `-y` for CI/CD pipelines - it defaults to the safest upgrade option.
+
 ### How do I view the LeanSpec UI?
 
 **Start the web UI:**

@@ -21,22 +21,56 @@ sidebar_position: 1
 在您的项目中初始化 LeanSpec。
 
 ```bash
-lean-spec init
+lean-spec init [options]
 ```
 
-**交互式提示：**
+**交互式提示（新项目）：**
 1. 选择设置路径（快速开始、选择模板或自定义）
 2. 处理现有文件（合并、备份或跳过）
 3. 配置初始设置
 
+**交互式提示（已初始化项目）：**
+当 LeanSpec 已经初始化时，系统会询问如何处理：
+1. **升级配置** （推荐）- 更新配置到最新版本，保留 Spec 和 AGENTS.md
+2. **重置配置** - 使用模板创建新配置，保留 `specs/` 目录
+3. **完全重置** - 删除所有内容重新开始（需要确认）
+4. **取消** - 退出不做任何更改
+
 **创建内容：**
 - `.lean-spec/config.json` - 配置文件
 - `.lean-spec/templates/` - 自定义模板目录
-- `specs/` - Spec目录
+- `specs/` - Spec 目录
 - `AGENTS.md` - AI 代理集成指导（如果不存在）
 
 **选项：**
-- 无（完全交互式）
+- `-y, --yes` - 跳过提示并使用默认值（使用标准模板快速开始）
+- `-f, --force` - 强制重新初始化（重置配置，保留 Spec）
+- `--template <name>` - 使用特定模板（`standard` 或 `detailed`）
+- `--agent-tools <tools>` - 创建 AI 工具符号链接（逗号分隔：`claude,gemini,copilot` 或 `all` 或 `none`）
+
+**示例：**
+
+```bash
+# 交互式初始化
+lean-spec init
+
+# 使用默认值快速开始
+lean-spec init -y
+
+# 强制重新初始化（重置配置，保留 Spec）
+lean-spec init -f
+
+# 使用详细模板
+lean-spec init --template detailed
+
+# 为所有 AI 工具创建符号链接
+lean-spec init --agent-tools all
+```
+
+**重新初始化行为：**
+- `-y` 标志：安全升级配置（保留所有内容）
+- `-f` 标志：仅重置配置（保留 `specs/` 目录）
+- 交互模式：在完整上下文中选择策略（显示 Spec 数量）
 
 ---
 

@@ -21,13 +21,20 @@ Available for all commands:
 Initialize LeanSpec in your project.
 
 ```bash
-lean-spec init
+lean-spec init [options]
 ```
 
-**Interactive prompts:**
+**Interactive prompts (new project):**
 1. Choose setup path (quick start, choose template, or customize)
 2. Handle existing files (merge, backup, or skip)
 3. Configure initial settings
+
+**Interactive prompts (existing project):**
+When LeanSpec is already initialized, you'll be asked how to proceed:
+1. **Upgrade configuration** (recommended) - Update config to latest version, keeps specs and AGENTS.md
+2. **Reset configuration** - Fresh config from template, keeps `specs/` directory
+3. **Full reset** - Remove everything and start fresh (requires confirmation)
+4. **Cancel** - Exit without changes
 
 **What it creates:**
 - `.lean-spec/config.json` - Configuration file
@@ -36,7 +43,34 @@ lean-spec init
 - `AGENTS.md` - AI agent integration guidance (if not present)
 
 **Options:**
-- None (fully interactive)
+- `-y, --yes` - Skip prompts and use defaults (quick start with standard template)
+- `-f, --force` - Force re-initialization (resets config, keeps specs)
+- `--template <name>` - Use specific template (`standard` or `detailed`)
+- `--agent-tools <tools>` - AI tools to create symlinks for (comma-separated: `claude,gemini,copilot` or `all` or `none`)
+
+**Examples:**
+
+```bash
+# Interactive initialization
+lean-spec init
+
+# Quick start with defaults
+lean-spec init -y
+
+# Force re-init (resets config, keeps specs)
+lean-spec init -f
+
+# Use detailed template
+lean-spec init --template detailed
+
+# Create symlinks for all AI tools
+lean-spec init --agent-tools all
+```
+
+**Re-initialization behavior:**
+- `-y` flag: Safely upgrades config (preserves everything)
+- `-f` flag: Resets config only (preserves `specs/` directory)
+- Interactive: Choose your strategy with full context (shows spec count)
 
 ---
 
