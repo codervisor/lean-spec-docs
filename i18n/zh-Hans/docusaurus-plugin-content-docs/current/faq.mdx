@@ -7,17 +7,20 @@ sidebar_position: 4
 
 # 常见问题
 
-## 什么是 LeanSpec？
+## 快速开始
 
-LeanSpec 是一个为 AI 辅助开发优化的轻量级Spec框架。它是一个 CLI 工具 + markdown 文件，位于您的仓库中，帮助您记录技术决策并指导 AI 编码工具，同时将Spec保持在约 2,000 Token的最佳范围内。
+### 什么是 LeanSpec？
+
+LeanSpec 是一个为 AI 辅助开发优化的轻量级 Spec 框架。它是一个 CLI 工具 + markdown 文件，位于您的仓库中，帮助您记录技术决策并指导 AI 编码工具，同时将 Spec 保持在约 2,000 Token 的最佳范围内。
 
 **关键功能：**
-- 用于轻松引用的编号Spec
-- 用于创建、搜索和管理Spec的 CLI 工具
+- 用于轻松引用的编号 Spec
+- 用于创建、搜索和管理 Spec 的 CLI 工具
 - 用于 AI 工具集成的 MCP 服务器（GitHub Copilot、Claude Code、Cursor 等）
-- 验证以确保Spec质量
+- 验证以确保 Spec 质量
 - 用于项目可见性的看板和统计
-- 5 分钟设置：**
+
+**5 分钟设置：**
 
 ```bash
 npm install -g lean-spec
@@ -28,7 +31,36 @@ lean-spec create my-first-spec
 
 无需配置文件，无需数据库，无需服务器。适用于任何编辑器和任何 AI 工具。
 
-## 为什么使用 LeanSpec？
+### 如何开始使用 LeanSpec？
+
+这是最常见的问题！以下是您的快速入门路径：
+
+**方式 1：尝试教程项目（推荐新手使用）**
+```bash
+npx lean-spec init --example dark-theme
+cd dark-theme && npm install && npm start
+```
+
+**方式 2：添加到现有项目**
+```bash
+npm install -g lean-spec
+cd your-project
+lean-spec init
+lean-spec create my-first-feature
+```
+
+**设置完成后：**
+1. 运行 `lean-spec board` 查看看板视图
+2. 编辑您的 Spec 文件 `specs/001-my-first-feature/README.md`
+3. 开始编码时运行 `lean-spec update 001 --status in-progress`
+4. 完成后运行 `lean-spec update 001 --status complete`
+
+**下一步：**
+- 📖 [使用 AI 创建第一个 Spec](/zh-Hans/docs/tutorials/first-spec-with-ai)（10 分钟教程）
+- 📖 [快速开始指南](/zh-Hans/docs/guide/getting-started)
+- 📖 [AI 编码工作流](/zh-Hans/docs/guide/usage/ai-coding-workflow)
+
+### 为什么使用 LeanSpec？
 
 **在以下情况下使用 LeanSpec：**
 - 需要团队在复杂功能上达成一致
@@ -41,18 +73,318 @@ lean-spec create my-first-spec
 - 一次性原型
 - 具有明确需求的单人项目
 
-**哲学：** 在最大敏捷性的同时获得 80% 的 vibe 编码速度和 80% 的结构化Spec优势。在混乱和官僚主义之间架起桥梁。
+**哲学：** 在最大敏捷性的同时获得 80% 的 vibe 编码速度和 80% 的结构化 Spec 优势。
 
-## 为什么有 2,000 Token目标？
+### LeanSpec 能加速我的开发吗？
+
+**可以，但需要理解其原理。** LeanSpec 不是让你打字更快——而是减少返工和提高 AI 输出质量。
+
+**如何加速开发：**
+
+1. **更好的 AI 输出** - Spec 提供聚焦的上下文（&lt;2,000 Token），AI 模型处理起来比分散的对话历史更准确
+2. **更少返工** - 预先明确需求 = 更少的"这不是我想要的"循环
+3. **更快上手** - 新团队成员（或 AI 助手）能立即理解决策
+4. **减少上下文腐化** - 当 AI 有书面 Spec 可参考时，不会产生幻觉
+
+**实际影响：**
+- 单次实现尝试更容易成功（而不是 3-4 次来回循环）
+- 减少重复解释相同决策的时间
+- 团队对齐只需一次，而不是每个 Sprint 都来一遍
+
+**什么时候 LeanSpec 可能拖慢你：**
+- 简单的 bug 修复（跳过 Spec，直接修）
+- 一次性原型（vibe 编码更快）
+- 非常清晰、明确的工作
+
+**公式：** `节省的时间 = (避免的 AI 返工) + (避免的团队同步) - (Spec 编写时间)`
+
+对于复杂功能，这几乎总是正值。对于琐碎的更改，跳过 Spec。
+
+## 为什么有 2,000 Token 目标？
 
 **注意力是稀缺资源，而不是存储。**
 
 三个原因：
 1. **人类注意力范围** - 人与 AI 搭档一次只能处理约 2-3K Token
-2. **AI 性能** - 上下文质量在 50K Token硬上限之前就开始下降
-3. **工作记忆 (Working Memory)** - Token数量直接对应认知负荷，而行数受格式影响很大
+2. **AI 性能** - 上下文质量在 50K Token 硬上限之前就开始下降
+3. **工作记忆 (Working Memory)** - Token 数量直接对应认知负荷，而行数受格式影响很大
 
-如果您的Spec超过 3,500 Token，请将其拆分为子 Spec文件（`DESIGN.md`、`IMPLEMENTATION.md`、`TESTING.md` 等）；超过 5,000 Token必须立即拆分。详见[第一原则](/zh-Hans/docs/advanced/first-principles#1-上下文经济 (Context Economy)context-economy---适应工作记忆)。
+如果您的 Spec 超过 3,500 Token，请将其拆分为子 Spec 文件（`DESIGN.md`、`IMPLEMENTATION.md`、`TESTING.md` 等）；超过 5,000 Token 必须立即拆分。详见[第一原则](/zh-Hans/docs/advanced/first-principles)。
+
+## 框架对比
+
+### LeanSpec 与其他 SDD 框架有什么区别？
+
+**LeanSpec vs Spec Kit vs OpenSpec：**
+
+| 方面 | LeanSpec | Spec Kit | OpenSpec |
+|------|----------|----------|----------|
+| **理念** | 轻量、灵活 | 结构化治理 | 正式提案 |
+| **Spec 大小** | &lt;2,000 Token（优化） | 较长上下文 | 较长系统提示 |
+| **工作流** | 灵活，适应团队 | 需要 5 步流程 | 提案→评审→归档 |
+| **模板** | 简约可定制 | 固定格式 | 固定 delta 格式 |
+| **AI 集成** | MCP + CLI | Slash 命令 | Slash 命令 |
+| **可视化 UI** | ✅ 有 | ❌ 仅 CLI | ❌ 仅 CLI |
+| **适合场景** | 追求敏捷的团队 | 企业治理 | 正式变更跟踪 |
+
+**LeanSpec 的关键优势：**
+- **上下文经济 (Context Economy)** - 为 AI 工作记忆优化
+- **编辑器无关** - 适用于任何 AI 工具（Copilot、Claude、Cursor 等）
+- **低认知负荷** - 从简单开始，按需扩展
+- **可视化模式** - Web UI 用于浏览和展示 Spec
+
+**何时选择其他框架：**
+- **Spec Kit**：需要结构化 5 步治理的企业团队
+- **OpenSpec**：需要正式提案/评审工作流的团队
+- **Kiro**：想要集成 AI IDE 的团队（但有供应商锁定）
+
+📖 [详细对比分析 →](/zh-Hans/docs/guide/why-leanspec)
+
+## AI 集成
+
+### LeanSpec 只适用于 Claude 模型吗？
+
+**不！LeanSpec 适用于任何 AI 模型或编码助手。**
+
+LeanSpec 设计上与模型无关：
+
+**MCP 兼容工具（完整集成）：**
+- GitHub Copilot（VS Code）
+- Claude Code / Claude Desktop
+- Cursor
+- Windsurf
+- Cline
+- Gemini CLI
+- 还有更多...
+
+**任何 AI 工具（通过文件引用）：**
+```
+读取 specs/042-my-feature/README.md 并相应实现。
+```
+
+**为什么到处都能用：**
+- Spec 只是仓库中的 markdown 文件
+- AI 像读取其他文档一样读取它们
+- MCP 提供更丰富的集成，但不是必需的
+
+2,000 Token 限制基于认知科学和 AI 注意力研究——它对*所有*模型都有帮助，不仅仅是 Claude。
+
+### 如何将 LeanSpec 集成到 Claude Code？
+
+**快速设置（2 分钟）：**
+
+1. 创建或编辑您的 Claude Code MCP 配置：
+
+   **位置：**
+   - macOS: `~/.config/claude-code/mcp_settings.json`
+   - Linux: `~/.config/claude-code/mcp_settings.json`
+   - Windows: `%APPDATA%\claude-code\mcp_settings.json`
+
+2. 添加 LeanSpec MCP 服务器：
+
+```json
+{
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
+}
+```
+
+3. 重启 Claude Code
+
+**测试一下：**
+```
+列出这个项目中的所有 Spec。
+```
+
+Claude Code 现在将使用 MCP 访问您的 Spec，具有语义搜索、依赖跟踪等功能。
+
+📖 [完整 MCP 集成指南 →](/zh-Hans/docs/guide/usage/mcp-integration)
+
+### 为什么我的 AI 代理不遵循 LeanSpec 工作流？
+
+**常见原因和解决方案：**
+
+**1. 没有 AGENTS.md 文件**
+
+AI 代理需要明确的指令。在项目根目录创建 `AGENTS.md`：
+
+```bash
+lean-spec init  # 自动创建 AGENTS.md
+```
+
+或从这里复制：[AGENTS.md 模板](https://github.com/codervisor/lean-spec/blob/main/AGENTS.md)
+
+**2. AGENTS.md 不在上下文中**
+
+AI 工具有不同的方式加载项目文件：
+- **VS Code Copilot**：添加 `@workspace` 以包含项目文件
+- **Claude Code**：通过 MCP 自动加载 AGENTS.md
+- **Cursor**：使用 `.cursorrules`（将 AGENTS.md 内容复制到那里）
+
+**3. 指令太长**
+
+如果 AGENTS.md 太长，AI 可能会忽略部分内容。保持在 2,000 Token 以内。
+
+**4. 指令冲突**
+
+检查是否有其他可能冲突的指令文件：
+- `.github/copilot-instructions.md`
+- `.cursorrules`
+- MCP 配置中的系统提示
+
+**5. AI 无法访问 Spec**
+
+确保配置了 MCP，使 AI 可以实际读取 Spec：
+```json
+{
+  "mcpServers": {
+    "leanspec": {
+      "command": "npx",
+      "args": ["-y", "@leanspec/mcp"]
+    }
+  }
+}
+```
+
+**调试技巧：** 直接询问 AI：
+```
+你有关于 LeanSpec 工作流的什么指令？
+你能列出这个项目中的 Spec 吗？
+```
+
+📖 [代理配置指南 →](/zh-Hans/docs/guide/usage/advanced-features/agent-configuration)
+
+## 使用 LeanSpec
+
+### 如何查看 LeanSpec UI？
+
+**启动 Web UI：**
+
+```bash
+lean-spec ui
+```
+
+这会在 `http://localhost:3000` 打开浏览器，包含：
+- **Spec 浏览器** - 浏览和搜索所有 Spec
+- **看板视图** - Kanban 风格的可视化
+- **依赖图** - Spec 之间的可视化关系
+- **项目统计** - 包含指标的仪表板
+
+**替代方法（无需安装 CLI）：**
+```bash
+npx @leanspec/ui
+```
+
+**选项：**
+```bash
+lean-spec ui --port 3100    # 自定义端口
+lean-spec ui --no-open      # 不自动打开浏览器
+lean-spec ui --specs ./path # 自定义 Spec 目录
+```
+
+📖 [可视化模式指南 →](/zh-Hans/docs/guide/visual-mode)
+
+### 如何使用 LeanSpec 管理多个功能开发？
+
+**LeanSpec 擅长管理并发开发：**
+
+**1. 为每个功能创建 Spec：**
+```bash
+lean-spec create user-auth --tags auth,api --priority high
+lean-spec create payment-flow --tags payments,api --priority high
+lean-spec create dashboard --tags frontend,ui --priority medium
+```
+
+**2. 跟踪关系：**
+```bash
+# Dashboard 依赖于 auth 完成
+lean-spec link dashboard --depends-on user-auth
+
+# Payment 和 auth 相关但独立
+lean-spec link payment-flow --related user-auth
+```
+
+**3. 可视化进度：**
+```bash
+lean-spec board          # 看板视图
+lean-spec stats          # 项目指标
+lean-spec deps dashboard # 查看什么阻塞了 dashboard
+```
+
+**4. 按状态或标签筛选：**
+```bash
+lean-spec list --status in-progress    # 正在进行什么？
+lean-spec list --tag api               # 所有 API 相关的 Spec
+lean-spec list --assignee @alice       # Alice 的工作
+```
+
+**5. 使用 UI 提高团队可见性：**
+```bash
+lean-spec ui
+# 在团队会议中分享 http://localhost:3000
+```
+
+**管理多个功能的最佳实践：**
+- 一致使用标签（`api`、`frontend`、`backend` 等）
+- 设置优先级（`critical`、`high`、`medium`、`low`）
+- 严格更新状态（`planned` → `in-progress` → `complete`）
+- 谨慎使用 `depends_on`（仅用于真正的阻塞项）
+- 使用 `related` 作为信息性链接
+
+### 如何处理已完成 Spec 中的 Bug？
+
+**已实现功能中的 Bug 需要根据严重程度不同处理：**
+
+**选项 1：小 Bug（快速修复）**
+
+不需要创建新 Spec。直接修复：
+```bash
+# 简单 bug 修复不需要 Spec
+git commit -m "fix: handle null user in auth flow (spec-042)"
+```
+
+在提交消息中引用原始 Spec 以便追溯。
+
+**选项 2：重大 Bug（设计缺陷）**
+
+创建后续 Spec：
+```bash
+lean-spec create auth-token-refresh-fix --tags auth,bugfix --priority high
+```
+
+链接到原始 Spec：
+```bash
+lean-spec link auth-token-refresh-fix --related user-auth
+```
+
+在新 Spec 中记录：
+- 原始实现出了什么问题
+- 根本原因分析
+- 更新后的设计决策
+
+**选项 3：更新原始 Spec**
+
+如果 Bug 揭示了遗漏的需求：
+```bash
+lean-spec open user-auth
+# 添加"经验教训"部分记录问题
+# 用修正后的方法更新相关部分
+```
+
+**何时使用每个选项：**
+
+| Bug 类型 | 操作 |
+|---------|------|
+| 拼写错误、差一错误 | 直接修复（无需 Spec） |
+| 遗漏的边界情况 | 添加到原始 Spec |
+| 设计缺陷 | 新的后续 Spec |
+| 破坏性更改 | 带迁移计划的新 Spec |
+
+**关键原则：** Spec 记录*决策*，而不是代码。如果决策错误，更新 Spec。如果实现错误，直接修复代码。
 
 ## 故障排除
 
