@@ -8,15 +8,75 @@ description: A lightweight Spec-Driven Development methodology for AI-powered de
 
 # What is LeanSpec?
 
-LeanSpec is a lightweight **Spec-Driven Development (SDD)** methodology designed for the AI era. It helps teams—both humans and AI agents—focus on *intent* rather than implementation details.
+**Ship faster with higher quality. Lean specs that both humans and AI understand.**
+
+LeanSpec brings agile principles to SDD (Spec-Driven Development)—small, focused documents (&lt;2,000 tokens) that keep you and your AI aligned.
 
 > **Think of it as "Markdown for Project Management"**: Simple, structured, and machine-readable.
 
+## Quick Start
+
+```bash
+# Try with a tutorial project
+npx lean-spec init --example dark-theme
+cd dark-theme && npm install && npm start
+
+# Or add to your existing project
+npm install -g lean-spec && lean-spec init
+```
+
+**Visualize your project:**
+
+```bash
+lean-spec board    # Kanban view
+lean-spec stats    # Project metrics
+lean-spec ui       # Web UI at localhost:3000
+```
+
+**Next:** [Your First Spec with AI](/docs/tutorials/first-spec-with-ai) (10 min tutorial)
+
+## Why LeanSpec?
+
+**High velocity + High quality.** Other SDD frameworks add process overhead (multi-step workflows, rigid templates). Vibe coding is fast but chaotic (no shared understanding). LeanSpec hits the sweet spot:
+
+- **Fast iteration** - Living documents that grow with your code
+- **AI performance** - Small specs = better AI output (context rot is real)
+- **Always current** - Lightweight enough that you actually update them
+
+📖 [Compare with Spec Kit, OpenSpec, Kiro →](/docs/guide/why-leanspec)
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **📊 Kanban Board** | `lean-spec board` - visual project tracking |
+| **🔍 Smart Search** | `lean-spec search` - find specs by content or metadata |
+| **🔗 Dependencies** | Track spec relationships with `depends_on` and `related` |
+| **🎨 Web UI** | `lean-spec ui` - browser-based dashboard |
+| **📈 Project Stats** | `lean-spec stats` - health metrics and bottleneck detection |
+| **🤖 AI-Native** | MCP server + CLI for AI assistants |
+
+## AI Integration
+
+Works with any AI coding assistant via MCP or CLI:
+
+```json
+{
+  "mcpServers": {
+    "lean-spec": { "command": "npx", "args": ["@leanspec/mcp"] }
+  }
+}
+```
+
+**Compatible with:** VS Code Copilot, Cursor, Windsurf, Claude Code, Gemini CLI, and more.
+
+📖 [Full AI integration guide →](/docs/guide/usage/ai-coding-workflow)
+
 ## What You Get
 
-*   [**Core CLI**](/docs/guide/usage/cli/creating-managing): Manage specs, track status, and visualize dependencies (`lean-spec board`, `lean-spec deps`).
-*   [**MCP Server**](/docs/guide/usage/mcp-integration): Give AI agents (Claude, Cursor, etc.) direct access to read and search your specs.
-*   [**Visual Mode**](/docs/guide/visual-mode): A beautiful web interface for browsing your project's spec graph (`lean-spec ui`).
+*   [**Core CLI**](/docs/guide/usage/cli/creating-managing): Manage specs, track status, and visualize dependencies.
+*   [**MCP Server**](/docs/guide/usage/mcp-integration): Give AI agents direct access to read and search your specs.
+*   [**Visual Mode**](/docs/guide/visual-mode): A beautiful web interface for browsing your project's spec graph.
 
 ## A Simple Example
 
@@ -50,7 +110,13 @@ Enable secure user login and session management for the mobile app.
 - Password reset (separate spec)
 ```
 
-You can use your favorite AI coding tools to read this spec and generate code, documentation, or even test cases based on it.
+## Documentation
+
+📖 [Full Documentation](/docs/guide/) · [CLI Reference](/docs/reference/cli) · [First Principles](/docs/advanced/first-principles) · [FAQ](/docs/faq)
+
+## Community
+
+💬 [Discussions](https://github.com/codervisor/lean-spec/discussions) · 🐛 [Issues](https://github.com/codervisor/lean-spec/issues) · 🤝 [Contributing](https://github.com/codervisor/lean-spec/blob/main/CONTRIBUTING.md)
 
 ## Next Steps
 
