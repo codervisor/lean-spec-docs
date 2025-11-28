@@ -72,33 +72,6 @@ lean-spec board
 
 **时间**：20 个 Spec 约 15-30 分钟
 
-### ADR/RFC 集合（复杂）🔴
-
-**源**：平面 markdown 文件（例如，`docs/adr/####-title.md`）
-
-**挑战**：将平面文件重组为文件夹层次结构。
-
-**迁移步骤**：
-```bash
-# 1. 为每个 ADR 创建文件夹
-mkdir -p specs/001-use-microservices
-mv docs/adr/0001-use-microservices.md specs/001-use-microservices/README.md
-
-mkdir -p specs/002-event-sourcing-audit
-mv docs/adr/0042-event-sourcing-audit.md specs/002-event-sourcing-audit/README.md
-
-# 为所有 ADR 重复...
-
-# 2. 从 git 历史生成 frontmatter
-lean-spec backfill --assignee --all
-
-# 3. 验证
-lean-spec validate
-lean-spec board
-```
-
-**时间**：20 个 Spec 约 30-60 分钟
-
 ## `lean-spec backfill` 命令
 
 这是你从 git 历史生成 frontmatter 的主要迁移工具。
@@ -330,30 +303,6 @@ lean-spec backfill --assignee --all
 sed -i 's/openspec/lean-spec/g' AGENTS.md
 ```
 
-### 场景 3：平面 ADR 文件
-
-**源**：
-```
-docs/adr/
-├── 0001-use-microservices.md
-├── 0042-event-sourcing.md
-└── 0105-graphql-api.md
-```
-
-**迁移**：
-```bash
-# 1. 创建文件夹层次结构
-for file in docs/adr/*.md; do
-  name=$(basename "$file" .md | sed 's/^[0-9]*-//')
-  num=$(ls -1 specs/ | wc -l | xargs printf "%03d")
-  mkdir -p "specs/${num}-${name}"
-  mv "$file" "specs/${num}-${name}/README.md"
-done
-
-# 2. Backfill 元数据
-lean-spec backfill --assignee --all
-```
-
 ## 从外部系统迁移
 
 对于 Linear、Jira、Confluence 或 Notion 等系统：
@@ -431,10 +380,8 @@ lean-spec deps 001
 | spec-kit | 100 | 15 分钟 | ✅ 简单 |
 | OpenSpec | 20 | 20 分钟 | ⚠️ 中等 |
 | OpenSpec | 100 | 60 分钟 | ⚠️ 中等 |
-| ADR | 20 | 45 分钟 | 🔴 复杂 |
-| ADR | 100 | 3 小时 | 🔴 复杂 |
 
-**注意**：时间包括 backfill 和验证。复杂的迁移可能需要手动调整。
+**注意**：时间包括 backfill 和验证。
 
 ## 获取帮助
 

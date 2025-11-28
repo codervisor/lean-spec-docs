@@ -72,33 +72,6 @@ lean-spec board
 
 **Time**: ~15-30 minutes for 20 specs
 
-### ADR/RFC Collections (Complex) 🔴
-
-**Source**: Flat markdown files (e.g., `docs/adr/####-title.md`)
-
-**Challenge**: Reorganize flat files into folder hierarchy.
-
-**Migration steps**:
-```bash
-# 1. Create folders for each ADR
-mkdir -p specs/001-use-microservices
-mv docs/adr/0001-use-microservices.md specs/001-use-microservices/README.md
-
-mkdir -p specs/002-event-sourcing-audit
-mv docs/adr/0042-event-sourcing-audit.md specs/002-event-sourcing-audit/README.md
-
-# Repeat for all ADRs...
-
-# 2. Generate frontmatter from git history
-lean-spec backfill --assignee --all
-
-# 3. Validate
-lean-spec validate
-lean-spec board
-```
-
-**Time**: ~30-60 minutes for 20 specs
-
 ## The `lean-spec backfill` Command
 
 This is your primary migration tool for generating frontmatter from git history.
@@ -330,30 +303,6 @@ lean-spec backfill --assignee --all
 sed -i 's/openspec/lean-spec/g' AGENTS.md
 ```
 
-### Scenario 3: Flat ADR Files
-
-**Source**:
-```
-docs/adr/
-├── 0001-use-microservices.md
-├── 0042-event-sourcing.md
-└── 0105-graphql-api.md
-```
-
-**Migration**:
-```bash
-# 1. Create folder hierarchy
-for file in docs/adr/*.md; do
-  name=$(basename "$file" .md | sed 's/^[0-9]*-//')
-  num=$(ls -1 specs/ | wc -l | xargs printf "%03d")
-  mkdir -p "specs/${num}-${name}"
-  mv "$file" "specs/${num}-${name}/README.md"
-done
-
-# 2. Backfill metadata
-lean-spec backfill --assignee --all
-```
-
 ## Migrating from External Systems
 
 For systems like Linear, Jira, Confluence, or Notion:
@@ -431,10 +380,8 @@ Based on real migrations:
 | spec-kit | 100 | 15 min | ✅ Easy |
 | OpenSpec | 20 | 20 min | ⚠️ Moderate |
 | OpenSpec | 100 | 60 min | ⚠️ Moderate |
-| ADR | 20 | 45 min | 🔴 Complex |
-| ADR | 100 | 3 hrs | 🔴 Complex |
 
-**Note**: Times include backfill and validation. Complex migrations may require manual adjustments.
+**Note**: Times include backfill and validation.
 
 ## Getting Help
 
