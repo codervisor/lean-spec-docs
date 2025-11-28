@@ -33,47 +33,62 @@ npm start
 Then prompt your AI tool:
 
 <Tabs groupId="ai-tool">
-  <TabItem value="copilot" label="GitHub Copilot CLI">
-    ```bash
-    # Make sure you have GitHub Copilot CLI installed
-    npm install -g @github/copilot
-
-    # Send the prompt to Copilot CLI
-    copilot -p "Help me refactor this app to extract a reusable API client" \
-      --files specs/ \
-      --add-dir .
-    ```
-  </TabItem>
   <TabItem value="claude" label="Claude Code">
+    In your terminal with Claude Code:
+
     ```bash
     # Make sure you have Claude Code installed
+    # macOS/Linux
     curl -fsSL https://claude.ai/install.sh | bash
+    # Windows (PowerShell)
+    irm https://claude.ai/install.ps1 | iex
 
     # Create soft link to CLAUDE.md from the system prompt AGENTS.md
     ln -s AGENTS.md CLAUDE.md
 
     # Send the prompt to Claude Code
-    claude prompt \
-      "Help me refactor this app to extract a reusable API client" \
-      --include-files specs/ \
-      --include-dir .
+    claude "Help me refactor this app to extract a reusable API client"
+    ```
+  </TabItem>
+  <TabItem value="codex" label="Codex CLI">
+    In your terminal with OpenAI Codex CLI:
+
+    ```bash
+    # Make sure you have Codex CLI installed
+    npm install -g @openai/codex
+
+    # Send the prompt to Codex CLI
+    codex "Help me refactor this app to extract a reusable API client"
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
+    In your terminal with Gemini CLI:
+
     ```bash
     # Make sure you have Gemini CLI installed
-    npm install -g @google/gemini-cli
+    npm install -g @anthropic-ai/gemini-cli
 
     # Create soft link to GEMINI.md from the system prompt AGENTS.md
     ln -s AGENTS.md GEMINI.md
 
     # Send the prompt to Gemini CLI
-    gemini -p "Help me refactor this app to extract a reusable API client" -y
+    gemini "Help me refactor this app to extract a reusable API client"
+    ```
+  </TabItem>
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    In your terminal with GitHub Copilot CLI:
+
+    ```bash
+    # Make sure you have GitHub Copilot CLI installed (requires Node.js v22+)
+    npm install -g @github/copilot
+
+    # Send the prompt to Copilot CLI (programmatic mode)
+    copilot -p "Help me refactor this app to extract a reusable API client" --allow-all-tools
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
     In your IDE with an AI coding assistant (GitHub Copilot, Claude, Cursor, etc.):
-    
+
     1. Open the project in your IDE
     2. Open your AI assistant chat panel
     3. Send the prompt: _"Help me refactor this app to extract a reusable API client"_
