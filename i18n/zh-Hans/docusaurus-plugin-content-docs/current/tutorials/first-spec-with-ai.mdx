@@ -33,45 +33,63 @@ npm start
 然后向 AI 工具发送提示：
 
 <Tabs groupId="ai-tool">
-  <TabItem value="copilot" label="GitHub Copilot CLI">
-    ```bash
-    # 确保已安装 GitHub Copilot CLI
-    npm install -g @github/copilot
-
-    # 向 Copilot CLI 发送提示
-    copilot -p "帮我为这个应用添加带主题切换的深色主题支持" \
-      --allow-all-tools \
-      --add-dir .
-    ```
-  </TabItem>
   <TabItem value="claude" label="Claude Code">
+    在终端中使用 Claude Code：
+
     ```bash
     # 确保已安装 Claude Code
+    # macOS/Linux
     curl -fsSL https://claude.ai/install.sh | bash
+    # Windows (PowerShell)
+    irm https://claude.ai/install.ps1 | iex
 
     # 为系统提示 AGENTS.md 创建软链 CLAUDE.md
     ln -s AGENTS.md CLAUDE.md
 
     # 向 Claude Code 发送提示
-    claude "帮我为这个应用添加带主题切换的深色主题支持" \
-      --add-dir .
+    claude "帮我为这个应用添加带主题切换的深色主题支持"
+    ```
+  </TabItem>
+  <TabItem value="codex" label="Codex CLI">
+    在终端中使用 OpenAI Codex CLI：
+
+    ```bash
+    # 确保已安装 Codex CLI
+    npm install -g @openai/codex
+
+    # 向 Codex CLI 发送提示
+    codex "帮我为这个应用添加带主题切换的深色主题支持"
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
+    在终端中使用 Gemini CLI：
+
     ```bash
     # 确保已安装 Gemini CLI
-    npm install -g @google/gemini-cli
+    npm install -g @anthropic-ai/gemini-cli
 
     # 为系统提示 AGENTS.md 创建软链 GEMINI.md
     ln -s AGENTS.md GEMINI.md
 
     # 向 Gemini CLI 发送提示
-    gemini -p "帮我为这个应用添加带主题切换的深色主题支持" -y
+    gemini "帮我为这个应用添加带主题切换的深色主题支持"
+    ```
+  </TabItem>
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    在终端中使用 GitHub Copilot CLI：
+
+    ```bash
+    # 确保已安装 GitHub Copilot CLI
+    # 需要 GitHub CLI 和 Copilot 扩展
+    gh extension install github/gh-copilot
+
+    # 向 Copilot CLI 发送提示
+    gh copilot suggest "帮我为这个应用添加带主题切换的深色主题支持"
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
     在 IDE 中使用 AI 编码助手（GitHub Copilot、Claude、Cursor 等）：
-    
+
     1. 在 IDE 中打开项目
     2. 打开 AI 助手聊天面板
     3. 发送提示：_"帮我为这个应用添加带主题切换的深色主题支持"_

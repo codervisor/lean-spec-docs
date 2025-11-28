@@ -33,32 +33,32 @@ npm start
 Then prompt your AI tool:
 
 <Tabs groupId="ai-tool">
-  <TabItem value="copilot" label="GitHub Copilot CLI">
-    In your terminal with GitHub Copilot CLI:
-
-    ```bash
-    # Make sure you have GitHub Copilot CLI installed
-    npm install -g @github/copilot
-
-    # Send the prompt to Copilot CLI
-    copilot -p "Help me add dark theme support with theme switcher" \
-      --allow-all-tools \
-      --add-dir .
-    ```
-  </TabItem>
   <TabItem value="claude" label="Claude Code">
     In your terminal with Claude Code:
 
     ```bash
     # Make sure you have Claude Code installed
+    # macOS/Linux
     curl -fsSL https://claude.ai/install.sh | bash
+    # Windows (PowerShell)
+    irm https://claude.ai/install.ps1 | iex
 
     # Create soft link to CLAUDE.md from the system prompt AGENTS.md
     ln -s AGENTS.md CLAUDE.md
 
     # Send the prompt to Claude Code
-    claude "Help me add dark theme support with theme switcher" \
-      --add-dir .
+    claude "Help me add dark theme support with theme switcher"
+    ```
+  </TabItem>
+  <TabItem value="codex" label="Codex CLI">
+    In your terminal with OpenAI Codex CLI:
+
+    ```bash
+    # Make sure you have Codex CLI installed
+    npm install -g @openai/codex
+
+    # Send the prompt to Codex CLI
+    codex "Help me add dark theme support with theme switcher"
     ```
   </TabItem>
   <TabItem value="gemini" label="Gemini CLI">
@@ -66,13 +66,25 @@ Then prompt your AI tool:
 
     ```bash
     # Make sure you have Gemini CLI installed
-    npm install -g @google/gemini-cli
+    npm install -g @anthropic-ai/gemini-cli
 
     # Create soft link to GEMINI.md from the system prompt AGENTS.md
     ln -s AGENTS.md GEMINI.md
 
     # Send the prompt to Gemini CLI
-    gemini -p "Help me add dark theme support with theme switcher" -y
+    gemini "Help me add dark theme support with theme switcher"
+    ```
+  </TabItem>
+  <TabItem value="copilot" label="GitHub Copilot CLI">
+    In your terminal with GitHub Copilot CLI:
+
+    ```bash
+    # Make sure you have GitHub Copilot CLI installed
+    # Requires GitHub CLI with Copilot extension
+    gh extension install github/gh-copilot
+
+    # Send the prompt to Copilot CLI
+    gh copilot suggest "Help me add dark theme support with theme switcher"
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
