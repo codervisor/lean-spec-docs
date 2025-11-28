@@ -25,6 +25,8 @@ MCP 服务器向 AI 助手公开这些工具：
 - **view** - 查看Spec内容（格式化、原始 markdown 或 JSON）
 - **create** - 创建新Spec
 - **update** - 更新Spec元数据（状态、优先级、标签等）
+- **link** - 添加Spec之间的关系（depends_on、related）
+- **unlink** - 移除Spec之间的关系
 - **archive** - 将Spec移至 archived/ 目录
 - **stats** - 获取项目统计信息
 - **board** - 获取看板视图
@@ -33,6 +35,7 @@ MCP 服务器向 AI 助手公开这些工具：
 - **check** - 检查序列号冲突
 - **validate** - 验证Spec的质量问题（token 数、复杂性）
 - **backfill** - 从 git 历史回填时间戳和元数据
+- **tokens** - 统计Spec的 token 数量，用于 LLM 上下文管理
 
 ### 资源
 
@@ -206,6 +209,24 @@ Show me the current Kanban board
 Archive the spec "024-flat-structure-migration"
 ```
 
+### 链接Spec
+
+```
+Link spec 045 as related to spec 047
+```
+
+或添加依赖：
+
+```
+Add spec 063 as a dependency of spec 128
+```
+
+### 取消链接Spec
+
+```
+Remove the related link between spec 045 and spec 047
+```
+
 ### 列出Spec中的文件
 
 ```
@@ -241,6 +262,28 @@ Backfill missing timestamps from git history
 ```
 Show me what would be backfilled without making changes
 ```
+
+### 统计 Token 数量
+
+加载 Spec 前检查 token 数量：
+
+```
+How many tokens is spec 059?
+```
+
+包含子 Spec 文件：
+
+```
+Count tokens in spec 059 including all sub-specs
+```
+
+获取详细分类：
+
+```
+Show me detailed token breakdown for spec 066
+```
+
+这有助于您对上下文加载做出明智决策，避免上下文窗口溢出。
 
 ## 故障排除
 

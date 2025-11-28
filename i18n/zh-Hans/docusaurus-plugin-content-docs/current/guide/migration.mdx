@@ -17,39 +17,24 @@ LeanSpec 迁移主要关注两个方面：
 
 **好消息**：LeanSpec 对内容格式很灵活——你可以保留现有的写作风格！
 
-## 按源工具分类的迁移复杂度
+## 按源工具分类的迁移
 
-### GitHub spec-kit（最简单）✅
-
-**源**：`.specify/specs/`
-
-**已经兼容！** spec-kit 使用相同的文件夹结构（`###-name/`）。
-
-**迁移步骤**：
-```bash
-# 1. 从 .specify/specs 移动到 specs/
-mv .specify/specs specs/
-
-# 2. 重命名 spec.md → README.md
-find specs -name 'spec.md' -execdir mv {} README.md \;
-
-# 3. 从 git 历史生成 frontmatter
-lean-spec backfill --assignee --all
-
-# 4. 验证
-lean-spec validate
-lean-spec board
-```
-
-**时间**：20 个 Spec 约 5 分钟
-
-### OpenSpec（中等）⚠️
+### OpenSpec
 
 **源**：`openspec/specs/` + `openspec/changes/archive/`
 
-**挑战**：合并当前 Spec 和归档变更的单独目录。
+OpenSpec 是目前最广泛采用的 SDD 工具。迁移需要合并单独的目录。
 
-**迁移步骤**：
+**使用 `--auto` 快速迁移**：
+```bash
+# 一键自动迁移
+lean-spec migrate ./openspec --auto
+
+# 先预览
+lean-spec migrate ./openspec --auto --dry-run
+```
+
+**手动迁移步骤**：
 ```bash
 # 1. 复制并合并目录
 cp -r openspec/specs/* specs/
@@ -65,12 +50,87 @@ find specs -name 'spec.md' -execdir mv {} README.md \;
 # 4. 从 git 历史生成 frontmatter
 lean-spec backfill --assignee --all
 
-# 5. 验证
+# 5. 更新 AGENTS.md 命令
+sed -i 's/openspec/lean-spec/g' AGENTS.md
+
+# 6. 验证
 lean-spec validate
 lean-spec board
 ```
 
-**时间**：20 个 Spec 约 15-30 分钟
+**时间**：20 个 Spec 约 15-30 分钟（使用 `--auto` 则小于 1 分钟）
+
+### GitHub Spec Kit
+
+**源**：`.specify/specs/`
+
+**已经兼容！** spec-kit 使用相同的文件夹结构（`###-name/`）。
+
+**使用 `--auto` 快速迁移**：
+```bash
+lean-spec migrate ./.specify/specs --auto
+```
+
+**手动迁移步骤**：
+```bash
+# 1. 从 .specify/specs 移动到 specs/
+mv .specify/specs specs/
+
+# 2. 重命名 spec.md → README.md
+find specs -name 'spec.md' -execdir mv {} README.md \;
+
+# 3. 从 git 历史生成 frontmatter
+lean-spec backfill --assignee --all
+
+# 4. 验证
+lean-spec validate
+lean-spec board
+```
+
+**时间**：20 个 Spec 约 5 分钟（使用 `--auto` 则小于 30 秒）
+
+### AWS Kiro
+
+**源**：`.kiro/specs/`
+
+Kiro 使用类似 spec-kit 的结构，带有一些 AWS 特定的约定。
+
+**使用 `--auto` 快速迁移**：
+```bash
+lean-spec migrate ./.kiro/specs --auto
+```
+
+**手动迁移步骤**：
+```bash
+# 1. 从 .kiro/specs 移动到 specs/
+mv .kiro/specs specs/
+
+# 2. 重命名任何 spec.md 文件为 README.md
+find specs -name 'spec.md' -execdir mv {} README.md \;
+
+# 3. 从 git 历史生成 frontmatter
+lean-spec backfill --assignee --all
+
+# 4. 验证
+lean-spec validate
+lean-spec board
+```
+
+**时间**：20 个 Spec 约 5 分钟
+
+### ADR/RFC（通用 Markdown）
+
+**源**：`docs/adr/`、`docs/rfc/` 或类似目录
+
+对于以扁平 markdown 文件存储的架构决策记录或 RFC：
+
+```bash
+# 自动迁移处理通用 markdown
+lean-spec migrate ./docs/adr --auto
+
+# 或手动：每个 ADR 变成一个 spec 文件夹
+# 0001-use-typescript.md → specs/001-use-typescript/README.md
+```
 
 ## `lean-spec backfill` 命令
 
@@ -126,12 +186,32 @@ tags:
 
 对于更复杂的迁移或 AI 辅助工作流，使用 `lean-spec migrate` 命令。
 
+### 自动模式（推荐）✅
+
+一键式迁移，自动检测格式、重构和回填：
+
+```bash
+# 自动迁移 - 检测格式并处理所有事情
+lean-spec migrate ./openspec --auto
+
+# 预览而不做更改
+lean-spec migrate ./openspec --auto --dry-run
+```
+
+**`--auto` 做什么**：
+1. 自动检测源格式（spec-kit、OpenSpec 或通用 markdown）
+2. 一次性批量重构文件
+3. 运行 backfill 填充时间戳和负责人
+4. 最后验证所有 Spec
+
+这是大多数迁移的推荐方式。
+
 ### 手动模式（默认）
 
 为任何 AI 工具输出迁移说明：
 
 ```bash
-lean-spec migrate ./docs/adr/
+lean-spec migrate ./openspec
 ```
 
 这会生成一个提示，你可以复制到 ChatGPT、Claude、Copilot 或任何 AI 助手：
@@ -139,7 +219,7 @@ lean-spec migrate ./docs/adr/
 ```
 你正在帮助将 Spec 文档迁移到 LeanSpec 格式。
 
-源：./docs/adr/（找到 23 个文档）
+源：./openspec（找到 23 个文档）
 
 你的任务：
 1. 分析源文档
@@ -161,13 +241,13 @@ lean-spec migrate ./docs/adr/
 
 ```bash
 # 使用 GitHub Copilot CLI
-lean-spec migrate ./docs/adr/ --with copilot
+lean-spec migrate ./openspec --with copilot
 
 # 使用 Claude CLI
-lean-spec migrate ./docs/adr/ --with claude
+lean-spec migrate ./openspec --with claude
 
 # 使用 Gemini CLI
-lean-spec migrate ./docs/adr/ --with gemini
+lean-spec migrate ./openspec --with gemini
 ```
 
 **先决条件**：
@@ -177,13 +257,13 @@ lean-spec migrate ./docs/adr/ --with gemini
 **选项**：
 ```bash
 # 预览而不更改
-lean-spec migrate ./docs/adr/ --dry-run
+lean-spec migrate ./openspec --dry-run
 
 # 分批处理
-lean-spec migrate ./docs/adr/ --batch-size 10
+lean-spec migrate ./openspec --batch-size 10
 
 # 迁移后自动运行 backfill
-lean-spec migrate ./docs/adr/ --backfill
+lean-spec migrate ./openspec --backfill
 ```
 
 ## 迁移检查清单
@@ -374,14 +454,16 @@ lean-spec deps 001
 
 基于实际迁移：
 
-| 源工具 | Spec 数 | 时间 | 复杂度 |
-|-------------|-------|------|------------|
-| spec-kit | 20 | 5 分钟 | ✅ 简单 |
-| spec-kit | 100 | 15 分钟 | ✅ 简单 |
-| OpenSpec | 20 | 20 分钟 | ⚠️ 中等 |
-| OpenSpec | 100 | 60 分钟 | ⚠️ 中等 |
+| 源工具 | Spec 数 | 时间（手动） | 时间（--auto） | 复杂度 |
+|-------------|-------|--------------|----------------|------------|
+| OpenSpec | 20 | 20 分钟 | < 1 分钟 | ⚠️ 中等 |
+| OpenSpec | 100 | 60 分钟 | < 1 分钟 | ⚠️ 中等 |
+| spec-kit | 20 | 5 分钟 | < 30 秒 | ✅ 简单 |
+| spec-kit | 100 | 15 分钟 | < 30 秒 | ✅ 简单 |
+| Kiro | 20 | 5 分钟 | < 30 秒 | ✅ 简单 |
+| ADR/RFC | 20 | 10 分钟 | < 30 秒 | ✅ 简单 |
 
-**注意**：时间包括 backfill 和验证。
+**注意**：时间包括 backfill 和验证。使用 `--auto` 获得最快迁移！
 
 ## 获取帮助
 

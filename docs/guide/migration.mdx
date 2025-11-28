@@ -17,39 +17,24 @@ LeanSpec migration focuses on two main areas:
 
 **Good news**: LeanSpec is flexible about content format—you can keep your existing writing style!
 
-## Migration Complexity by Source Tool
+## Migration by Source Tool
 
-### GitHub spec-kit (Easiest) ✅
-
-**Source**: `.specify/specs/`
-
-**Already compatible!** spec-kit uses the same folder structure (`###-name/`).
-
-**Migration steps**:
-```bash
-# 1. Move from .specify/specs to specs/
-mv .specify/specs specs/
-
-# 2. Rename spec.md → README.md
-find specs -name 'spec.md' -execdir mv {} README.md \;
-
-# 3. Generate frontmatter from git history
-lean-spec backfill --assignee --all
-
-# 4. Validate
-lean-spec validate
-lean-spec board
-```
-
-**Time**: ~5 minutes for 20 specs
-
-### OpenSpec (Moderate) ⚠️
+### OpenSpec
 
 **Source**: `openspec/specs/` + `openspec/changes/archive/`
 
-**Challenge**: Merge separate directories for current specs and archived changes.
+OpenSpec is currently the most widely adopted SDD tool. Migration requires merging separate directories.
 
-**Migration steps**:
+**Quick migration with `--auto`**:
+```bash
+# One-shot automatic migration
+lean-spec migrate ./openspec --auto
+
+# Preview first
+lean-spec migrate ./openspec --auto --dry-run
+```
+
+**Manual migration steps**:
 ```bash
 # 1. Copy and merge directories
 cp -r openspec/specs/* specs/
@@ -65,12 +50,87 @@ find specs -name 'spec.md' -execdir mv {} README.md \;
 # 4. Generate frontmatter from git history
 lean-spec backfill --assignee --all
 
-# 5. Validate
+# 5. Update AGENTS.md commands
+sed -i 's/openspec/lean-spec/g' AGENTS.md
+
+# 6. Validate
 lean-spec validate
 lean-spec board
 ```
 
-**Time**: ~15-30 minutes for 20 specs
+**Time**: ~15-30 minutes for 20 specs (or < 1 minute with `--auto`)
+
+### GitHub Spec Kit
+
+**Source**: `.specify/specs/`
+
+**Already compatible!** spec-kit uses the same folder structure (`###-name/`).
+
+**Quick migration with `--auto`**:
+```bash
+lean-spec migrate ./.specify/specs --auto
+```
+
+**Manual migration steps**:
+```bash
+# 1. Move from .specify/specs to specs/
+mv .specify/specs specs/
+
+# 2. Rename spec.md → README.md
+find specs -name 'spec.md' -execdir mv {} README.md \;
+
+# 3. Generate frontmatter from git history
+lean-spec backfill --assignee --all
+
+# 4. Validate
+lean-spec validate
+lean-spec board
+```
+
+**Time**: ~5 minutes for 20 specs (or < 30 seconds with `--auto`)
+
+### AWS Kiro
+
+**Source**: `.kiro/specs/`
+
+Kiro uses a similar structure to spec-kit with some AWS-specific conventions.
+
+**Quick migration with `--auto`**:
+```bash
+lean-spec migrate ./.kiro/specs --auto
+```
+
+**Manual migration steps**:
+```bash
+# 1. Move from .kiro/specs to specs/
+mv .kiro/specs specs/
+
+# 2. Rename any spec.md files to README.md
+find specs -name 'spec.md' -execdir mv {} README.md \;
+
+# 3. Generate frontmatter from git history
+lean-spec backfill --assignee --all
+
+# 4. Validate
+lean-spec validate
+lean-spec board
+```
+
+**Time**: ~5 minutes for 20 specs
+
+### ADR/RFC (Generic Markdown)
+
+**Source**: `docs/adr/`, `docs/rfc/`, or similar
+
+For Architecture Decision Records or RFCs stored as flat markdown files:
+
+```bash
+# Auto migration handles generic markdown
+lean-spec migrate ./docs/adr --auto
+
+# Or manual: each ADR becomes a spec folder
+# 0001-use-typescript.md → specs/001-use-typescript/README.md
+```
 
 ## The `lean-spec backfill` Command
 
@@ -126,12 +186,32 @@ tags:
 
 For more complex migrations or AI-assisted workflows, use the `lean-spec migrate` command.
 
+### Auto Mode (Recommended) ✅
+
+One-shot migration that detects format, restructures, and backfills automatically:
+
+```bash
+# Automatic migration - detects format and handles everything
+lean-spec migrate ./openspec --auto
+
+# Preview without making changes
+lean-spec migrate ./openspec --auto --dry-run
+```
+
+**What `--auto` does**:
+1. Auto-detects source format (spec-kit, OpenSpec, or generic markdown)
+2. Bulk restructures files in one pass
+3. Runs backfill to populate timestamps and assignees
+4. Validates all specs at the end
+
+This is the recommended approach for most migrations.
+
 ### Manual Mode (Default)
 
 Outputs migration instructions for any AI tool:
 
 ```bash
-lean-spec migrate ./docs/adr/
+lean-spec migrate ./openspec
 ```
 
 This generates a prompt you can copy to ChatGPT, Claude, Copilot, or any AI assistant:
@@ -139,7 +219,7 @@ This generates a prompt you can copy to ChatGPT, Claude, Copilot, or any AI assi
 ```
 You are helping migrate specification documents to LeanSpec format.
 
-Source: ./docs/adr/ (23 documents found)
+Source: ./openspec (23 documents found)
 
 Your Task:
 1. Analyze the source documents
@@ -161,13 +241,13 @@ Automated migration using AI CLI tools:
 
 ```bash
 # Using GitHub Copilot CLI
-lean-spec migrate ./docs/adr/ --with copilot
+lean-spec migrate ./openspec --with copilot
 
 # Using Claude CLI
-lean-spec migrate ./docs/adr/ --with claude
+lean-spec migrate ./openspec --with claude
 
 # Using Gemini CLI
-lean-spec migrate ./docs/adr/ --with gemini
+lean-spec migrate ./openspec --with gemini
 ```
 
 **Prerequisites**:
@@ -177,13 +257,13 @@ lean-spec migrate ./docs/adr/ --with gemini
 **Options**:
 ```bash
 # Preview without changes
-lean-spec migrate ./docs/adr/ --dry-run
+lean-spec migrate ./openspec --dry-run
 
 # Process in batches
-lean-spec migrate ./docs/adr/ --batch-size 10
+lean-spec migrate ./openspec --batch-size 10
 
 # Auto-run backfill after migration
-lean-spec migrate ./docs/adr/ --backfill
+lean-spec migrate ./openspec --backfill
 ```
 
 ## Migration Checklist
@@ -374,14 +454,16 @@ lean-spec deps 001
 
 Based on real migrations:
 
-| Source Tool | Specs | Time | Complexity |
-|-------------|-------|------|------------|
-| spec-kit | 20 | 5 min | ✅ Easy |
-| spec-kit | 100 | 15 min | ✅ Easy |
-| OpenSpec | 20 | 20 min | ⚠️ Moderate |
-| OpenSpec | 100 | 60 min | ⚠️ Moderate |
+| Source Tool | Specs | Time (Manual) | Time (--auto) | Complexity |
+|-------------|-------|---------------|---------------|------------|
+| OpenSpec | 20 | 20 min | < 1 min | ⚠️ Moderate |
+| OpenSpec | 100 | 60 min | < 1 min | ⚠️ Moderate |
+| spec-kit | 20 | 5 min | < 30 sec | ✅ Easy |
+| spec-kit | 100 | 15 min | < 30 sec | ✅ Easy |
+| Kiro | 20 | 5 min | < 30 sec | ✅ Easy |
+| ADR/RFC | 20 | 10 min | < 30 sec | ✅ Easy |
 
-**Note**: Times include backfill and validation.
+**Note**: Times include backfill and validation. Use `--auto` for fastest migration!
 
 ## Getting Help
 
