@@ -79,12 +79,11 @@ npm start
     在终端中使用 GitHub Copilot CLI：
 
     ```bash
-    # 确保已安装 GitHub Copilot CLI
-    # 需要 GitHub CLI 和 Copilot 扩展
-    gh extension install github/gh-copilot
+    # 确保已安装 GitHub Copilot CLI（需要 Node.js v22+）
+    npm install -g @github/copilot
 
-    # 向 Copilot CLI 发送提示
-    gh copilot suggest "帮我为这个应用添加带主题切换的深色主题支持"
+    # 向 Copilot CLI 发送提示（编程模式）
+    copilot -p "帮我为这个应用添加带主题切换的深色主题支持" --allow-all-tools
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>

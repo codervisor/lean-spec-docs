@@ -79,12 +79,11 @@ Then prompt your AI tool:
     In your terminal with GitHub Copilot CLI:
 
     ```bash
-    # Make sure you have GitHub Copilot CLI installed
-    # Requires GitHub CLI with Copilot extension
-    gh extension install github/gh-copilot
+    # Make sure you have GitHub Copilot CLI installed (requires Node.js v22+)
+    npm install -g @github/copilot
 
-    # Send the prompt to Copilot CLI
-    gh copilot suggest "Help me add dark theme support with theme switcher"
+    # Send the prompt to Copilot CLI (programmatic mode)
+    copilot -p "Help me add dark theme support with theme switcher" --allow-all-tools
     ```
   </TabItem>
   <TabItem value="ide" label="IDE" default>
